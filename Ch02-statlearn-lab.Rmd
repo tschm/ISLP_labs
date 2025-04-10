@@ -1,61 +1,32 @@
----
-jupyter:
-  jupytext:
-    cell_metadata_filter: -all
-    formats: ipynb,Rmd
-    text_representation:
-      extension: .Rmd
-      format_name: rmarkdown
-      format_version: '1.2'
-      jupytext_version: 1.16.7
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: python
-    name: python3
----
-
 # Introduction to Python
-
-<a target="_blank" href="https://colab.research.google.com/github/intro-stat-learning/ISLP_labs/blob/v2.2/Ch02-statlearn-lab.ipynb">
-<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch02-statlearn-lab.ipynb)
-
-
-
 
 
 
 ## Getting Started
 
 
-To run the labs in this book, you will need two things:
+To run the labs locally in this book we recommend:
 
-* An installation of `Python3`, which is the specific version of `Python`  used in the labs. 
-* Access to  `Jupyter`, a very popular `Python` interface that runs code through a file called a *notebook*. 
+```bash
+make jupyter
+```
 
+This command 
 
-You can download and install  `Python3`   by following the instructions available at [anaconda.com](http://anaconda.com). 
+* installs [uv](https://docs.astral.sh/uv/)
+* creates a virtual environment (based on requirements.txt) using uv
+* installs [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html)
+* starts the [Jupyter server] (https://localhost:8888)
 
+We also provide a [DevContainer](https://codespaces.new/tschm/ISLP_Labs).
 
- There are a number of ways to get access to `Jupyter`. Here are just a few:
- 
- * Using Google's `Colaboratory` service: [colab.research.google.com/](https://colab.research.google.com/). 
- * Using `JupyterHub`, available at [jupyter.org/hub](https://jupyter.org/hub). 
- * Using your own `jupyter` installation. Installation instructions are available at [jupyter.org/install](https://jupyter.org/install). 
- 
-Please see the `Python` resources page on the book website [statlearning.com](https://www.statlearning.com) for up-to-date information about getting `Python` and `Jupyter` working on your computer. 
+```{python}
+# We can catch all errors in the ci/cd process
+import warnings
 
-You will need to install the `ISLP` package, which provides access to the datasets and custom-built functions that we provide.
-Inside a macOS or Linux terminal type `pip install ISLP`; this also installs most other packages needed in the labs. The `Python` resources page has a link to the `ISLP` documentation website.
-
-To run this lab, download the file `Ch2-statlearn-lab.ipynb` from the `Python` resources page. 
-Now run the following code at the command line: `jupyter lab Ch2-statlearn-lab.ipynb`.
-
-If you're using Windows, you can use the `start menu` to access `anaconda`, and follow the links. For example, to install `ISLP` and run this lab, you can run the same code above in an `anaconda` shell.
-
-
+# Promote all warnings to errors
+warnings.filterwarnings('error')
+```
 
 ## Basic Commands
 
@@ -336,7 +307,9 @@ an *exception*, or error.
 
 ```{python}
 my_tuple = (3, 4, 5)
-my_tuple[0] = 2
+
+# with pytest.raises(TypeError):
+#   my_tuple[0] = 2
 
 ```
 
@@ -671,7 +644,7 @@ ax.contour(x, y, f, levels=45);
 ```
 To fine-tune the output of the
 `ax.contour()`  function, take a
-look at the help file by typing `ax.contour?`.
+look at the help file by typing `?plt.contour`.
  
 The `ax.imshow()`  method is similar to 
 `ax.contour()`, except that it produces a color-coded plot
@@ -810,7 +783,8 @@ np.array([A[1,0],A[3,2]])
  Similarly,  the following code fails to extract the submatrix comprised of the second and fourth rows and the first, third, and fourth columns:
 
 ```{python}
-A[[1,3],[0,2,3]]
+# with pytest.raises(IndexError):
+# A[[1,3],[0,2,3]]
 
 ```
 
@@ -852,7 +826,7 @@ A[1:4:2,0:3:2]
 
 
 Why are we able to retrieve a submatrix directly using slices but not using lists?
-It's because they are different `Python` types, and
+Its because they are different `Python` types, and
 are treated differently by `numpy`.
 Slices can be used to extract objects from arbitrary sequences, such as strings, lists, and tuples, while the use of lists for indexing is more limited.
 
@@ -905,7 +879,7 @@ A[np.array([0,1,0,1])]
 
 ```
 
- By contrast, `keep_rows` retrieves only the second and fourth rows  of `A` --- i.e. the rows for which the Boolean equals `True`. 
+ By contrast, `keep_rows` retrieves only the second and fourth rows  of `A` --- i.e. the rows for which the Boolean equals `TRUE`. 
 
 ```{python}
 A[keep_rows]
@@ -980,9 +954,10 @@ Auto
 The book website also has a whitespace-delimited version of this data, called `Auto.data`. This can be read in as follows:
 
 ```{python}
-Auto = pd.read_csv('Auto.data', delim_whitespace=True)
+Auto=pd.read_csv("Auto.data", sep="\\s+")
 
 ```
+
  Both `Auto.csv` and `Auto.data` are simply text
 files. Before loading data into `Python`, it is a good idea to view it using
 a text editor or other software, such as Microsoft Excel.
@@ -1017,11 +992,10 @@ value `np.nan`, which means *not a number*:
 ```{python}
 Auto = pd.read_csv('Auto.data',
                    na_values=['?'],
-                   delim_whitespace=True)
+                   sep="\\s+")
 Auto['horsepower'].sum()
 
 ```
-
 
 The `Auto.shape`  attribute tells us that the data has 397
 observations, or rows, and nine variables, or columns.
@@ -1168,7 +1142,7 @@ Auto_re.loc[lambda df: (df['year'] > 80) & (df['mpg'] > 30),
 The symbol `&` computes an element-wise *and* operation.
 As another example, suppose that we want to retrieve all `Ford` and `Datsun`
 cars with `displacement` less than 300. We check whether each `name` entry contains either the string `ford` or `datsun` using the  `str.contains()` method of the `index` attribute of 
-the dataframe:
+of the dataframe:
 
 ```{python}
 Auto_re.loc[lambda df: (df['displacement'] < 300)
@@ -1295,7 +1269,8 @@ because `Python` does not know to look in the  `Auto`  data set for those variab
 
 ```{python}
 fig, ax = subplots(figsize=(8, 8))
-ax.plot(horsepower, mpg, 'o');
+# this won't work
+# ax.plot(Auto["horsepower"], Auto["mpg"], 'o')
 ```
 We can address this by accessing the columns directly:
 
@@ -1404,8 +1379,7 @@ Auto['cylinders'].describe()
 Auto['mpg'].describe()
 
 ```
-To exit `Jupyter`,  select `File / Shut Down`.
 
- 
+```{python}
 
-
+```
