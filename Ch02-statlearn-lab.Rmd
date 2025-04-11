@@ -946,7 +946,7 @@ We will begin by reading in `Auto.csv`, available on the book website. This is a
 
 ```{python}
 import pandas as pd
-Auto = pd.read_csv('Auto.csv')
+Auto = pd.read_csv('data/Auto.csv')
 Auto
 
 ```
@@ -954,7 +954,7 @@ Auto
 The book website also has a whitespace-delimited version of this data, called `Auto.data`. This can be read in as follows:
 
 ```{python}
-Auto=pd.read_csv("Auto.data", sep="\\s+")
+Auto=pd.read_csv("data/Auto.data", sep="\\s+")
 
 ```
 
@@ -990,7 +990,7 @@ Now,  each instance of  `?` in the file is replaced with the
 value `np.nan`, which means *not a number*:
 
 ```{python}
-Auto = pd.read_csv('Auto.data',
+Auto = pd.read_csv('data/Auto.data',
                    na_values=['?'],
                    sep="\\s+")
 Auto['horsepower'].sum()

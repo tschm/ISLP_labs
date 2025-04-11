@@ -1164,7 +1164,7 @@ img_probs /= img_probs.sum(1)[:,None]
 In order to see the class labels, we must download the index file associated with `imagenet`. {This is avalable from the book website and  [s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json](https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json).}
 
 ```{python}
-labs = json.load(open('imagenet_class_index.json'))
+labs = json.load(open('data/imagenet_class_index.json'))
 class_labels = pd.DataFrame([(int(k), v[1]) for k, v in 
                            labs.items()],
                            columns=['idx', 'label'])
