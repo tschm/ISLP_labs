@@ -1,9 +1,9 @@
 # ISLP_labs
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/tschm/ISLP_Labs)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/intro-stat-learning/ISLP_Labs)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Authors
@@ -13,23 +13,38 @@
 - Robert Tibshirani
 
 - Daniela Witten
-  
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2)
 
+### ISLP
 
-Up-to-date version of labs for ISLP. 
+Please ensure you have followed the installation instructions for
+[ISLP](https://github.com/intro-stat-learning/ISLP). This will address
+installation of [jupyterlab](https://github.com/jupyterlab/jupyterlab)
+if necessary, which is not included as a requirement of the labs.
 
-This repo will track labs for ISLP as their source code changes. 
+### Up-to-date version of labs for ISLP. 
 
-To create a virtual environment based on 'requirements.txt' use
+This repo will track labs for ISLP as their source code changes.  The
+intent is that building a virtual environment with
+`requirements.txt` will reproduce the results in this repo.
 
-```bash
-make install
+To install the current version of the requirements run
+
+```
+pip install -r https://raw.githubusercontent.com/intro-stat-learning/ISLP_labs/v2.2/requirements.txt;
 ```
 
-The labs can now be run from this directory:
+The labs can now be run via:
 
-```bash
+```
+jupyter lab Ch02-statlearn-lab.ipynb
+```
+
+## Using make
+
+If `make` is available on your machine, the steps above can be replaced
+
+```
+make install
 make jupyter
 ```
 
@@ -52,6 +67,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://web.stanford.edu/~hastie/"><img src="https://avatars.githubusercontent.com/u/13293253?v=4?s=100" width="100px;" alt="trevorhastie"/><br /><sub><b>trevorhastie</b></sub></a><br /><a href="https://github.com/intro-stat-learning/ISLP_labs/commits?author=trevorhastie" title="Code">💻</a> <a href="#content-trevorhastie" title="Content">🖋</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/danielawitten"><img src="https://avatars.githubusercontent.com/u/12654191?v=4?s=100" width="100px;" alt="danielawitten"/><br /><sub><b>danielawitten</b></sub></a><br /><a href="https://github.com/intro-stat-learning/ISLP_labs/commits?author=danielawitten" title="Code">💻</a> <a href="#content-danielawitten" title="Content">🖋</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://statweb.stanford.edu/~jtaylo"><img src="https://avatars.githubusercontent.com/u/341611?v=4?s=100" width="100px;" alt="Jonathan Taylor"/><br /><sub><b>Jonathan Taylor</b></sub></a><br /><a href="https://github.com/intro-stat-learning/ISLP_labs/commits?author=jonathan-taylor" title="Code">💻</a> <a href="#content-jonathan-taylor" title="Content">🖋</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tschm"><img src="https://avatars.githubusercontent.com/u/2046079?v=4?s=100" width="100px;" alt="Thomas Schmelzer"/><br /><sub><b>Thomas Schmelzer</b></sub></a><br /><a href="https://github.com/intro-stat-learning/ISLP_labs/commits?author=tschm" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

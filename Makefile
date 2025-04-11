@@ -2,7 +2,7 @@
 
 venv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
-	@uv venv
+	@uv venv --python 3.12
 
 
 .PHONY: install
@@ -21,10 +21,3 @@ help:  ## Display this help screen
 jupyter: install  ## Install and start jupyter Lab
 	@uv run pip install jupyterlab
 	@uv run jupyter lab
-
-.PHONY: test
-test: ## Run all notebooks in a test
-	#export PYTHONWARNINGS="default"
-	@uv run pip install pytest nbmake jupyter
-	.venv/bin/pytest --nbmake --verbose Ch02-statlearn-lab.ipynb
-

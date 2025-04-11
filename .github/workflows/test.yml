@@ -1,5 +1,5 @@
 # testing all notebooks
-name: Testing notebooks
+name: TEST
 
 on:
   - push
@@ -37,7 +37,6 @@ jobs:
       with:
         version: "0.5.15"
 
-
     - name: Set up Python
       shell: bash
       run: |
@@ -45,7 +44,7 @@ jobs:
 
     - name: Create venv
       shell: bash
-      run: uv venv
+      run: uv venv --python ${{ matrix.python-version }}
 
     - name: Install requirements
       shell: bash
@@ -57,4 +56,4 @@ jobs:
     - name: Test
       shell: bash
       run: |
-        .venv/bin/pytest --nbmake --nbmake-timeout=3600 -vv ${{ matrix.notebook }}
+        uv run pytest --nbmake --nbmake-timeout=3600 -vv ${{ matrix.notebook }}
