@@ -1,0 +1,2449 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Ch04-classification-lab}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{logistic-regression-lda-qda-and-knn}{%
+\section{Logistic Regression, LDA, QDA, and
+KNN}\label{logistic-regression-lda-qda-and-knn}}
+
+\href{https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch04-classification-lab.ipynb}{\includesvg{https://mybinder.org/badge_logo.svg}}
+
+    \hypertarget{the-stock-market-data}{%
+\subsection{The Stock Market Data}\label{the-stock-market-data}}
+
+In this lab we will examine the \texttt{Smarket} data, which is part of
+the \texttt{ISLP} library. This data set consists of percentage returns
+for the S\&P 500 stock index over 1,250 days, from the beginning of 2001
+until the end of 2005. For each date, we have recorded the percentage
+returns for each of the five previous trading days, \texttt{Lag1}
+through \texttt{Lag5}. We have also recorded \texttt{Volume} (the number
+of shares traded on the previous day, in billions), \texttt{Today} (the
+percentage return on the date in question) and \texttt{Direction}
+(whether the market was \texttt{Up} or \texttt{Down} on this date).
+
+We start by importing our libraries at this top level; these are all
+imports we have seen in previous labs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{subplots}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{load\PYZus{}data}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{ModelSpec} \PY{k}{as} \PY{n}{MS}\PY{p}{,}
+                         \PY{n}{summarize}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We also collect together the new imports needed for this lab.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{confusion\PYZus{}table}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{contrast}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{discriminant\PYZus{}analysis}\PY{+w}{ }\PY{k+kn}{import} \PYZbs{}
+     \PY{p}{(}\PY{n}{LinearDiscriminantAnalysis} \PY{k}{as} \PY{n}{LDA}\PY{p}{,}
+      \PY{n}{QuadraticDiscriminantAnalysis} \PY{k}{as} \PY{n}{QDA}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{GaussianNB}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{KNeighborsClassifier}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{StandardScaler}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{LogisticRegression}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now we are ready to load the \texttt{Smarket} data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Smarket} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Smarket}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Smarket}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      Year   Lag1   Lag2   Lag3   Lag4   Lag5   Volume  Today Direction
+0     2001  0.381 -0.192 -2.624 -1.055  5.010  1.19130  0.959        Up
+1     2001  0.959  0.381 -0.192 -2.624 -1.055  1.29650  1.032        Up
+2     2001  1.032  0.959  0.381 -0.192 -2.624  1.41120 -0.623      Down
+3     2001 -0.623  1.032  0.959  0.381 -0.192  1.27600  0.614        Up
+4     2001  0.614 -0.623  1.032  0.959  0.381  1.20570  0.213        Up
+{\ldots}    {\ldots}    {\ldots}    {\ldots}    {\ldots}    {\ldots}    {\ldots}      {\ldots}    {\ldots}       {\ldots}
+1245  2005  0.422  0.252 -0.024 -0.584 -0.285  1.88850  0.043        Up
+1246  2005  0.043  0.422  0.252 -0.024 -0.584  1.28581 -0.955      Down
+1247  2005 -0.955  0.043  0.422  0.252 -0.024  1.54047  0.130        Up
+1248  2005  0.130 -0.955  0.043  0.422  0.252  1.42236 -0.298      Down
+1249  2005 -0.298  0.130 -0.955  0.043  0.422  1.38254 -0.489      Down
+
+[1250 rows x 9 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This gives a truncated listing of the data. We can see what the variable
+names are.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Smarket}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Index(['Year', 'Lag1', 'Lag2', 'Lag3', 'Lag4', 'Lag5', 'Volume', 'Today',
+       'Direction'],
+      dtype='object')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We compute the correlation matrix using the \texttt{corr()} method for
+data frames, which produces a matrix that contains all of the pairwise
+correlations among the variables.
+
+By instructing \texttt{pandas} to use only numeric variables, the
+\texttt{corr()} method does not report a correlation for the
+\texttt{Direction} variable because it is qualitative.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Smarket}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{numeric\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+            Year      Lag1      Lag2      Lag3      Lag4      Lag5    Volume  \textbackslash{}
+Year    1.000000  0.029700  0.030596  0.033195  0.035689  0.029788  0.539006
+Lag1    0.029700  1.000000 -0.026294 -0.010803 -0.002986 -0.005675  0.040910
+Lag2    0.030596 -0.026294  1.000000 -0.025897 -0.010854 -0.003558 -0.043383
+Lag3    0.033195 -0.010803 -0.025897  1.000000 -0.024051 -0.018808 -0.041824
+Lag4    0.035689 -0.002986 -0.010854 -0.024051  1.000000 -0.027084 -0.048414
+Lag5    0.029788 -0.005675 -0.003558 -0.018808 -0.027084  1.000000 -0.022002
+Volume  0.539006  0.040910 -0.043383 -0.041824 -0.048414 -0.022002  1.000000
+Today   0.030095 -0.026155 -0.010250 -0.002448 -0.006900 -0.034860  0.014592
+
+           Today
+Year    0.030095
+Lag1   -0.026155
+Lag2   -0.010250
+Lag3   -0.002448
+Lag4   -0.006900
+Lag5   -0.034860
+Volume  0.014592
+Today   1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As one would expect, the correlations between the lagged return
+variables and today's return are close to zero. The only substantial
+correlation is between \texttt{Year} and \texttt{Volume}. By plotting
+the data we see that \texttt{Volume} is increasing over time. In other
+words, the average number of shares traded daily increased from 2001 to
+2005.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Smarket}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Volume}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch04-classification-lab_files/artifacts/latex/Ch04-classification-lab_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{logistic-regression}{%
+\subsection{Logistic Regression}\label{logistic-regression}}
+
+Next, we will fit a logistic regression model in order to predict
+\texttt{Direction} using \texttt{Lag1} through \texttt{Lag5} and
+\texttt{Volume}. The \texttt{sm.GLM()} function fits \emph{generalized
+linear models}, a class of models that includes logistic regression.
+Alternatively, the function \texttt{sm.Logit()} fits a logistic
+regression model directly. The syntax of \texttt{sm.GLM()} is similar to
+that of \texttt{sm.OLS()}, except that we must pass in the argument
+\texttt{family=sm.families.Binomial()} in order to tell
+\texttt{statsmodels} to run a logistic regression rather than some other
+type of generalized linear model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{allvars} \PY{o}{=} \PY{n}{Smarket}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Today}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{design} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{n}{allvars}\PY{p}{)}
+\PY{n}{X} \PY{o}{=} \PY{n}{design}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Smarket}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{Smarket}\PY{o}{.}\PY{n}{Direction} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Up}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{glm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{GLM}\PY{p}{(}\PY{n}{y}\PY{p}{,}
+             \PY{n}{X}\PY{p}{,}
+             \PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{Binomial}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{glm}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{results}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             coef  std err      z  P>|z|
+intercept -0.1260    0.241 -0.523  0.601
+Lag1      -0.0731    0.050 -1.457  0.145
+Lag2      -0.0423    0.050 -0.845  0.398
+Lag3       0.0111    0.050  0.222  0.824
+Lag4       0.0094    0.050  0.187  0.851
+Lag5       0.0103    0.050  0.208  0.835
+Volume     0.1354    0.158  0.855  0.392
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The smallest \emph{p}-value here is associated with \texttt{Lag1}. The
+negative coefficient for this predictor suggests that if the market had
+a positive return yesterday, then it is less likely to go up today.
+However, at a value of 0.15, the \emph{p}-value is still relatively
+large, and so there is no clear evidence of a real association between
+\texttt{Lag1} and \texttt{Direction}.
+
+We use the \texttt{params} attribute of \texttt{results} in order to
+access just the coefficients for this fitted model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results}\PY{o}{.}\PY{n}{params}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept   -0.126000
+Lag1        -0.073074
+Lag2        -0.042301
+Lag3         0.011085
+Lag4         0.009359
+Lag5         0.010313
+Volume       0.135441
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Likewise we can use the \texttt{pvalues} attribute to access the
+\emph{p}-values for the coefficients.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results}\PY{o}{.}\PY{n}{pvalues}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept    0.600700
+Lag1         0.145232
+Lag2         0.398352
+Lag3         0.824334
+Lag4         0.851445
+Lag5         0.834998
+Volume       0.392404
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{predict()} method of \texttt{results} can be used to predict
+the probability that the market will go up, given values of the
+predictors. This method returns predictions on the probability scale. If
+no data set is supplied to the \texttt{predict()} function, then the
+probabilities are computed for the training data that was used to fit
+the logistic regression model. As with linear regression, one can pass
+an optional \texttt{exog} argument consistent with a design matrix if
+desired. Here we have printed only the first ten probabilities.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{probs} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{)}
+\PY{n}{probs}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0.50708413, 0.48146788, 0.48113883, 0.51522236, 0.51078116,
+       0.50695646, 0.49265087, 0.50922916, 0.51761353, 0.48883778])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    In order to make a prediction as to whether the market will go up or
+down on a particular day, we must convert these predicted probabilities
+into class labels, \texttt{Up} or \texttt{Down}. The following two
+commands create a vector of class predictions based on whether the
+predicted probability of a market increase is greater than or less than
+0.5.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1250}\PY{p}{)}
+\PY{n}{labels}\PY{p}{[}\PY{n}{probs}\PY{o}{\PYZgt{}}\PY{l+m+mf}{0.5}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Up}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The \texttt{confusion\_table()} function from the \texttt{ISLP} package
+summarizes these predictions, showing how many observations were
+correctly or incorrectly classified. Our function, which is adapted from
+a similar function in the module \texttt{sklearn.metrics}, transposes
+the resulting matrix and includes row and column labels. The
+\texttt{confusion\_table()} function takes as first argument the
+predicted labels, and second argument the true labels.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{Smarket}\PY{o}{.}\PY{n}{Direction}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down   Up
+Predicted
+Down        145  141
+Up          457  507
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The diagonal elements of the confusion matrix indicate correct
+predictions, while the off-diagonals represent incorrect predictions.
+Hence our model correctly predicted that the market would go up on 507
+days and that it would go down on 145 days, for a total of 507 + 145 =
+652 correct predictions. The \texttt{np.mean()} function can be used to
+compute the fraction of days for which the prediction was correct. In
+this case, logistic regression correctly predicted the movement of the
+market 52.2\% of the time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{l+m+mi}{507}\PY{o}{+}\PY{l+m+mi}{145}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{1250}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{labels} \PY{o}{==} \PY{n}{Smarket}\PY{o}{.}\PY{n}{Direction}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(0.5216, 0.5216)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    At first glance, it appears that the logistic regression model is
+working a little better than random guessing. However, this result is
+misleading because we trained and tested the model on the same set of
+1,250 observations. In other words, \(100-52.2=47.8%
+\) is the \emph{training} error rate. As we have seen previously, the
+training error rate is often overly optimistic --- it tends to
+underestimate the test error rate. In order to better assess the
+accuracy of the logistic regression model in this setting, we can fit
+the model using part of the data, and then examine how well it predicts
+the \emph{held out} data. This will yield a more realistic error rate,
+in the sense that in practice we will be interested in our model's
+performance not on the data that we used to fit the model, but rather on
+days in the future for which the market's movements are unknown.
+
+To implement this strategy, we first create a Boolean vector
+corresponding to the observations from 2001 through 2004. We then use
+this vector to create a held out data set of observations from 2005.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train} \PY{o}{=} \PY{p}{(}\PY{n}{Smarket}\PY{o}{.}\PY{n}{Year} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2005}\PY{p}{)}
+\PY{n}{Smarket\PYZus{}train} \PY{o}{=} \PY{n}{Smarket}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train}\PY{p}{]}
+\PY{n}{Smarket\PYZus{}test} \PY{o}{=} \PY{n}{Smarket}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train}\PY{p}{]}
+\PY{n}{Smarket\PYZus{}test}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(252, 9)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The object \texttt{train} is a vector of 1,250 elements, corresponding
+to the observations in our data set. The elements of the vector that
+correspond to observations that occurred before 2005 are set to
+\texttt{True}, whereas those that correspond to observations in 2005 are
+set to \texttt{False}. Hence \texttt{train} is a \emph{boolean} array,
+since its elements are \texttt{True} and \texttt{False}. Boolean arrays
+can be used to obtain a subset of the rows or columns of a data frame
+using the \texttt{loc} method. For instance, the command
+\texttt{Smarket.loc{[}train{]}} would pick out a submatrix of the stock
+market data set, corresponding only to the dates before 2005, since
+those are the ones for which the elements of \texttt{train} are
+\texttt{True}. The \texttt{\textasciitilde{}} symbol can be used to
+negate all of the elements of a Boolean vector. That is,
+\texttt{\textasciitilde{}train} is a vector similar to \texttt{train},
+except that the elements that are \texttt{True} in \texttt{train} get
+swapped to \texttt{False} in \texttt{\textasciitilde{}train}, and vice
+versa. Therefore, \texttt{Smarket.loc{[}\textasciitilde{}train{]}}
+yields a subset of the rows of the data frame of the stock market data
+containing only the observations for which \texttt{train} is
+\texttt{False}. The output above indicates that there are 252 such
+observations.
+
+We now fit a logistic regression model using only the subset of the
+observations that correspond to dates before 2005. We then obtain
+predicted probabilities of the stock market going up for each of the
+days in our test set --- that is, for the days in 2005.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train}\PY{p}{]}
+\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train}\PY{p}{]}
+\PY{n}{glm\PYZus{}train} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{GLM}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,}
+                   \PY{n}{X\PYZus{}train}\PY{p}{,}
+                   \PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{Binomial}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{glm\PYZus{}train}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{probs} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{exog}\PY{o}{=}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Notice that we have trained and tested our model on two completely
+separate data sets: training was performed using only the dates before
+2005, and testing was performed using only the dates in 2005.
+
+Finally, we compare the predictions for 2005 to the actual movements of
+the market over that time period. We will first store the test and
+training labels (recall \texttt{y\_test} is binary).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{D} \PY{o}{=} \PY{n}{Smarket}\PY{o}{.}\PY{n}{Direction}
+\PY{n}{L\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}test} \PY{o}{=} \PY{n}{D}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train}\PY{p}{]}\PY{p}{,} \PY{n}{D}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now we threshold the fitted probability at 50\% to form our predicted
+labels.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{252}\PY{p}{)}
+\PY{n}{labels}\PY{p}{[}\PY{n}{probs}\PY{o}{\PYZgt{}}\PY{l+m+mf}{0.5}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Up}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down  Up
+Predicted
+Down         77  97
+Up           34  44
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The test accuracy is about 48\% while the error rate is about 52\%
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{labels} \PY{o}{==} \PY{n}{L\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{labels} \PY{o}{!=} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(0.4801587301587302, 0.5198412698412699)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{!=} notation means \emph{not equal to}, and so the last
+command computes the test set error rate. The results are rather
+disappointing: the test error rate is 52\%, which is worse than random
+guessing! Of course this result is not all that surprising, given that
+one would not generally expect to be able to use previous days' returns
+to predict future market performance. (After all, if it were possible to
+do so, then the authors of this book would be out striking it rich
+rather than writing a statistics textbook.)
+
+We recall that the logistic regression model had very underwhelming
+\emph{p}-values associated with all of the predictors, and that the
+smallest \emph{p}-value, though not very small, corresponded to
+\texttt{Lag1}. Perhaps by removing the variables that appear not to be
+helpful in predicting \texttt{Direction}, we can obtain a more effective
+model. After all, using predictors that have no relationship with the
+response tends to cause a deterioration in the test error rate (since
+such predictors cause an increase in variance without a corresponding
+decrease in bias), and so removing such predictors may in turn yield an
+improvement. Below we refit the logistic regression using just
+\texttt{Lag1} and \texttt{Lag2}, which seemed to have the highest
+predictive power in the original logistic regression model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lag1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lag2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Smarket}\PY{p}{)}
+\PY{n}{X} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Smarket}\PY{p}{)}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train}\PY{p}{]}
+\PY{n}{glm\PYZus{}train} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{GLM}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,}
+                   \PY{n}{X\PYZus{}train}\PY{p}{,}
+                   \PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{Binomial}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{glm\PYZus{}train}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{probs} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{exog}\PY{o}{=}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{252}\PY{p}{)}
+\PY{n}{labels}\PY{p}{[}\PY{n}{probs}\PY{o}{\PYZgt{}}\PY{l+m+mf}{0.5}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Up}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down   Up
+Predicted
+Down         35   35
+Up           76  106
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's evaluate the overall accuracy as well as the accuracy within the
+days when logistic regression predicts an increase.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{l+m+mi}{35}\PY{o}{+}\PY{l+m+mi}{106}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{252}\PY{p}{,}\PY{l+m+mi}{106}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{106}\PY{o}{+}\PY{l+m+mi}{76}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(0.5595238095238095, 0.5824175824175825)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Now the results appear to be a little better: 56\% of the daily
+movements have been correctly predicted. It is worth noting that in this
+case, a much simpler strategy of predicting that the market will
+increase every day will also be correct 56\% of the time! Hence, in
+terms of overall error rate, the logistic regression method is no better
+than the naive approach. However, the confusion matrix shows that on
+days when logistic regression predicts an increase in the market, it has
+a 58\% accuracy rate. This suggests a possible trading strategy of
+buying on days when the model predicts an increasing market, and
+avoiding trades on days when a decrease is predicted. Of course one
+would need to investigate more carefully whether this small improvement
+was real or just due to random chance.
+
+Suppose that we want to predict the returns associated with particular
+values of \texttt{Lag1} and \texttt{Lag2}. In particular, we want to
+predict \texttt{Direction} on a day when \texttt{Lag1} and \texttt{Lag2}
+equal \(1.2\) and \(1.1\), respectively, and on a day when they equal
+\(1.5\) and \(-0.8\). We do this using the \texttt{predict()} function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{newdata} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lag1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+m+mf}{1.2}\PY{p}{,} \PY{l+m+mf}{1.5}\PY{p}{]}\PY{p}{,}
+                        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lag2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+m+mf}{1.1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.8}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{;}
+\PY{n}{newX} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{newdata}\PY{p}{)}
+\PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{newX}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0    0.479146
+1    0.496094
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{linear-discriminant-analysis}{%
+\subsection{Linear Discriminant
+Analysis}\label{linear-discriminant-analysis}}
+
+    We begin by performing LDA on the \texttt{Smarket} data, using the
+function \texttt{LinearDiscriminantAnalysis()}, which we have
+abbreviated \texttt{LDA()}. We fit the model using only the observations
+before 2005.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda} \PY{o}{=} \PY{n}{LDA}\PY{p}{(}\PY{n}{store\PYZus{}covariance}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Since the \texttt{LDA} estimator automatically adds an intercept, we
+should remove the column corresponding to the intercept in both
+\texttt{X\_train} and \texttt{X\_test}. We can also directly use the
+labels rather than the Boolean vectors \texttt{y\_train}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{p}{[}\PY{n}{M}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{intercept}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+                   \PY{k}{for} \PY{n}{M} \PY{o+ow}{in} \PY{p}{[}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{]}\PY{p}{]}
+\PY{n}{lda}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LinearDiscriminantAnalysis(store\_covariance=True)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Here we have used the list comprehensions introduced in Section 3.6.4.
+Looking at our first line above, we see that the right-hand side is a
+list of length two. This is because the code
+\texttt{for\ M\ in\ {[}X\_train,\ X\_test{]}} iterates over a list of
+length two. While here we loop over a list, the list comprehension
+method works when looping over any iterable object. We then apply the
+\texttt{drop()} method to each element in the iteration, collecting the
+result in a list. The left-hand side tells \texttt{Python} to unpack
+this list of length two, assigning its elements to the variables
+\texttt{X\_train} and \texttt{X\_test}. Of course, this overwrites the
+previous values of \texttt{X\_train} and \texttt{X\_test}.
+
+Having fit the model, we can extract the means in the two classes with
+the \texttt{means\_} attribute. These are the average of each predictor
+within each class, and are used by LDA as estimates of \(\mu_k\). These
+suggest that there is a tendency for the previous 2 days' returns to be
+negative on days when the market increases, and a tendency for the
+previous days' returns to be positive on days when the market declines.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda}\PY{o}{.}\PY{n}{means\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 0.04279022,  0.03389409],
+       [-0.03954635, -0.03132544]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The estimated prior probabilities are stored in the \texttt{priors\_}
+attribute. The package \texttt{sklearn} typically uses this trailing
+\texttt{\_} to denote a quantity estimated when using the \texttt{fit()}
+method. We can be sure of which entry corresponds to which label by
+looking at the \texttt{classes\_} attribute.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda}\PY{o}{.}\PY{n}{classes\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['Down', 'Up'], dtype='<U4')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The LDA output indicates that \(\hat\pi_{Down}=0.492\) and
+\(\hat\pi_{Up}=0.508\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda}\PY{o}{.}\PY{n}{priors\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0.49198397, 0.50801603])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The linear discriminant vectors can be found in the \texttt{scalings\_}
+attribute:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda}\PY{o}{.}\PY{n}{scalings\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[-0.64201904],
+       [-0.51352928]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    These values provide the linear combination of \texttt{Lag1} and
+\texttt{Lag2} that are used to form the LDA decision rule. In other
+words, these are the multipliers of the elements of \(X=x\) in (4.24).
+If \$-0.64\times \texttt{Lag1} - 0.51 \times \texttt{Lag2} \$ is large,
+then the LDA classifier will predict a market increase, and if it is
+small, then the LDA classifier will predict a market decline.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda\PYZus{}pred} \PY{o}{=} \PY{n}{lda}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    As we observed in our comparison of classification methods (Section
+4.5), the LDA and logistic regression predictions are almost identical.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{lda\PYZus{}pred}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down   Up
+Predicted
+Down         35   35
+Up           76  106
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can also estimate the probability of each class for each point in a
+training set. Applying a 50\% threshold to the posterior probabilities
+of being in class one allows us to recreate the predictions contained in
+\texttt{lda\_pred}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lda\PYZus{}prob} \PY{o}{=} \PY{n}{lda}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{all}\PY{p}{(}
+       \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{lda\PYZus{}prob}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Up}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{==} \PY{n}{lda\PYZus{}pred}
+       \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+True
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Above, we used the \texttt{np.where()} function that creates an array
+with value \texttt{\textquotesingle{}Up\textquotesingle{}} for indices
+where the second column of \texttt{lda\_prob} (the estimated posterior
+probability of \texttt{\textquotesingle{}Up\textquotesingle{}}) is
+greater than 0.5. For problems with more than two classes the labels are
+chosen as the class whose posterior probability is highest:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{all}\PY{p}{(}
+       \PY{p}{[}\PY{n}{lda}\PY{o}{.}\PY{n}{classes\PYZus{}}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{lda\PYZus{}prob}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]} \PY{o}{==} \PY{n}{lda\PYZus{}pred}
+       \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+True
+\end{Verbatim}
+\end{tcolorbox}
+        
+    If we wanted to use a posterior probability threshold other than 50\% in
+order to make predictions, then we could easily do so. For instance,
+suppose that we wish to predict a market decrease only if we are very
+certain that the market will indeed decrease on that day --- say, if the
+posterior probability is at least 90\%. We know that the first column of
+\texttt{lda\_prob} corresponds to the label \texttt{Down} after having
+checked the \texttt{classes\_} attribute, hence we use the column index
+0 rather than 1 as we did above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{lda\PYZus{}prob}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.9}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    No days in 2005 meet that threshold! In fact, the greatest posterior
+probability of decrease in all of 2005 was 52.02\%.
+
+The LDA classifier above is the first classifier from the
+\texttt{sklearn} library. We will use several other objects from this
+library. The objects follow a common structure that simplifies tasks
+such as cross-validation, which we will see in Chapter 5. Specifically,
+the methods first create a generic classifier without referring to any
+data. This classifier is then fit to data with the \texttt{fit()} method
+and predictions are always produced with the \texttt{predict()} method.
+This pattern of first instantiating the classifier, followed by fitting
+it, and then producing predictions is an explicit design choice of
+\texttt{sklearn}. This uniformity makes it possible to cleanly copy the
+classifier so that it can be fit on different data; e.g.~different
+training sets arising in cross-validation. This standard pattern also
+allows for a predictable formation of workflows.
+
+    \hypertarget{quadratic-discriminant-analysis}{%
+\subsection{Quadratic Discriminant
+Analysis}\label{quadratic-discriminant-analysis}}
+
+We will now fit a QDA model to the \texttt{Smarket} data. QDA is
+implemented via \texttt{QuadraticDiscriminantAnalysis()} in the
+\texttt{sklearn} package, which we abbreviate to \texttt{QDA()}. The
+syntax is very similar to \texttt{LDA()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{qda} \PY{o}{=} \PY{n}{QDA}\PY{p}{(}\PY{n}{store\PYZus{}covariance}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{qda}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+QuadraticDiscriminantAnalysis(store\_covariance=True)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{QDA()} function will again compute \texttt{means\_} and
+\texttt{priors\_}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{qda}\PY{o}{.}\PY{n}{means\PYZus{}}\PY{p}{,} \PY{n}{qda}\PY{o}{.}\PY{n}{priors\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(array([[ 0.04279022,  0.03389409],
+        [-0.03954635, -0.03132544]]),
+ array([0.49198397, 0.50801603]))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{QDA()} classifier will estimate one covariance per class.
+Here is the estimated covariance in the first class:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{qda}\PY{o}{.}\PY{n}{covariance\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 1.50662277, -0.03924806],
+       [-0.03924806,  1.53559498]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The output contains the group means. But it does not contain the
+coefficients of the linear discriminants, because the QDA classifier
+involves a quadratic, rather than a linear, function of the predictors.
+The \texttt{predict()} function works in exactly the same fashion as for
+LDA.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{qda\PYZus{}pred} \PY{o}{=} \PY{n}{qda}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{qda\PYZus{}pred}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down   Up
+Predicted
+Down         30   20
+Up           81  121
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Interestingly, the QDA predictions are accurate almost 60\% of the time,
+even though the 2005 data was not used to fit the model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{qda\PYZus{}pred} \PY{o}{==} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5992063492063492
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This level of accuracy is quite impressive for stock market data, which
+is known to be quite hard to model accurately. This suggests that the
+quadratic form assumed by QDA may capture the true relationship more
+accurately than the linear forms assumed by LDA and logistic regression.
+However, we recommend evaluating this method's performance on a larger
+test set before betting that this approach will consistently beat the
+market!
+
+    \hypertarget{naive-bayes}{%
+\subsection{Naive Bayes}\label{naive-bayes}}
+
+Next, we fit a naive Bayes model to the \texttt{Smarket} data. The
+syntax is similar to that of \texttt{LDA()} and \texttt{QDA()}. By
+default, this implementation \texttt{GaussianNB()} of the naive Bayes
+classifier models each quantitative feature using a Gaussian
+distribution. However, a kernel density method can also be used to
+estimate the distributions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB} \PY{o}{=} \PY{n}{GaussianNB}\PY{p}{(}\PY{p}{)}
+\PY{n}{NB}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+GaussianNB()
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The classes are stored as \texttt{classes\_}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB}\PY{o}{.}\PY{n}{classes\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['Down', 'Up'], dtype='<U4')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The class prior probabilities are stored in the \texttt{class\_prior\_}
+attribute.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB}\PY{o}{.}\PY{n}{class\PYZus{}prior\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0.49198397, 0.50801603])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The parameters of the features can be found in the \texttt{theta\_} and
+\texttt{var\_} attributes. The number of rows is equal to the number of
+classes, while the number of columns is equal to the number of features.
+We see below that the mean for feature \texttt{Lag1} in the
+\texttt{Down} class is 0.043.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB}\PY{o}{.}\PY{n}{theta\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 0.04279022,  0.03389409],
+       [-0.03954635, -0.03132544]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Its variance is 1.503.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB}\PY{o}{.}\PY{n}{var\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[1.50355429, 1.53246749],
+       [1.51401364, 1.48732877]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    How do we know the names of these attributes? We use \texttt{NB?} (or
+\texttt{?NB}).
+
+We can easily verify the mean computation:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{L\PYZus{}train} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Lag1    0.042790
+Lag2    0.033894
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Similarly for the variance:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{L\PYZus{}train} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Lag1    1.503554
+Lag2    1.532467
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Since \texttt{NB()} is a classifier in the \texttt{sklearn} library,
+making predictions uses the same syntax as for \texttt{LDA()} and
+\texttt{QDA()} above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nb\PYZus{}labels} \PY{o}{=} \PY{n}{NB}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{nb\PYZus{}labels}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down   Up
+Predicted
+Down         29   20
+Up           82  121
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Naive Bayes performs well on these data, with accurate predictions over
+59\% of the time. This is slightly worse than QDA, but much better than
+LDA.
+
+As for \texttt{LDA}, the \texttt{predict\_proba()} method estimates the
+probability that each observation belongs to a particular class.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{NB}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[0.4873288 , 0.5126712 ],
+       [0.47623584, 0.52376416],
+       [0.46529531, 0.53470469],
+       [0.47484469, 0.52515531],
+       [0.49020587, 0.50979413]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{k-nearest-neighbors}{%
+\subsection{K-Nearest Neighbors}\label{k-nearest-neighbors}}
+
+We will now perform KNN using the \texttt{KNeighborsClassifier()}
+function. This function works similarly to the other model-fitting
+functions that we have encountered thus far.
+
+As is the case for LDA and QDA, we fit the classifier using the
+\texttt{fit} method. New predictions are formed using the
+\texttt{predict} method of the object returned by \texttt{fit()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{knn1} \PY{o}{=} \PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{n}{n\PYZus{}neighbors}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{X}\PY{p}{)} \PY{k}{for} \PY{n}{X} \PY{o+ow}{in} \PY{p}{[}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{]}\PY{p}{]}
+\PY{n}{knn1}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}train}\PY{p}{)}
+\PY{n}{knn1\PYZus{}pred} \PY{o}{=} \PY{n}{knn1}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{knn1\PYZus{}pred}\PY{p}{,} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth      Down  Up
+Predicted
+Down         43  58
+Up           68  83
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The results using \(K=1\) are not very good, since only \(50%
+\) of the observations are correctly predicted. Of course, it may be
+that \(K=1\) results in an overly-flexible fit to the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{l+m+mi}{83}\PY{o}{+}\PY{l+m+mi}{43}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{252}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{knn1\PYZus{}pred} \PY{o}{==} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(0.5, 0.5)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We repeat the analysis below using \(K=3\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{knn3} \PY{o}{=} \PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{n}{n\PYZus{}neighbors}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{knn3\PYZus{}pred} \PY{o}{=} \PY{n}{knn3}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{L\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{knn3\PYZus{}pred} \PY{o}{==} \PY{n}{L\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5317460317460317
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The results have improved slightly. But increasing \emph{K} further
+provides no further improvements. It appears that for these data, and
+this train/test split, QDA gives the best results of the methods that we
+have examined so far.
+
+    KNN does not perform well on the \texttt{Smarket} data, but it often
+does provide impressive results. As an example we will apply the KNN
+approach to the \texttt{Caravan} data set, which is part of the
+\texttt{ISLP} library. This data set includes 85 predictors that measure
+demographic characteristics for 5,822 individuals. The response variable
+is \texttt{Purchase}, which indicates whether or not a given individual
+purchases a caravan insurance policy. In this data set, only 6\% of
+people purchased caravan insurance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Caravan} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Caravan}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Purchase} \PY{o}{=} \PY{n}{Caravan}\PY{o}{.}\PY{n}{Purchase}
+\PY{n}{Purchase}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Purchase
+No     5474
+Yes     348
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The method \texttt{value\_counts()} takes a \texttt{pd.Series} or
+\texttt{pd.DataFrame} and returns a \texttt{pd.Series} with the
+corresponding counts for each unique element. In this case
+\texttt{Purchase} has only \texttt{Yes} and \texttt{No} values and the
+method returns how many values of each there are.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+m+mi}{348} \PY{o}{/} \PY{l+m+mi}{5822}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.05977327378907592
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Our features will include all columns except \texttt{Purchase}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{feature\PYZus{}df} \PY{o}{=} \PY{n}{Caravan}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Purchase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Because the KNN classifier predicts the class of a given test
+observation by identifying the observations that are nearest to it, the
+scale of the variables matters. Any variables that are on a large scale
+will have a much larger effect on the \emph{distance} between the
+observations, and hence on the KNN classifier, than variables that are
+on a small scale. For instance, imagine a data set that contains two
+variables, \texttt{salary} and \texttt{age} (measured in dollars and
+years, respectively). As far as KNN is concerned, a difference of 1,000
+USD in salary is enormous compared to a difference of 50 years in age.
+Consequently, \texttt{salary} will drive the KNN classification results,
+and \texttt{age} will have almost no effect. This is contrary to our
+intuition that a salary difference of 1,000 USD is quite small compared
+to an age difference of 50 years. Furthermore, the importance of scale
+to the KNN classifier leads to another issue: if we measured
+\texttt{salary} in Japanese yen, or if we measured \texttt{age} in
+minutes, then we'd get quite different classification results from what
+we get if these two variables are measured in dollars and years.
+
+A good way to handle this problem is to \emph{standardize} the data so
+that all variables are given a mean of zero and a standard deviation of
+one. Then all variables will be on a comparable scale. This is
+accomplished using the \texttt{StandardScaler()} transformation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{n}{with\PYZus{}mean}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                        \PY{n}{with\PYZus{}std}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                        \PY{n}{copy}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The argument \texttt{with\_mean} indicates whether or not we should
+subtract the mean, while \texttt{with\_std} indicates whether or not we
+should scale the columns to have standard deviation of 1 or not.
+Finally, the argument \texttt{copy=True} indicates that we will always
+copy data, rather than trying to do calculations in place where
+possible.
+
+This transformation can be fit and then applied to arbitrary data. In
+the first line below, the parameters for the scaling are computed and
+stored in \texttt{scaler}, while the second line actually constructs the
+standardized set of features.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{scaler}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{feature\PYZus{}df}\PY{p}{)}
+\PY{n}{X\PYZus{}std} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{feature\PYZus{}df}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now every column of \texttt{feature\_std} below has a standard deviation
+of one and a mean of zero.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{feature\PYZus{}std} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+                 \PY{n}{X\PYZus{}std}\PY{p}{,}
+                 \PY{n}{columns}\PY{o}{=}\PY{n}{feature\PYZus{}df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{;}
+\PY{n}{feature\PYZus{}std}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+MOSTYPE     1.000086
+MAANTHUI    1.000086
+MGEMOMV     1.000086
+MGEMLEEF    1.000086
+MOSHOOFD    1.000086
+              {\ldots}
+AZEILPL     1.000086
+APLEZIER    1.000086
+AFIETS      1.000086
+AINBOED     1.000086
+ABYSTAND    1.000086
+Length: 85, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that the standard deviations are not quite \(1\) here; this is
+again due to some procedures using the \(1/n\) convention for variances
+(in this case \texttt{scaler()}), while others use \(1/(n-1)\) (the
+\texttt{std()} method). See the footnote on page 183. In this case it
+does not matter, as long as the variables are all on the same scale.
+
+Using the function \texttt{train\_test\_split()} we now split the
+observations into a test set, containing 1000 observations, and a
+training set containing the remaining observations. The argument
+\texttt{random\_state=0} ensures that we get the same split each time we
+rerun the code.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,}
+ \PY{n}{X\PYZus{}test}\PY{p}{,}
+ \PY{n}{y\PYZus{}train}\PY{p}{,}
+ \PY{n}{y\PYZus{}test}\PY{p}{)} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{feature\PYZus{}std}\PY{p}{)}\PY{p}{,}
+                            \PY{n}{Purchase}\PY{p}{,}
+                            \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+                            \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \texttt{?train\_test\_split} reveals that the non-keyword arguments can
+be \texttt{lists}, \texttt{arrays}, \texttt{pandas\ dataframes} etc that
+all have the same length (\texttt{shape{[}0{]}}) and hence are
+\emph{indexable}. In this case they are the dataframe
+\texttt{feature\_std} and the response variable \texttt{Purchase}.
+\{Note that we have converted \texttt{feature\_std} to an
+\texttt{ndarray} to address a bug in \texttt{sklearn}.\} We fit a KNN
+model on the training data using \(K=1\), and evaluate its performance
+on the test data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{knn1} \PY{o}{=} \PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{n}{n\PYZus{}neighbors}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{knn1\PYZus{}pred} \PY{o}{=} \PY{n}{knn1}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{y\PYZus{}test} \PY{o}{!=} \PY{n}{knn1\PYZus{}pred}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{y\PYZus{}test} \PY{o}{!=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(0.111, 0.067)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The KNN error rate on the 1,000 test observations is about \(11%
+\). At first glance, this may appear to be fairly good. However, since
+just over 6\% of customers purchased insurance, we could get the error
+rate down to almost 6\% by always predicting \texttt{No} regardless of
+the values of the predictors! This is known as the \emph{null rate}.\}
+
+Suppose that there is some non-trivial cost to trying to sell insurance
+to a given individual. For instance, perhaps a salesperson must visit
+each potential customer. If the company tries to sell insurance to a
+random selection of customers, then the success rate will be only 6\%,
+which may be far too low given the costs involved. Instead, the company
+would like to try to sell insurance only to customers who are likely to
+buy it. So the overall error rate is not of interest. Instead, the
+fraction of individuals that are correctly predicted to buy insurance is
+of interest.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{knn1\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth       No  Yes
+Predicted
+No         880   58
+Yes         53    9
+\end{Verbatim}
+\end{tcolorbox}
+        
+    It turns out that KNN with \(K=1\) does far better than random guessing
+among the customers that are predicted to buy insurance. Among 62 such
+customers, 9, or 14.5\%, actually do purchase insurance. This is double
+the rate that one would obtain from random guessing.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+m+mi}{9}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{53}\PY{o}{+}\PY{l+m+mi}{9}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.14516129032258066
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{tuning-parameters}{%
+\subsubsection{Tuning Parameters}\label{tuning-parameters}}
+
+The number of neighbors in KNN is referred to as a \emph{tuning
+parameter}, also referred to as a \emph{hyperparameter}. We do not know
+\emph{a priori} what value to use. It is therefore of interest to see
+how the classifier performs on test data as we vary these parameters.
+This can be achieved with a \texttt{for} loop, described in Section
+2.3.8. Here we use a for loop to look at the accuracy of our classifier
+in the group predicted to purchase insurance as we vary the number of
+neighbors from 1 to 5:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{K} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
+    \PY{n}{knn} \PY{o}{=} \PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{n}{n\PYZus{}neighbors}\PY{o}{=}\PY{n}{K}\PY{p}{)}
+    \PY{n}{knn\PYZus{}pred} \PY{o}{=} \PY{n}{knn}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+    \PY{n}{C} \PY{o}{=} \PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{knn\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+    \PY{n}{templ} \PY{o}{=} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K=}\PY{l+s+si}{\PYZob{}0:d\PYZcb{}}\PY{l+s+s1}{: \PYZsh{} predicted to rent: }\PY{l+s+si}{\PYZob{}1:\PYZgt{}2\PYZcb{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{  \PYZsh{} who did rent }\PY{l+s+si}{\PYZob{}2:d\PYZcb{}}\PY{l+s+s1}{, accuracy }\PY{l+s+si}{\PYZob{}3:.1\PYZpc{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{pred} \PY{o}{=} \PY{n}{C}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+    \PY{n}{did\PYZus{}rent} \PY{o}{=} \PY{n}{C}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{templ}\PY{o}{.}\PY{n}{format}\PY{p}{(}
+          \PY{n}{K}\PY{p}{,}
+          \PY{n}{pred}\PY{p}{,}
+          \PY{n}{did\PYZus{}rent}\PY{p}{,}
+          \PY{n}{did\PYZus{}rent} \PY{o}{/} \PY{n}{pred}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+K=1: \# predicted to rent: 62,  \# who did rent 9, accuracy 14.5\%
+K=2: \# predicted to rent:  6,  \# who did rent 1, accuracy 16.7\%
+K=3: \# predicted to rent: 20,  \# who did rent 3, accuracy 15.0\%
+K=4: \# predicted to rent:  4,  \# who did rent 0, accuracy 0.0\%
+K=5: \# predicted to rent:  7,  \# who did rent 1, accuracy 14.3\%
+    \end{Verbatim}
+
+    We see some variability --- the numbers for \texttt{K=4} are very
+different from the rest.
+
+\hypertarget{comparison-to-logistic-regression}{%
+\subsubsection{Comparison to Logistic
+Regression}\label{comparison-to-logistic-regression}}
+
+As a comparison, we can also fit a logistic regression model to the
+data. This can also be done with \texttt{sklearn}, though by default it
+fits something like the \emph{ridge regression} version of logistic
+regression, which we introduce in Chapter 6. This can be modified by
+appropriately setting the argument \texttt{C} below. Its default value
+is 1 but by setting it to a very large number, the algorithm converges
+to the same solution as the usual (unregularized) logistic regression
+estimator discussed above.
+
+Unlike the \texttt{statsmodels} package, \texttt{sklearn} focuses less
+on inference and more on classification. Hence, the \texttt{summary}
+methods seen in \texttt{statsmodels} and our simplified version seen
+with \texttt{summarize} are not generally available for the classifiers
+in \texttt{sklearn}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{logit} \PY{o}{=} \PY{n}{LogisticRegression}\PY{p}{(}\PY{n}{C}\PY{o}{=}\PY{l+m+mf}{1e10}\PY{p}{,} \PY{n}{solver}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{liblinear}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{logit}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{logit\PYZus{}pred} \PY{o}{=} \PY{n}{logit}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{logit\PYZus{}labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{logit\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mf}{.5}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{logit\PYZus{}labels}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth       No  Yes
+Predicted
+No         931   67
+Yes          2    0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We used the argument
+\texttt{solver=\textquotesingle{}liblinear\textquotesingle{}} above to
+avoid a warning with the default solver which would indicate that the
+algorithm does not converge.
+
+If we use \(0.5\) as the predicted probability cut-off for the
+classifier, then we have a problem: only two of the test observations
+are predicted to purchase insurance. However, we are not required to use
+a cut-off of \(0.5\). If we instead predict a purchase any time the
+predicted probability of purchase exceeds \(0.25\), we get much better
+results: we predict that 29 people will purchase insurance, and we are
+correct for about 31\% of these people. This is almost five times better
+than random guessing!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{logit\PYZus{}labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{logit\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZgt{}}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{confusion\PYZus{}table}\PY{p}{(}\PY{n}{logit\PYZus{}labels}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Truth       No  Yes
+Predicted
+No         913   58
+Yes         20    9
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+m+mi}{9}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{20}\PY{o}{+}\PY{l+m+mi}{9}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.3103448275862069
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{linear-and-poisson-regression-on-the-bikeshare-data}{%
+\subsection{Linear and Poisson Regression on the Bikeshare
+Data}\label{linear-and-poisson-regression-on-the-bikeshare-data}}
+
+Here we fit linear and Poisson regression models to the
+\texttt{Bikeshare} data, as described in Section 4.6. The response
+\texttt{bikers} measures the number of bike rentals per hour in
+Washington, DC in the period 2010--2012.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Bike} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Bikeshare}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's have a peek at the dimensions and names of the variables in this
+dataframe.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Bike}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{Bike}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+((8645, 15),
+ Index(['season', 'mnth', 'day', 'hr', 'holiday', 'weekday', 'workingday',
+        'weathersit', 'temp', 'atemp', 'hum', 'windspeed', 'casual',
+        'registered', 'bikers'],
+       dtype='object'))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{linear-regression}{%
+\subsubsection{Linear Regression}\label{linear-regression}}
+
+We begin by fitting a linear regression model to the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{workingday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{temp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weathersit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Bike}\PY{p}{)}
+\PY{n}{Y} \PY{o}{=} \PY{n}{Bike}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bikers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{M\PYZus{}lm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M\PYZus{}lm}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                 coef  std err       t  P>|t|
+intercept                    -68.6317    5.307 -12.932  0.000
+mnth[Feb]                      6.8452    4.287   1.597  0.110
+mnth[March]                   16.5514    4.301   3.848  0.000
+mnth[April]                   41.4249    4.972   8.331  0.000
+mnth[May]                     72.5571    5.641  12.862  0.000
+mnth[June]                    67.8187    6.544  10.364  0.000
+mnth[July]                    45.3245    7.081   6.401  0.000
+mnth[Aug]                     53.2430    6.640   8.019  0.000
+mnth[Sept]                    66.6783    5.925  11.254  0.000
+mnth[Oct]                     75.8343    4.950  15.319  0.000
+mnth[Nov]                     60.3100    4.610  13.083  0.000
+mnth[Dec]                     46.4577    4.271  10.878  0.000
+hr[1]                        -14.5793    5.699  -2.558  0.011
+hr[2]                        -21.5791    5.733  -3.764  0.000
+hr[3]                        -31.1408    5.778  -5.389  0.000
+hr[4]                        -36.9075    5.802  -6.361  0.000
+hr[5]                        -24.1355    5.737  -4.207  0.000
+hr[6]                         20.5997    5.704   3.612  0.000
+hr[7]                        120.0931    5.693  21.095  0.000
+hr[8]                        223.6619    5.690  39.310  0.000
+hr[9]                        120.5819    5.693  21.182  0.000
+hr[10]                        83.8013    5.705  14.689  0.000
+hr[11]                       105.4234    5.722  18.424  0.000
+hr[12]                       137.2837    5.740  23.916  0.000
+hr[13]                       136.0359    5.760  23.617  0.000
+hr[14]                       126.6361    5.776  21.923  0.000
+hr[15]                       132.0865    5.780  22.852  0.000
+hr[16]                       178.5206    5.772  30.927  0.000
+hr[17]                       296.2670    5.749  51.537  0.000
+hr[18]                       269.4409    5.736  46.976  0.000
+hr[19]                       186.2558    5.714  32.596  0.000
+hr[20]                       125.5492    5.704  22.012  0.000
+hr[21]                        87.5537    5.693  15.378  0.000
+hr[22]                        59.1226    5.689  10.392  0.000
+hr[23]                        26.8376    5.688   4.719  0.000
+workingday                     1.2696    1.784   0.711  0.477
+temp                         157.2094   10.261  15.321  0.000
+weathersit[cloudy/misty]     -12.8903    1.964  -6.562  0.000
+weathersit[heavy rain/snow] -109.7446   76.667  -1.431  0.152
+weathersit[light rain/snow]  -66.4944    2.965 -22.425  0.000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There are 24 levels in \texttt{hr} and 40 rows in all. In
+\texttt{M\_lm}, the first levels \texttt{hr{[}0{]}} and
+\texttt{mnth{[}Jan{]}} are treated as the baseline values, and so no
+coefficient estimates are provided for them: implicitly, their
+coefficient estimates are zero, and all other levels are measured
+relative to these baselines. For example, the Feb coefficient of
+\(6.845\) signifies that, holding all other variables constant, there
+are on average about 7 more riders in February than in January.
+Similarly there are about 16.5 more riders in March than in January.
+
+The results seen in Section 4.6.1 used a slightly different coding of
+the variables \texttt{hr} and \texttt{mnth}, as follows:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{67}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hr\PYZus{}encode} \PY{o}{=} \PY{n}{contrast}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{mnth\PYZus{}encode} \PY{o}{=} \PY{n}{contrast}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Refitting again:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X2} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{mnth\PYZus{}encode}\PY{p}{,}
+         \PY{n}{hr\PYZus{}encode}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{workingday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{temp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weathersit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Bike}\PY{p}{)}
+\PY{n}{M2\PYZus{}lm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{X2}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{S2} \PY{o}{=} \PY{n}{summarize}\PY{p}{(}\PY{n}{M2\PYZus{}lm}\PY{p}{)}
+\PY{n}{S2}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                 coef  std err       t  P>|t|
+intercept                     73.5974    5.132  14.340  0.000
+mnth[Jan]                    -46.0871    4.085 -11.281  0.000
+mnth[Feb]                    -39.2419    3.539 -11.088  0.000
+mnth[March]                  -29.5357    3.155  -9.361  0.000
+mnth[April]                   -4.6622    2.741  -1.701  0.089
+mnth[May]                     26.4700    2.851   9.285  0.000
+mnth[June]                    21.7317    3.465   6.272  0.000
+mnth[July]                    -0.7626    3.908  -0.195  0.845
+mnth[Aug]                      7.1560    3.535   2.024  0.043
+mnth[Sept]                    20.5912    3.046   6.761  0.000
+mnth[Oct]                     29.7472    2.700  11.019  0.000
+mnth[Nov]                     14.2229    2.860   4.972  0.000
+hr[0]                        -96.1420    3.955 -24.307  0.000
+hr[1]                       -110.7213    3.966 -27.916  0.000
+hr[2]                       -117.7212    4.016 -29.310  0.000
+hr[3]                       -127.2828    4.081 -31.191  0.000
+hr[4]                       -133.0495    4.117 -32.319  0.000
+hr[5]                       -120.2775    4.037 -29.794  0.000
+hr[6]                        -75.5424    3.992 -18.925  0.000
+hr[7]                         23.9511    3.969   6.035  0.000
+hr[8]                        127.5199    3.950  32.284  0.000
+hr[9]                         24.4399    3.936   6.209  0.000
+hr[10]                       -12.3407    3.936  -3.135  0.002
+hr[11]                         9.2814    3.945   2.353  0.019
+hr[12]                        41.1417    3.957  10.397  0.000
+hr[13]                        39.8939    3.975  10.036  0.000
+hr[14]                        30.4940    3.991   7.641  0.000
+hr[15]                        35.9445    3.995   8.998  0.000
+hr[16]                        82.3786    3.988  20.655  0.000
+hr[17]                       200.1249    3.964  50.488  0.000
+hr[18]                       173.2989    3.956  43.806  0.000
+hr[19]                        90.1138    3.940  22.872  0.000
+hr[20]                        29.4071    3.936   7.471  0.000
+hr[21]                        -8.5883    3.933  -2.184  0.029
+hr[22]                       -37.0194    3.934  -9.409  0.000
+workingday                     1.2696    1.784   0.711  0.477
+temp                         157.2094   10.261  15.321  0.000
+weathersit[cloudy/misty]     -12.8903    1.964  -6.562  0.000
+weathersit[heavy rain/snow] -109.7446   76.667  -1.431  0.152
+weathersit[light rain/snow]  -66.4944    2.965 -22.425  0.000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    What is the difference between the two codings? In \texttt{M2\_lm}, a
+coefficient estimate is reported for all but level \texttt{23} of
+\texttt{hr} and level \texttt{Dec} of \texttt{mnth}. Importantly, in
+\texttt{M2\_lm}, the (unreported) coefficient estimate for the last
+level of \texttt{mnth} is not zero: instead, it equals the negative of
+the sum of the coefficient estimates for all of the other levels.
+Similarly, in \texttt{M2\_lm}, the coefficient estimate for the last
+level of \texttt{hr} is the negative of the sum of the coefficient
+estimates for all of the other levels. This means that the coefficients
+of \texttt{hr} and \texttt{mnth} in \texttt{M2\_lm} will always sum to
+zero, and can be interpreted as the difference from the mean level. For
+example, the coefficient for January of \(-46.087\) indicates that,
+holding all other variables constant, there are typically 46 fewer
+riders in January relative to the yearly average.
+
+It is important to realize that the choice of coding really does not
+matter, provided that we interpret the model output correctly in light
+of the coding used. For example, we see that the predictions from the
+linear model are the same regardless of coding:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{M\PYZus{}lm}\PY{o}{.}\PY{n}{fittedvalues} \PY{o}{\PYZhy{}} \PY{n}{M2\PYZus{}lm}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+1.0334731385542263e-18
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The sum of squared differences is zero. We can also see this using the
+\texttt{np.allclose()} function:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{M\PYZus{}lm}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{,} \PY{n}{M2\PYZus{}lm}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+True
+\end{Verbatim}
+\end{tcolorbox}
+        
+    To reproduce the left-hand side of Figure 4.13 we must first obtain the
+coefficient estimates associated with \texttt{mnth}. The coefficients
+for January through November can be obtained directly from the
+\texttt{M2\_lm} object. The coefficient for December must be explicitly
+computed as the negative sum of all the other months. We first extract
+all the coefficients for month from the coefficients of \texttt{M2\_lm}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{coef\PYZus{}month} \PY{o}{=} \PY{n}{S2}\PY{p}{[}\PY{n}{S2}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coef}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{coef\PYZus{}month}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+mnth[Jan]     -46.0871
+mnth[Feb]     -39.2419
+mnth[March]   -29.5357
+mnth[April]    -4.6622
+mnth[May]      26.4700
+mnth[June]     21.7317
+mnth[July]     -0.7626
+mnth[Aug]       7.1560
+mnth[Sept]     20.5912
+mnth[Oct]      29.7472
+mnth[Nov]      14.2229
+Name: coef, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Next, we append \texttt{Dec} as the negative of the sum of all other
+months.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{months} \PY{o}{=} \PY{n}{Bike}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dtype}\PY{o}{.}\PY{n}{categories}
+\PY{n}{coef\PYZus{}month} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}
+                       \PY{n}{coef\PYZus{}month}\PY{p}{,}
+                       \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{coef\PYZus{}month}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                                  \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth[Dec]}\PY{l+s+s1}{\PYZsq{}}
+                                 \PY{p}{]}\PY{p}{)}
+                       \PY{p}{]}\PY{p}{)}
+\PY{n}{coef\PYZus{}month}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+mnth[Jan]     -46.0871
+mnth[Feb]     -39.2419
+mnth[March]   -29.5357
+mnth[April]    -4.6622
+mnth[May]      26.4700
+mnth[June]     21.7317
+mnth[July]     -0.7626
+mnth[Aug]       7.1560
+mnth[Sept]     20.5912
+mnth[Oct]      29.7472
+mnth[Nov]      14.2229
+mnth[Dec]       0.3705
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Finally, to make the plot neater, we'll just use the first letter of
+each month, which is the \(6\)th entry of each of the labels in the
+index.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig\PYZus{}month}\PY{p}{,} \PY{n}{ax\PYZus{}month} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{x\PYZus{}month} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{coef\PYZus{}month}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}month}\PY{p}{,} \PY{n}{coef\PYZus{}month}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ms}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x\PYZus{}month}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{p}{[}\PY{n}{l}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]} \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n}{coef\PYZus{}month}\PY{o}{.}\PY{n}{index}\PY{p}{]}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Coefficient}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch04-classification-lab_files/artifacts/latex/Ch04-classification-lab_150_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Reproducing the right-hand plot in Figure 4.13 follows a similar
+process.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{coef\PYZus{}hr} \PY{o}{=} \PY{n}{S2}\PY{p}{[}\PY{n}{S2}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coef}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{coef\PYZus{}hr} \PY{o}{=} \PY{n}{coef\PYZus{}hr}\PY{o}{.}\PY{n}{reindex}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr[}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{]}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{h}\PY{p}{)} \PY{k}{for} \PY{n}{h} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{23}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{coef\PYZus{}hr} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{coef\PYZus{}hr}\PY{p}{,}
+                     \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{coef\PYZus{}hr}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr[23]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+                    \PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We now make the hour plot.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig\PYZus{}hr}\PY{p}{,} \PY{n}{ax\PYZus{}hr} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{x\PYZus{}hr} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{coef\PYZus{}hr}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}hr}\PY{p}{,} \PY{n}{coef\PYZus{}hr}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ms}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x\PYZus{}hr}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{24}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Coefficient}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch04-classification-lab_files/artifacts/latex/Ch04-classification-lab_154_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{poisson-regression}{%
+\subsubsection{Poisson Regression}\label{poisson-regression}}
+
+Now we fit instead a Poisson regression model to the \texttt{Bikeshare}
+data. Very little changes, except that we now use the function
+\texttt{sm.GLM()} with the Poisson family specified:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{M\PYZus{}pois} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{GLM}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{X2}\PY{p}{,} \PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{Poisson}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We can plot the coefficients associated with \texttt{mnth} and
+\texttt{hr}, in order to reproduce Figure 4.15. We first complete these
+coefficients as before.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{S\PYZus{}pois} \PY{o}{=} \PY{n}{summarize}\PY{p}{(}\PY{n}{M\PYZus{}pois}\PY{p}{)}
+\PY{n}{coef\PYZus{}month} \PY{o}{=} \PY{n}{S\PYZus{}pois}\PY{p}{[}\PY{n}{S\PYZus{}pois}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coef}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{coef\PYZus{}month} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{coef\PYZus{}month}\PY{p}{,}
+                        \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{coef\PYZus{}month}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                                   \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mnth[Dec]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{coef\PYZus{}hr} \PY{o}{=} \PY{n}{S\PYZus{}pois}\PY{p}{[}\PY{n}{S\PYZus{}pois}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coef}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{coef\PYZus{}hr} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{coef\PYZus{}hr}\PY{p}{,}
+                     \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{coef\PYZus{}hr}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                     \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hr[23]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The plotting is as before.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig\PYZus{}pois}\PY{p}{,} \PY{p}{(}\PY{n}{ax\PYZus{}month}\PY{p}{,} \PY{n}{ax\PYZus{}hr}\PY{p}{)} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}month}\PY{p}{,} \PY{n}{coef\PYZus{}month}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ms}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x\PYZus{}month}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{p}{[}\PY{n}{l}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]} \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n}{coef\PYZus{}month}\PY{o}{.}\PY{n}{index}\PY{p}{]}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}month}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Coefficient}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}hr}\PY{p}{,} \PY{n}{coef\PYZus{}hr}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ms}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{24}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax\PYZus{}hr}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Coefficient}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/16/8y65\_zv174qgdp4ktlmpv12h0000gq/T/ipykernel\_70549/3779905754.py:8
+: UserWarning: set\_ticklabels() should only be used with a fixed number of
+ticks, i.e. after set\_ticks() or using a FixedLocator.
+  ax\_hr.set\_xticklabels(range(24)[::2], fontsize=20)
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch04-classification-lab_files/artifacts/latex/Ch04-classification-lab_160_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We compare the fitted values of the two models. The fitted values are
+stored in the \texttt{fittedvalues} attribute returned by the
+\texttt{fit()} method for both the linear regression and the Poisson
+fits. The linear predictors are stored as the attribute
+\texttt{lin\_pred}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{M2\PYZus{}lm}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{,}
+           \PY{n}{M\PYZus{}pois}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{,}
+           \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Linear Regression Fit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Poisson Regression Fit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axline}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,}
+          \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch04-classification-lab_files/artifacts/latex/Ch04-classification-lab_162_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The predictions from the Poisson regression model are correlated with
+those from the linear model; however, the former are non-negative. As a
+result the Poisson regression predictions tend to be larger than those
+from the linear model for either very low or very high levels of
+ridership.
+
+In this section, we fit Poisson regression models using the
+\texttt{sm.GLM()} function with the argument
+\texttt{family=sm.families.Poisson()}. Earlier in this lab we used the
+\texttt{sm.GLM()} function with \texttt{family=sm.families.Binomial()}
+to perform logistic regression. Other choices for the \texttt{family}
+argument can be used to fit other types of GLMs. For instance,
+\texttt{family=sm.families.Gamma()} fits a Gamma regression model.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

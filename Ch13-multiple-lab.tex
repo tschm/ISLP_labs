@@ -1,0 +1,1280 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Ch13-multiple-lab}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{multiple-testing}{%
+\section{Multiple Testing}\label{multiple-testing}}
+
+\href{https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch13-multiple-lab.ipynb}{\includesvg{https://mybinder.org/badge_logo.svg}}
+
+    We include our usual imports seen in earlier labs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{load\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We also collect the new imports needed for this lab.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{+w}{ }\PY{k+kn}{import} \PYZbs{}
+    \PY{p}{(}\PY{n}{ttest\PYZus{}1samp}\PY{p}{,}
+     \PY{n}{ttest\PYZus{}rel}\PY{p}{,}
+     \PY{n}{ttest\PYZus{}ind}\PY{p}{,}
+     \PY{n}{t} \PY{k}{as} \PY{n}{t\PYZus{}dbn}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{multicomp}\PY{+w}{ }\PY{k+kn}{import} \PYZbs{}
+     \PY{n}{pairwise\PYZus{}tukeyhsd}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{multitest}\PY{+w}{ }\PY{k+kn}{import} \PYZbs{}
+     \PY{n}{multipletests} \PY{k}{as} \PY{n}{mult\PYZus{}test}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{review-of-hypothesis-tests}{%
+\subsection{Review of Hypothesis
+Tests}\label{review-of-hypothesis-tests}}
+
+We begin by performing some one-sample \(t\)-tests.
+
+First we create 100 variables, each consisting of 10 observations. The
+first 50 variables have mean \(0.5\) and variance \(1\), while the
+others have mean \(0\) and variance \(1\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{X} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\PY{n}{true\PYZus{}mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{50} \PY{o}{+} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{50}\PY{p}{)}
+\PY{n}{X} \PY{o}{+}\PY{o}{=} \PY{n}{true\PYZus{}mean}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    To begin, we use \texttt{ttest\_1samp()} from the \texttt{scipy.stats}
+module to test \(H_{0}: \mu_1=0\), the null hypothesis that the first
+variable has mean zero.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{result} \PY{o}{=} \PY{n}{ttest\PYZus{}1samp}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{result}\PY{o}{.}\PY{n}{pvalue}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.9307442156164141
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \(p\)-value comes out to 0.931, which is not low enough to reject
+the null hypothesis at level \(\alpha=0.05\). In this case,
+\(\mu_1=0.5\), so the null hypothesis is false. Therefore, we have made
+a Type II error by failing to reject the null hypothesis when the null
+hypothesis is false.
+
+We now test \(H_{0,j}: \mu_j=0\) for \(j=1,\ldots,100\). We compute the
+100 \(p\)-values, and then construct a vector recording whether the
+\(j\)th \(p\)-value is less than or equal to 0.05, in which case we
+reject \(H_{0j}\), or greater than 0.05, in which case we do not reject
+\(H_{0j}\), for \(j=1,\ldots,100\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{p\PYZus{}values} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+   \PY{n}{p\PYZus{}values}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}1samp}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{pvalue}
+\PY{n}{decision} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{p\PYZus{}values}\PY{p}{,}
+                  \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+                  \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Reject H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Do not reject H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{truth} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Categorical}\PY{p}{(}\PY{n}{true\PYZus{}mean} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,}
+                       \PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}\PY{p}{,}
+                       \PY{n}{ordered}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Since this is a simulated data set, we can create a \(2 \times 2\) table
+similar to Table 13.2.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{decision}\PY{p}{,}
+            \PY{n}{truth}\PY{p}{,}
+     \PY{n}{rownames}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Decision}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+     \PY{n}{colnames}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+H0                True  False
+Decision
+Reject H0            5     15
+Do not reject H0    45     35
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Therefore, at level \(\alpha=0.05\), we reject 15 of the 50 false null
+hypotheses, and we incorrectly reject 5 of the true null hypotheses.
+Using the notation from Section 13.3, we have \(V=5\), \(S=15\),
+\(U=45\) and \(W=35\). We have set \(\alpha=0.05\), which means that we
+expect to reject around 5\% of the true null hypotheses. This is in line
+with the \(2 \times 2\) table above, which indicates that we rejected
+\(V=5\) of the \(50\) true null hypotheses.
+
+In the simulation above, for the false null hypotheses, the ratio of the
+mean to the standard deviation was only \(0.5/1 = 0.5\). This amounts to
+quite a weak signal, and it resulted in a high number of Type II errors.
+Let's instead simulate data with a stronger signal, so that the ratio of
+the mean to the standard deviation for the false null hypotheses equals
+\(1\). We make only 10 Type II errors.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{true\PYZus{}mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{50} \PY{o}{+} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{50}\PY{p}{)}
+\PY{n}{X} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\PY{n}{X} \PY{o}{+}\PY{o}{=} \PY{n}{true\PYZus{}mean}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+   \PY{n}{p\PYZus{}values}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}1samp}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{pvalue}
+\PY{n}{decision} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{p\PYZus{}values}\PY{p}{,}
+                  \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+                  \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Reject H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Do not reject H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{truth} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Categorical}\PY{p}{(}\PY{n}{true\PYZus{}mean} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,}
+                       \PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}\PY{p}{,}
+                       \PY{n}{ordered}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{decision}\PY{p}{,}
+            \PY{n}{truth}\PY{p}{,}
+            \PY{n}{rownames}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Decision}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{colnames}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+H0                True  False
+Decision
+Reject H0            2     40
+Do not reject H0    48     10
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    \hypertarget{family-wise-error-rate}{%
+\subsection{Family-Wise Error Rate}\label{family-wise-error-rate}}
+
+Recall from (13.5) that if the null hypothesis is true for each of \(m\)
+independent hypothesis tests, then the FWER is equal to
+\(1-(1-\alpha)^m\). We can use this expression to compute the FWER for
+\(m=1,\ldots, 500\) and \(\alpha=0.05\), \(0.01\), and \(0.001\). We
+plot the FWER for these values of \(\alpha\) in order to reproduce
+Figure 13.2.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{501}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{p}{[}\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{m}\PY{p}{,}
+         \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{alpha}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{n}{m}\PY{p}{,}
+         \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{alpha=}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{str}\PY{p}{(}\PY{n}{alpha}\PY{p}{)}\PY{p}{)}
+         \PY{k}{for} \PY{n}{alpha} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mf}{0.001}\PY{p}{]}\PY{p}{]}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Hypotheses}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Family\PYZhy{}Wise Error Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch13-multiple-lab_files/artifacts/latex/Ch13-multiple-lab_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    As discussed previously, even for moderate values of \(m\) such as
+\(50\), the FWER exceeds \(0.05\) unless \(\alpha\) is set to a very low
+value, such as \(0.001\). Of course, the problem with setting \(\alpha\)
+to such a low value is that we are likely to make a number of Type II
+errors: in other words, our power is very low.
+
+We now conduct a one-sample \(t\)-test for each of the first five
+managers in the\\
+\texttt{Fund} dataset, in order to test the null hypothesis that the
+\(j\)th fund manager's mean return equals zero, \(H_{0,j}: \mu_j=0\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Fund} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fund}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fund\PYZus{}mini} \PY{o}{=} \PY{n}{Fund}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}
+\PY{n}{fund\PYZus{}mini\PYZus{}pvals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fund\PYZus{}mini\PYZus{}pvals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}1samp}\PY{p}{(}\PY{n}{fund\PYZus{}mini}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{pvalue}
+\PY{n}{fund\PYZus{}mini\PYZus{}pvals}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0.00620236, 0.91827115, 0.01160098, 0.6005396 , 0.75578151])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \(p\)-values are low for Managers One and Three, and high for the
+other three managers. However, we cannot simply reject \(H_{0,1}\) and
+\(H_{0,3}\), since this would fail to account for the multiple testing
+that we have performed. Instead, we will conduct Bonferroni's method and
+Holm's method to control the FWER.
+
+To do this, we use the \texttt{multipletests()} function from the
+\texttt{statsmodels} module (abbreviated to \texttt{mult\_test()}).
+Given the \(p\)-values, for methods like Holm and Bonferroni the
+function outputs adjusted \(p\)-values, which can be thought of as a new
+set of \(p\)-values that have been corrected for multiple testing. If
+the adjusted \(p\)-value for a given hypothesis is less than or equal to
+\(\alpha\), then that hypothesis can be rejected while maintaining a
+FWER of no more than \(\alpha\). In other words, for such methods, the
+adjusted \(p\)-values resulting from the \texttt{multipletests()}
+function can simply be compared to the desired FWER in order to
+determine whether or not to reject each hypothesis. We will later see
+that we can use the same function to control FDR as well.
+
+    The \texttt{mult\_test()} function takes \(p\)-values and a
+\texttt{method} argument, as well as an optional \texttt{alpha}
+argument. It returns the decisions (\texttt{reject} below) as well as
+the adjusted \(p\)-values (\texttt{bonf}).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{reject}\PY{p}{,} \PY{n}{bonf} \PY{o}{=} \PY{n}{mult\PYZus{}test}\PY{p}{(}\PY{n}{fund\PYZus{}mini\PYZus{}pvals}\PY{p}{,} \PY{n}{method} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bonferroni}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{reject}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ True, False, False, False, False])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \(p\)-values \texttt{bonf} are simply the
+\texttt{fund\_mini\_pvalues} multiplied by 5 and truncated to be less
+than or equal to 1.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bonf}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{fund\PYZus{}mini\PYZus{}pvals} \PY{o}{*} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(array([0.03101178, 1.        , 0.05800491, 1.        , 1.        ]),
+ array([0.03101178, 1.        , 0.05800491, 1.        , 1.        ]))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Therefore, using Bonferroni's method, we are able to reject the null
+hypothesis only for Manager One while controlling FWER at \(0.05\).
+
+By contrast, using Holm's method, the adjusted \(p\)-values indicate
+that we can reject the null hypotheses for Managers One and Three at a
+FWER of \(0.05\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{mult\PYZus{}test}\PY{p}{(}\PY{n}{fund\PYZus{}mini\PYZus{}pvals}\PY{p}{,} \PY{n}{method} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{holm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(array([ True, False,  True, False, False]),
+ array([0.03101178, 1.        , 0.04640393, 1.        , 1.        ]))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As discussed previously, Manager One seems to perform particularly well,
+whereas Manager Two has poor performance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fund\PYZus{}mini}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Manager1    3.0
+Manager2   -0.1
+Manager3    2.8
+Manager4    0.5
+Manager5    0.3
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Is there evidence of a meaningful difference in performance between
+these two managers? We can check this by performing a paired \(t\)-test
+using the \texttt{ttest\_rel()} function from \texttt{scipy.stats}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ttest\PYZus{}rel}\PY{p}{(}\PY{n}{fund\PYZus{}mini}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manager1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+          \PY{n}{fund\PYZus{}mini}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manager2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{pvalue}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.038391072368079586
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The test results in a \(p\)-value of 0.038, suggesting a statistically
+significant difference.
+
+However, we decided to perform this test only after examining the data
+and noting that Managers One and Two had the highest and lowest mean
+performances. In a sense, this means that we have implicitly performed
+\({5 \choose 2} = 5(5-1)/2=10\) hypothesis tests, rather than just one,
+as discussed in Section 13.3.2. Hence, we use the
+\texttt{pairwise\_tukeyhsd()} function from
+\texttt{statsmodels.stats.multicomp} to apply Tukey's method in order to
+adjust for multiple testing. This function takes as input a fitted
+\emph{ANOVA} regression model, which is essentially just a linear
+regression in which all of the predictors are qualitative. In this case,
+the response consists of the monthly excess returns achieved by each
+manager, and the predictor indicates the manager to which each return
+corresponds.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{returns} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{[}\PY{n}{fund\PYZus{}mini}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{managers} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{50} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{tukey} \PY{o}{=} \PY{n}{pairwise\PYZus{}tukeyhsd}\PY{p}{(}\PY{n}{returns}\PY{p}{,} \PY{n}{managers}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{tukey}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Multiple Comparison of Means - Tukey HSD, FWER=0.05
+===================================================
+group1 group2 meandiff p-adj   lower  upper  reject
+---------------------------------------------------
+     1      2     -3.1 0.1862 -6.9865 0.7865  False
+     1      3     -0.2 0.9999 -4.0865 3.6865  False
+     1      4     -2.5 0.3948 -6.3865 1.3865  False
+     1      5     -2.7 0.3152 -6.5865 1.1865  False
+     2      3      2.9 0.2453 -0.9865 6.7865  False
+     2      4      0.6 0.9932 -3.2865 4.4865  False
+     2      5      0.4 0.9986 -3.4865 4.2865  False
+     3      4     -2.3  0.482 -6.1865 1.5865  False
+     3      5     -2.5 0.3948 -6.3865 1.3865  False
+     4      5     -0.2 0.9999 -4.0865 3.6865  False
+---------------------------------------------------
+    \end{Verbatim}
+
+    The \texttt{pairwise\_tukeyhsd()} function provides confidence intervals
+for the difference between each pair of managers (\texttt{lower} and
+\texttt{upper}), as well as a \(p\)-value. All of these quantities have
+been adjusted for multiple testing. Notice that the \(p\)-value for the
+difference between Managers One and Two has increased from \(0.038\) to
+\(0.186\), so there is no longer clear evidence of a difference between
+the managers' performances. We can plot the confidence intervals for the
+pairwise comparisons using the \texttt{plot\_simultaneous()} method of
+\texttt{tukey}. Any pair of intervals that don't overlap indicates a
+significant difference at the nominal level of 0.05. In this case, no
+differences are considered significant as reported in the table above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{tukey}\PY{o}{.}\PY{n}{plot\PYZus{}simultaneous}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch13-multiple-lab_files/artifacts/latex/Ch13-multiple-lab_34_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{false-discovery-rate}{%
+\subsection{False Discovery Rate}\label{false-discovery-rate}}
+
+Now we perform hypothesis tests for all 2,000 fund managers in the
+\texttt{Fund} dataset. We perform a one-sample \(t\)-test of
+\(H_{0,j}: \mu_j=0\), which states that the \(j\)th fund manager's mean
+return is zero.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fund\PYZus{}pvalues} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{l+m+mi}{2000}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{manager} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{Fund}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fund\PYZus{}pvalues}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}1samp}\PY{p}{(}\PY{n}{Fund}\PY{p}{[}\PY{n}{manager}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{pvalue}
+\end{Verbatim}
+\end{tcolorbox}
+
+    There are far too many managers to consider trying to control the FWER.
+Instead, we focus on controlling the FDR: that is, the expected fraction
+of rejected null hypotheses that are actually false positives. The
+\texttt{multipletests()} function (abbreviated \texttt{mult\_test()})
+can be used to carry out the Benjamini--Hochberg procedure.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fund\PYZus{}qvalues} \PY{o}{=} \PY{n}{mult\PYZus{}test}\PY{p}{(}\PY{n}{fund\PYZus{}pvalues}\PY{p}{,} \PY{n}{method} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fdr\PYZus{}bh}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{fund\PYZus{}qvalues}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0.08988921, 0.991491  , 0.12211561, 0.92342997, 0.95603587,
+       0.07513802, 0.0767015 , 0.07513802, 0.07513802, 0.07513802])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \emph{q-values} output by the Benjamini--Hochberg procedure can be
+interpreted as the smallest FDR threshold at which we would reject a
+particular null hypothesis. For instance, a \(q\)-value of \(0.1\)
+indicates that we can reject the corresponding null hypothesis at an FDR
+of 10\% or greater, but that we cannot reject the null hypothesis at an
+FDR below 10\%.
+
+If we control the FDR at 10\%, then for how many of the fund managers
+can we reject \(H_{0,j}: \mu_j=0\)?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{fund\PYZus{}qvalues} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.1}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+146
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We find that 146 of the 2,000 fund managers have a \(q\)-value below
+0.1; therefore, we are able to conclude that 146 of the fund managers
+beat the market at an FDR of 10\%. Only about 15 (10\% of 146) of these
+fund managers are likely to be false discoveries.
+
+By contrast, if we had instead used Bonferroni's method to control the
+FWER at level \(\alpha=0.1\), then we would have failed to reject any
+null hypotheses!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{fund\PYZus{}pvalues} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.1} \PY{o}{/} \PY{l+m+mi}{2000}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Figure 13.6 displays the ordered \(p\)-values,
+\(p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(2000)}\), for the
+\texttt{Fund} dataset, as well as the threshold for rejection by the
+Benjamini--Hochberg procedure. Recall that the Benjamini--Hochberg
+procedure identifies the largest \(p\)-value such that \(p_{(j)}<qj/m\),
+and rejects all hypotheses for which the \(p\)-value is less than or
+equal to \(p_{(j)}\). In the code below, we implement the
+Benjamini--Hochberg procedure ourselves, in order to illustrate how it
+works. We first order the \(p\)-values. We then identify all
+\(p\)-values that satisfy \(p_{(j)}<qj/m\) (\texttt{sorted\_set\_}).
+Finally, \texttt{selected\_} is a boolean array indicating which
+\(p\)-values are less than or equal to the largest \(p\)-value in
+\texttt{sorted\_{[}sorted\_set\_{]}}. Therefore, \texttt{selected\_}
+indexes the \(p\)-values rejected by the Benjamini--Hochberg procedure.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sorted\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{fund\PYZus{}pvalues}\PY{p}{)}
+\PY{n}{m} \PY{o}{=} \PY{n}{fund\PYZus{}pvalues}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{q} \PY{o}{=} \PY{l+m+mf}{0.1}
+\PY{n}{sorted\PYZus{}set\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{sorted\PYZus{}} \PY{o}{\PYZlt{}} \PY{n}{q} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{m}\PY{p}{)} \PY{o}{/} \PY{n}{m}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{k}{if} \PY{n}{sorted\PYZus{}set\PYZus{}}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+    \PY{n}{selected\PYZus{}} \PY{o}{=} \PY{n}{fund\PYZus{}pvalues} \PY{o}{\PYZlt{}} \PY{n}{sorted\PYZus{}}\PY{p}{[}\PY{n}{sorted\PYZus{}set\PYZus{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+    \PY{n}{sorted\PYZus{}set\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{sorted\PYZus{}set\PYZus{}}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n}{selected\PYZus{}} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{sorted\PYZus{}set\PYZus{}} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We now reproduce the middle panel of Figure 13.6.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{sorted\PYZus{}}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,}
+           \PY{n}{sorted\PYZus{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{sorted\PYZus{}set\PYZus{}}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{sorted\PYZus{}}\PY{p}{[}\PY{n}{sorted\PYZus{}set\PYZus{}}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axline}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{q}\PY{o}{/}\PY{n}{m}\PY{p}{)}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch13-multiple-lab_files/artifacts/latex/Ch13-multiple-lab_46_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{a-re-sampling-approach}{%
+\subsection{A Re-Sampling Approach}\label{a-re-sampling-approach}}
+
+Here, we implement the re-sampling approach to hypothesis testing using
+the \texttt{Khan} dataset, which we investigated in Section 13.5. First,
+we merge the training and testing data, which results in observations on
+83 patients for 2,308 genes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Khan} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Khan}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}      
+\PY{n}{D} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{Khan}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtrain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{Khan}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{D}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{Khan}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytrain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{Khan}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{D}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Y
+2    29
+4    25
+3    18
+1    11
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There are four classes of cancer. For each gene, we compare the mean
+expression in the second class (rhabdomyosarcoma) to the mean expression
+in the fourth class (Burkitt's lymphoma). Performing a standard
+two-sample \(t\)-test\\
+using \texttt{ttest\_ind()} from \texttt{scipy.stats} on the \(11\)th
+gene produces a test-statistic of -2.09 and an associated \(p\)-value of
+0.0412, suggesting modest evidence of a difference in mean expression
+levels between the two cancer types.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{D2} \PY{o}{=} \PY{n}{D}\PY{p}{[}\PY{k}{lambda} \PY{n}{df}\PY{p}{:}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{D4} \PY{o}{=} \PY{n}{D}\PY{p}{[}\PY{k}{lambda} \PY{n}{df}\PY{p}{:}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{4}\PY{p}{]}
+\PY{n}{gene\PYZus{}11} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G0011}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{observedT}\PY{p}{,} \PY{n}{pvalue} \PY{o}{=} \PY{n}{ttest\PYZus{}ind}\PY{p}{(}\PY{n}{D2}\PY{p}{[}\PY{n}{gene\PYZus{}11}\PY{p}{]}\PY{p}{,}
+                              \PY{n}{D4}\PY{p}{[}\PY{n}{gene\PYZus{}11}\PY{p}{]}\PY{p}{,}
+                              \PY{n}{equal\PYZus{}var}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{observedT}\PY{p}{,} \PY{n}{pvalue}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(-2.0936330736768185, 0.04118643782678394)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    However, this \(p\)-value relies on the assumption that under the null
+hypothesis of no difference between the two groups, the test statistic
+follows a \(t\)-distribution with \(29+25-2=52\) degrees of freedom.
+Instead of using this theoretical null distribution, we can randomly
+split the 54 patients into two groups of 29 and 25, and compute a new
+test statistic. Under the null hypothesis of no difference between the
+groups, this new test statistic should have the same distribution as our
+original one. Repeating this process 10,000 times allows us to
+approximate the null distribution of the test statistic. We compute the
+fraction of the time that our observed test statistic exceeds the test
+statistics obtained via re-sampling.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{B} \PY{o}{=} \PY{l+m+mi}{10000}
+\PY{n}{Tnull} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{n}{B}\PY{p}{)}
+\PY{n}{D\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{[}\PY{n}{D2}\PY{p}{[}\PY{n}{gene\PYZus{}11}\PY{p}{]}\PY{p}{,} \PY{n}{D4}\PY{p}{[}\PY{n}{gene\PYZus{}11}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{n\PYZus{}} \PY{o}{=} \PY{n}{D2}\PY{p}{[}\PY{n}{gene\PYZus{}11}\PY{p}{]}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{D\PYZus{}null} \PY{o}{=} \PY{n}{D\PYZus{}}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{b} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{B}\PY{p}{)}\PY{p}{:}
+    \PY{n}{rng}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{D\PYZus{}null}\PY{p}{)}
+    \PY{n}{ttest\PYZus{}} \PY{o}{=} \PY{n}{ttest\PYZus{}ind}\PY{p}{(}\PY{n}{D\PYZus{}null}\PY{p}{[}\PY{p}{:}\PY{n}{n\PYZus{}}\PY{p}{]}\PY{p}{,}
+                       \PY{n}{D\PYZus{}null}\PY{p}{[}\PY{n}{n\PYZus{}}\PY{p}{:}\PY{p}{]}\PY{p}{,}
+                       \PY{n}{equal\PYZus{}var}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{Tnull}\PY{p}{[}\PY{n}{b}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}}\PY{o}{.}\PY{n}{statistic}
+\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{Tnull}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{observedT}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.9602
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This fraction, 0.0398, is our re-sampling-based \(p\)-value. It is
+almost identical to the \(p\)-value of 0.0412 obtained using the
+theoretical null distribution. We can plot a histogram of the
+re-sampling-based test statistics in order to reproduce Figure 13.7.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{Tnull}\PY{p}{,}
+        \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+        \PY{n}{density}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+        \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Null}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{xval} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.2}\PY{p}{,} \PY{l+m+mf}{4.2}\PY{p}{,} \PY{l+m+mi}{1001}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xval}\PY{p}{,}
+        \PY{n}{t\PYZus{}dbn}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{xval}\PY{p}{,} \PY{n}{D\PYZus{}}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,}
+        \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{observedT}\PY{p}{,}
+           \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Null Distribution of Test Statistic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch13-multiple-lab_files/artifacts/latex/Ch13-multiple-lab_54_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The re-sampling-based null distribution is almost identical to the
+theoretical null distribution, which is displayed in red.
+
+Finally, we implement the plug-in re-sampling FDR approach outlined in
+Algorithm 13.4. Depending on the speed of your computer, calculating the
+FDR for all 2,308 genes in the \texttt{Khan} dataset may take a while.
+Hence, we will illustrate the approach on a random subset of 100 genes.
+For each gene, we first compute the observed test statistic, and then
+produce 10,000 re-sampled test statistics. This may take a few minutes
+to run. If you are in a rush, then you could set \texttt{B} equal to a
+smaller value (e.g.~\texttt{B=500}).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{m}\PY{p}{,} \PY{n}{B} \PY{o}{=} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{10000}
+\PY{n}{idx} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{n}{Khan}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{replace}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{T\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+\PY{n}{Tnull\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{B}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+    \PY{n}{col} \PY{o}{=} \PY{n}{idx}\PY{p}{[}\PY{n}{j}\PY{p}{]}
+    \PY{n}{T\PYZus{}vals}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}ind}\PY{p}{(}\PY{n}{D2}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,}
+                          \PY{n}{D4}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,}
+                          \PY{n}{equal\PYZus{}var}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{statistic}
+    \PY{n}{D\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{[}\PY{n}{D2}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,} \PY{n}{D4}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+    \PY{n}{D\PYZus{}null} \PY{o}{=} \PY{n}{D\PYZus{}}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{b} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{B}\PY{p}{)}\PY{p}{:}
+        \PY{n}{rng}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{D\PYZus{}null}\PY{p}{)}
+        \PY{n}{ttest\PYZus{}} \PY{o}{=} \PY{n}{ttest\PYZus{}ind}\PY{p}{(}\PY{n}{D\PYZus{}null}\PY{p}{[}\PY{p}{:}\PY{n}{n\PYZus{}}\PY{p}{]}\PY{p}{,}
+                           \PY{n}{D\PYZus{}null}\PY{p}{[}\PY{n}{n\PYZus{}}\PY{p}{:}\PY{p}{]}\PY{p}{,}
+                           \PY{n}{equal\PYZus{}var}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{Tnull\PYZus{}vals}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{b}\PY{p}{]} \PY{o}{=} \PY{n}{ttest\PYZus{}}\PY{o}{.}\PY{n}{statistic}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Next, we compute the number of rejected null hypotheses \(R\), the
+estimated number of false positives \(\widehat{V}\), and the estimated
+FDR, for a range of threshold values \(c\) in Algorithm 13.4. The
+threshold values are chosen using the absolute values of the test
+statistics from the 100 genes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cutoffs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{T\PYZus{}vals}\PY{p}{)}\PY{p}{)}
+\PY{n}{FDRs}\PY{p}{,} \PY{n}{Rs}\PY{p}{,} \PY{n}{Vs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{empty}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{m}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+   \PY{n}{R} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{T\PYZus{}vals}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{cutoffs}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+   \PY{n}{V} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{Tnull\PYZus{}vals}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{cutoffs}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{B}
+   \PY{n}{Rs}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{R}
+   \PY{n}{Vs}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{V}
+   \PY{n}{FDRs}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{V} \PY{o}{/} \PY{n}{R}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now, for any given FDR, we can find the genes that will be rejected. For
+example, with FDR controlled at 0.1, we reject 15 of the 100 null
+hypotheses. On average, we would expect about one or two of these genes
+(i.e.~10\% of 15) to be false discoveries. At an FDR of 0.2, we can
+reject the null hypothesis for 28 genes, of which we expect around six
+to be false discoveries.
+
+The variable \texttt{idx} stores which genes were included in our 100
+randomly-selected genes. Let's look at the genes whose estimated FDR is
+less than 0.1.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{idx}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{T\PYZus{}vals}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{cutoffs}\PY{p}{[}\PY{n}{FDRs} \PY{o}{\PYZlt{}} \PY{l+m+mf}{0.1}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['G0097',
+ 'G0129',
+ 'G0182',
+ 'G0714',
+ 'G0812',
+ 'G0941',
+ 'G0982',
+ 'G1020',
+ 'G1022',
+ 'G1090',
+ 'G1320',
+ 'G1634',
+ 'G1697',
+ 'G1853',
+ 'G1854',
+ 'G1994',
+ 'G2017',
+ 'G2115',
+ 'G2193']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    At an FDR threshold of 0.2, more genes are selected, at the cost of
+having a higher expected proportion of false discoveries.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{idx}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{T\PYZus{}vals}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{cutoffs}\PY{p}{[}\PY{n}{FDRs} \PY{o}{\PYZlt{}} \PY{l+m+mf}{0.2}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['G0097',
+ 'G0129',
+ 'G0158',
+ 'G0182',
+ 'G0242',
+ 'G0552',
+ 'G0679',
+ 'G0714',
+ 'G0751',
+ 'G0812',
+ 'G0908',
+ 'G0941',
+ 'G0982',
+ 'G1020',
+ 'G1022',
+ 'G1090',
+ 'G1240',
+ 'G1244',
+ 'G1320',
+ 'G1381',
+ 'G1514',
+ 'G1634',
+ 'G1697',
+ 'G1768',
+ 'G1853',
+ 'G1854',
+ 'G1907',
+ 'G1994',
+ 'G2017',
+ 'G2115',
+ 'G2193']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The next line generates Figure 13.11, which is similar to Figure 13.9,
+except that it is based on only a subset of the genes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Rs}\PY{p}{,} \PY{n}{FDRs}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of Rejections}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{False Discovery Rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch13-multiple-lab_files/artifacts/latex/Ch13-multiple-lab_64_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

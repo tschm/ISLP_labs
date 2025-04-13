@@ -1,0 +1,1895 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Ch07-nonlin-lab}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{non-linear-modeling}{%
+\section{Non-Linear Modeling}\label{non-linear-modeling}}
+
+\href{https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch07-nonlin-lab.ipynb}{\includesvg{https://mybinder.org/badge_logo.svg}}
+
+    In this lab, we demonstrate some of the nonlinear models discussed in
+this chapter. We use the \texttt{Wage} data as a running example, and
+show that many of the complex non-linear fitting procedures discussed
+can easily be implemented in \texttt{Python}.
+
+As usual, we start with some of our standard imports.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}\PY{o}{,}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{subplots}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{load\PYZus{}data}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{summarize}\PY{p}{,}
+                         \PY{n}{poly}\PY{p}{,}
+                         \PY{n}{ModelSpec} \PY{k}{as} \PY{n}{MS}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{anova}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{anova\PYZus{}lm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We again collect the new imports needed for this lab. Many of these are
+developed specifically for the \texttt{ISLP} package.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{pygam}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{s} \PY{k}{as} \PY{n}{s\PYZus{}gam}\PY{p}{,}
+                   \PY{n}{l} \PY{k}{as} \PY{n}{l\PYZus{}gam}\PY{p}{,}
+                   \PY{n}{f} \PY{k}{as} \PY{n}{f\PYZus{}gam}\PY{p}{,}
+                   \PY{n}{LinearGAM}\PY{p}{,}
+                   \PY{n}{LogisticGAM}\PY{p}{)}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{transforms}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{BSpline}\PY{p}{,}
+                             \PY{n}{NaturalSpline}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{bs}\PY{p}{,} \PY{n}{ns}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{pygam}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{approx\PYZus{}lam}\PY{p}{,}
+                        \PY{n}{degrees\PYZus{}of\PYZus{}freedom}\PY{p}{,}
+                        \PY{n}{plot} \PY{k}{as} \PY{n}{plot\PYZus{}gam}\PY{p}{,}
+                        \PY{n}{anova} \PY{k}{as} \PY{n}{anova\PYZus{}gam}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{polynomial-regression-and-step-functions}{%
+\subsection{Polynomial Regression and Step
+Functions}\label{polynomial-regression-and-step-functions}}
+
+We start by demonstrating how Figure 7.1 can be reproduced. Let's begin
+by loading the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Wage} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{age} \PY{o}{=} \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Throughout most of this lab, our response is
+\texttt{Wage{[}\textquotesingle{}wage\textquotesingle{}{]}}, which we
+have stored as \texttt{y} above. As in Section 3.6.6, we will use the
+\texttt{poly()} function to create a model matrix that will fit a
+\(4\)th degree polynomial in \texttt{age}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{poly\PYZus{}age} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{degree}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{M} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{poly\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            coef  std err        t  P>|t|
+intercept               111.7036    0.729  153.283  0.000
+poly(age, degree=4)[0]  447.0679   39.915   11.201  0.000
+poly(age, degree=4)[1] -478.3158   39.915  -11.983  0.000
+poly(age, degree=4)[2]  125.5217   39.915    3.145  0.002
+poly(age, degree=4)[3]  -77.9112   39.915   -1.952  0.051
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This polynomial is constructed using the function \texttt{poly()}, which
+creates a special \emph{transformer} \texttt{Poly()} (using
+\texttt{sklearn} terminology for feature transformations such as
+\texttt{PCA()} seen in Section 6.5.3) which allows for easy evaluation
+of the polynomial at new data points. Here \texttt{poly()} is referred
+to as a \emph{helper} function, and sets up the transformation;
+\texttt{Poly()} is the actual workhorse that computes the
+transformation. See also the discussion of transformations on page 118.
+
+In the code above, the first line executes the \texttt{fit()} method
+using the dataframe \texttt{Wage}. This recomputes and stores as
+attributes any parameters needed by \texttt{Poly()} on the training
+data, and these will be used on all subsequent evaluations of the
+\texttt{transform()} method. For example, it is used on the second line,
+as well as in the plotting function developed below.
+
+    We now create a grid of values for \texttt{age} at which we want
+predictions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{age\PYZus{}grid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{age}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                       \PY{n}{age}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                       \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{age\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{age\PYZus{}grid}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Finally, we wish to plot the data and add the fit from the fourth-degree
+polynomial. As we will make several similar plots below, we first write
+a function to create all the ingredients and produce the plot. Our
+function takes in a model specification (here a basis specified by a
+transform), as well as a grid of \texttt{age} values. The function
+produces a fitted curve as well as 95\% confidence bands. By using an
+argument for \texttt{basis} we can produce and plot the results with
+several different transforms, such as the splines we will see shortly.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{plot\PYZus{}wage\PYZus{}fit}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{p}{,} 
+                  \PY{n}{basis}\PY{p}{,}
+                  \PY{n}{title}\PY{p}{)}\PY{p}{:}
+
+    \PY{n}{X} \PY{o}{=} \PY{n}{basis}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+    \PY{n}{Xnew} \PY{o}{=} \PY{n}{basis}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{p}{)}
+    \PY{n}{M} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+    \PY{n}{preds} \PY{o}{=} \PY{n}{M}\PY{o}{.}\PY{n}{get\PYZus{}prediction}\PY{p}{(}\PY{n}{Xnew}\PY{p}{)}
+    \PY{n}{bands} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{conf\PYZus{}int}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{age}\PY{p}{,}
+               \PY{n}{y}\PY{p}{,}
+               \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+    \PY{k}{for} \PY{n}{val}\PY{p}{,} \PY{n}{ls} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{preds}\PY{o}{.}\PY{n}{predicted\PYZus{}mean}\PY{p}{,}
+                      \PY{n}{bands}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+                      \PY{n}{bands}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                     \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{val}\PY{p}{,} \PY{n}{ls}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{title}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+    \PY{k}{return} \PY{n}{ax}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We include an argument \texttt{alpha} to \texttt{ax.scatter()} to add
+some transparency to the points. This provides a visual indication of
+density. Notice the use of the \texttt{zip()} function in the
+\texttt{for} loop above (see Section 2.3.8). We have three lines to
+plot, each with different colors and line types. Here \texttt{zip()}
+conveniently bundles these together as iterators in the loop. \{In
+\texttt{Python} speak, an ``iterator'' is an object with a finite number
+of values, that can be iterated on, as in a loop.\}
+
+We now plot the fit of the fourth-degree polynomial using this function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}wage\PYZus{}fit}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{p}{,} 
+              \PY{n}{poly\PYZus{}age}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Degree\PYZhy{}4 Polynomial}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_15_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+
+    With polynomial regression we must decide on the degree of the
+polynomial to use. Sometimes we just wing it, and decide to use second
+or third degree polynomials, simply to obtain a nonlinear fit. But we
+can make such a decision in a more systematic way. One way to do this is
+through hypothesis tests, which we demonstrate here. We now fit a series
+of models ranging from linear (degree-one) to degree-five polynomials,
+and look to determine the simplest model that is sufficient to explain
+the relationship between \texttt{wage} and \texttt{age}. We use the
+\texttt{anova\_lm()} function, which performs a series of ANOVA tests.
+An \emph{analysis of
+  variance} or ANOVA tests the null hypothesis that a model
+\(\mathcal{M}_1\) is sufficient to explain the data against the
+alternative hypothesis that a more complex model \(\mathcal{M}_2\) is
+required. The determination is based on an F-test. To perform the test,
+the models \(\mathcal{M}_1\) and \(\mathcal{M}_2\) must be
+\emph{nested}: the space spanned by the predictors in \(\mathcal{M}_1\)
+must be a subspace of the space spanned by the predictors in
+\(\mathcal{M}_2\). In this case, we fit five different polynomial models
+and sequentially compare the simpler model to the more complex model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models} \PY{o}{=} \PY{p}{[}\PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{degree}\PY{o}{=}\PY{n}{d}\PY{p}{)}\PY{p}{]}\PY{p}{)} 
+          \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{]}
+\PY{n}{Xs} \PY{o}{=} \PY{p}{[}\PY{n}{model}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)} \PY{k}{for} \PY{n}{model} \PY{o+ow}{in} \PY{n}{models}\PY{p}{]}
+\PY{n}{anova\PYZus{}lm}\PY{p}{(}\PY{o}{*}\PY{p}{[}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+           \PY{k}{for} \PY{n}{X\PYZus{}} \PY{o+ow}{in} \PY{n}{Xs}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   df\_resid           ssr  df\_diff        ss\_diff           F        Pr(>F)
+0    2998.0  5.022216e+06      0.0            NaN         NaN           NaN
+1    2997.0  4.793430e+06      1.0  228786.010128  143.593107  2.363850e-32
+2    2996.0  4.777674e+06      1.0   15755.693664    9.888756  1.679202e-03
+3    2995.0  4.771604e+06      1.0    6070.152124    3.809813  5.104620e-02
+4    2994.0  4.770322e+06      1.0    1282.563017    0.804976  3.696820e-01
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice the \texttt{*} in the \texttt{anova\_lm()} line above. This
+function takes a variable number of non-keyword arguments, in this case
+fitted models. When these models are provided as a list (as is done
+here), it must be prefixed by \texttt{*}.
+
+The p-value comparing the linear \texttt{models{[}0{]}} to the quadratic
+\texttt{models{[}1{]}} is essentially zero, indicating that a linear fit
+is not sufficient. \{Indexing starting at zero is confusing for the
+polynomial degree example, since \texttt{models{[}1{]}} is quadratic
+rather than linear!\} Similarly the p-value comparing the quadratic
+\texttt{models{[}1{]}} to the cubic \texttt{models{[}2{]}} is very low
+(0.0017), so the quadratic fit is also insufficient. The p-value
+comparing the cubic and degree-four polynomials, \texttt{models{[}2{]}}
+and \texttt{models{[}3{]}}, is approximately 5\%, while the degree-five
+polynomial \texttt{models{[}4{]}} seems unnecessary because its p-value
+is 0.37. Hence, either a cubic or a quartic polynomial appear to provide
+a reasonable fit to the data, but lower- or higher-order models are not
+justified.
+
+In this case, instead of using the \texttt{anova()} function, we could
+have obtained these p-values more succinctly by exploiting the fact that
+\texttt{poly()} creates orthogonal polynomials.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            coef  std err        t  P>|t|
+intercept               111.7036    0.729  153.283  0.000
+poly(age, degree=4)[0]  447.0679   39.915   11.201  0.000
+poly(age, degree=4)[1] -478.3158   39.915  -11.983  0.000
+poly(age, degree=4)[2]  125.5217   39.915    3.145  0.002
+poly(age, degree=4)[3]  -77.9112   39.915   -1.952  0.051
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that the p-values are the same, and in fact the square of the
+t-statistics are equal to the F-statistics from the \texttt{anova\_lm()}
+function; for example:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{11.983}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+143.59228900000002
+\end{Verbatim}
+\end{tcolorbox}
+        
+    However, the ANOVA method works whether or not we used orthogonal
+polynomials, provided the models are nested. For example, we can use
+\texttt{anova\_lm()} to compare the following three models, which all
+have a linear term in \texttt{education} and a polynomial in
+\texttt{age} of different degrees:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models} \PY{o}{=} \PY{p}{[}\PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{degree}\PY{o}{=}\PY{n}{d}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+          \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{]}
+\PY{n}{XEs} \PY{o}{=} \PY{p}{[}\PY{n}{model}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+       \PY{k}{for} \PY{n}{model} \PY{o+ow}{in} \PY{n}{models}\PY{p}{]}
+\PY{n}{anova\PYZus{}lm}\PY{p}{(}\PY{o}{*}\PY{p}{[}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{X\PYZus{}} \PY{o+ow}{in} \PY{n}{XEs}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   df\_resid           ssr  df\_diff        ss\_diff           F        Pr(>F)
+0    2997.0  3.902335e+06      0.0            NaN         NaN           NaN
+1    2996.0  3.759472e+06      1.0  142862.701185  113.991883  3.838075e-26
+2    2995.0  3.753546e+06      1.0    5926.207070    4.728593  2.974318e-02
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As an alternative to using hypothesis tests and ANOVA, we could choose
+the polynomial degree using cross-validation, as discussed in Chapter 5.
+
+Next we consider the task of predicting whether an individual earns more
+than \$250,000 per year. We proceed much as before, except that first we
+create the appropriate response vector, and then apply the
+\texttt{glm()} function using the binomial family in order to fit a
+polynomial logistic regression model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{poly\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{high\PYZus{}earn} \PY{o}{=} \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{high\PYZus{}earn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZgt{}} \PY{l+m+mi}{250} \PY{c+c1}{\PYZsh{} shorthand}
+\PY{n}{glm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{GLM}\PY{p}{(}\PY{n}{y} \PY{o}{\PYZgt{}} \PY{l+m+mi}{250}\PY{p}{,}
+             \PY{n}{X}\PY{p}{,}
+             \PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{Binomial}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{B} \PY{o}{=} \PY{n}{glm}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{B}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                           coef  std err       z  P>|z|
+intercept               -4.3012    0.345 -12.457  0.000
+poly(age, degree=4)[0]  71.9642   26.133   2.754  0.006
+poly(age, degree=4)[1] -85.7729   35.929  -2.387  0.017
+poly(age, degree=4)[2]  34.1626   19.697   1.734  0.083
+poly(age, degree=4)[3] -47.4008   24.105  -1.966  0.049
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Once again, we make predictions using the \texttt{get\_prediction()}
+method.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{newX} \PY{o}{=} \PY{n}{poly\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{p}{)}
+\PY{n}{preds} \PY{o}{=} \PY{n}{B}\PY{o}{.}\PY{n}{get\PYZus{}prediction}\PY{p}{(}\PY{n}{newX}\PY{p}{)}
+\PY{n}{bands} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{conf\PYZus{}int}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We now plot the estimated relationship.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{age} \PY{o}{+}
+           \PY{l+m+mf}{0.2} \PY{o}{*} \PY{n}{rng}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{n}{y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+           \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{high\PYZus{}earn}\PY{p}{,} \PY{l+m+mf}{0.198}\PY{p}{,} \PY{l+m+mf}{0.002}\PY{p}{)}\PY{p}{,}
+           \PY{n}{fc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{val}\PY{p}{,} \PY{n}{ls} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{preds}\PY{o}{.}\PY{n}{predicted\PYZus{}mean}\PY{p}{,}
+                  \PY{n}{bands}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+                  \PY{n}{bands}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                 \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{val}\PY{p}{,} \PY{n}{ls}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Degree\PYZhy{}4 Polynomial}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mf}{0.2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P(Wage \PYZgt{} 250)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We have drawn the \texttt{age} values corresponding to the observations
+with \texttt{wage} values above 250 as gray marks on the top of the
+plot, and those with \texttt{wage} values below 250 are shown as gray
+marks on the bottom of the plot. We added a small amount of noise to
+jitter the \texttt{age} values a bit so that observations with the same
+\texttt{age} value do not cover each other up. This type of plot is
+often called a \emph{rug plot}.
+
+In order to fit a step function, as discussed in Section 7.2, we first
+use the \texttt{pd.qcut()} function to discretize \texttt{age} based on
+quantiles. Then we use \texttt{pd.get\_dummies()} to create the columns
+of the model matrix for this categorical variable. Note that this
+function will include \emph{all} columns for a given categorical, rather
+than the usual approach which drops one of the levels.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cut\PYZus{}age} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{qcut}\PY{p}{(}\PY{n}{age}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{cut\PYZus{}age}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     coef  std err       t  P>|t|
+(17.999, 33.75]   94.1584    1.478  63.692    0.0
+(33.75, 42.0]    116.6608    1.470  79.385    0.0
+(42.0, 51.0]     119.1887    1.416  84.147    0.0
+(51.0, 80.0]     116.5717    1.559  74.751    0.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Here \texttt{pd.qcut()} automatically picked the cutpoints based on the
+quantiles 25\%, 50\% and 75\%, which results in four regions. We could
+also have specified our own quantiles directly instead of the argument
+\texttt{4}. For cuts not based on quantiles we would use the
+\texttt{pd.cut()} function. The function \texttt{pd.qcut()} (and
+\texttt{pd.cut()}) returns an ordered categorical variable. The
+regression model then creates a set of dummy variables for use in the
+regression. Since \texttt{age} is the only variable in the model, the
+value \$94,158.40 is the average salary for those under 33.75 years of
+age, and the other coefficients are the average salary for those in the
+other age groups. We can produce predictions and plots just as we did in
+the case of the polynomial fit.
+
+    \hypertarget{splines}{%
+\subsection{Splines}\label{splines}}
+
+In order to fit regression splines, we use transforms from the
+\texttt{ISLP} package. The actual spline evaluation functions are in the
+\texttt{scipy.interpolate} package; we have simply wrapped them as
+transforms similar to \texttt{Poly()} and \texttt{PCA()}.
+
+In Section 7.4, we saw that regression splines can be fit by
+constructing an appropriate matrix of basis functions. The
+\texttt{BSpline()} function generates the entire matrix of basis
+functions for splines with the specified set of knots. By default, the
+B-splines produced are cubic. To change the degree, use the argument
+\texttt{degree}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bs\PYZus{}} \PY{o}{=} \PY{n}{BSpline}\PY{p}{(}\PY{n}{internal\PYZus{}knots}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{60}\PY{p}{]}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{age}\PY{p}{)}
+\PY{n}{bs\PYZus{}age} \PY{o}{=} \PY{n}{bs\PYZus{}}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{age}\PY{p}{)}
+\PY{n}{bs\PYZus{}age}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(3000, 7)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This results in a seven-column matrix, which is what is expected for a
+cubic-spline basis with 3 interior knots. We can form this same matrix
+using the \texttt{bs()} object, which facilitates adding this to a
+model-matrix builder (as in \texttt{poly()} versus its workhorse
+\texttt{Poly()}) described in Section 7.8.1.
+
+We now fit a cubic spline model to the \texttt{Wage} data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bs\PYZus{}age} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{bs}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{internal\PYZus{}knots}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{60}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{Xbs} \PY{o}{=} \PY{n}{bs\PYZus{}age}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{M} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{Xbs}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                            coef  std err      t  P>|t|
+intercept                                60.4937    9.460  6.394  0.000
+bs(age, internal\_knots=[25, 40, 60])[0]   3.9805   12.538  0.317  0.751
+bs(age, internal\_knots=[25, 40, 60])[1]  44.6310    9.626  4.636  0.000
+bs(age, internal\_knots=[25, 40, 60])[2]  62.8388   10.755  5.843  0.000
+bs(age, internal\_knots=[25, 40, 60])[3]  55.9908   10.706  5.230  0.000
+bs(age, internal\_knots=[25, 40, 60])[4]  50.6881   14.402  3.520  0.000
+bs(age, internal\_knots=[25, 40, 60])[5]  16.6061   19.126  0.868  0.385
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The column names are a little cumbersome, and have caused us to truncate
+the printed summary. They can be set on construction using the
+\texttt{name} argument as follows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bs\PYZus{}age} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{bs}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{n}{internal\PYZus{}knots}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{60}\PY{p}{]}\PY{p}{,}
+                \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bs(age)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{Xbs} \PY{o}{=} \PY{n}{bs\PYZus{}age}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{M} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{Xbs}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               coef  std err      t  P>|t|
+intercept   60.4937    9.460  6.394  0.000
+bs(age)[0]   3.9805   12.538  0.317  0.751
+bs(age)[1]  44.6310    9.626  4.636  0.000
+bs(age)[2]  62.8388   10.755  5.843  0.000
+bs(age)[3]  55.9908   10.706  5.230  0.000
+bs(age)[4]  50.6881   14.402  3.520  0.000
+bs(age)[5]  16.6061   19.126  0.868  0.385
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that there are 6 spline coefficients rather than 7. This is
+because, by default, \texttt{bs()} assumes \texttt{intercept=False},
+since we typically have an overall intercept in the model. So it
+generates the spline basis with the given knots, and then discards one
+of the basis functions to account for the intercept.
+
+We could also use the \texttt{df} (degrees of freedom) option to specify
+the complexity of the spline. We see above that with 3 knots, the spline
+basis has 6 columns or degrees of freedom. When we specify \texttt{df=6}
+rather than the actual knots, \texttt{bs()} will produce a spline with 3
+knots chosen at uniform quantiles of the training data. We can see these
+chosen knots most easily using \texttt{Bspline()} directly:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{BSpline}\PY{p}{(}\PY{n}{df}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{age}\PY{p}{)}\PY{o}{.}\PY{n}{internal\PYZus{}knots\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([33.75, 42.  , 51.  ])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    When asking for six degrees of freedom, the transform chooses knots at
+ages 33.75, 42.0, and 51.0, which correspond to the 25th, 50th, and 75th
+percentiles of \texttt{age}.
+
+When using B-splines we need not limit ourselves to cubic polynomials
+(i.e.~\texttt{degree=3}). For instance, using \texttt{degree=0} results
+in piecewise constant functions, as in our example with
+\texttt{pd.qcut()} above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bs\PYZus{}age0} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{bs}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{df}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} 
+                 \PY{n}{degree}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{Xbs0} \PY{o}{=} \PY{n}{bs\PYZus{}age0}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{Xbs0}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                               coef  std err       t  P>|t|
+intercept                   94.1584    1.478  63.687    0.0
+bs(age, df=3, degree=0)[0]  22.3490    2.152  10.388    0.0
+bs(age, df=3, degree=0)[1]  24.8076    2.044  12.137    0.0
+bs(age, df=3, degree=0)[2]  22.7814    2.087  10.917    0.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This fit should be compared with cell {[}15{]} where we use
+\texttt{qcut()} to create four bins by cutting at the 25\%, 50\% and
+75\% quantiles of \texttt{age}. Since we specified \texttt{df=3} for
+degree-zero splines here, there will also be knots at the same three
+quantiles. Although the coefficients appear different, we see that this
+is a result of the different coding. For example, the first coefficient
+is identical in both cases, and is the mean response in the first bin.
+For the second coefficient, we have
+\(94.158 + 22.349 = 116.507 \approx 116.611\), the latter being the mean
+in the second bin in cell {[}15{]}. Here the intercept is coded by a
+column of ones, so the second, third and fourth coefficients are
+increments for those bins. Why is the sum not exactly the same? It turns
+out that the \texttt{qcut()} uses \(\leq\), while \texttt{bs()} uses
+\(<\) when deciding bin membership.
+
+    In order to fit a natural spline, we use the \texttt{NaturalSpline()}
+transform with the corresponding helper \texttt{ns()}. Here we fit a
+natural spline with five degrees of freedom (excluding the intercept)
+and plot the results.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ns\PYZus{}age} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{ns}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}
+\PY{n}{M\PYZus{}ns} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{ns\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M\PYZus{}ns}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     coef  std err       t  P>|t|
+intercept         60.4752    4.708  12.844  0.000
+ns(age, df=5)[0]  61.5267    4.709  13.065  0.000
+ns(age, df=5)[1]  55.6912    5.717   9.741  0.000
+ns(age, df=5)[2]  46.8184    4.948   9.463  0.000
+ns(age, df=5)[3]  83.2036   11.918   6.982  0.000
+ns(age, df=5)[4]   6.8770    9.484   0.725  0.468
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We now plot the natural spline using our plotting function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}wage\PYZus{}fit}\PY{p}{(}\PY{n}{age\PYZus{}df}\PY{p}{,}
+              \PY{n}{ns\PYZus{}age}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Natural spline, df=5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_48_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{smoothing-splines-and-gams}{%
+\subsection{Smoothing Splines and
+GAMs}\label{smoothing-splines-and-gams}}
+
+A smoothing spline is a special case of a GAM with squared-error loss
+and a single feature. To fit GAMs in \texttt{Python} we will use the
+\texttt{pygam} package which can be installed via
+\texttt{pip\ install\ pygam}. The estimator \texttt{LinearGAM()} uses
+squared-error loss. The GAM is specified by associating each column of a
+model matrix with a particular smoothing operation: \texttt{s} for
+smoothing spline; \texttt{l} for linear, and \texttt{f} for factor or
+categorical variables. The argument \texttt{0} passed to \texttt{s}
+below indicates that this smoother will apply to the first column of a
+feature matrix. Below, we pass it a matrix with a single column:
+\texttt{X\_age}. The argument \texttt{lam} is the penalty parameter
+\(\lambda\) as discussed in Section 7.5.2.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}age} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{age}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{s\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LinearGAM(callbacks=[Deviance(), Diffs()], fit\_intercept=True,
+   max\_iter=100, scale=None, terms=s(0) + intercept, tol=0.0001,
+   verbose=False)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{pygam} library generally expects a matrix of features so we
+reshape \texttt{age} to be a matrix (a two-dimensional array) instead of
+a vector (i.e.~a one-dimensional array). The \texttt{-1} in the call to
+the \texttt{reshape()} method tells \texttt{numpy} to impute the size of
+that dimension based on the remaining entries of the shape tuple.
+
+Let's investigate how the fit changes with the smoothing parameter
+\texttt{lam}. The function \texttt{np.logspace()} is similar to
+\texttt{np.linspace()} but spaces points evenly on the log-scale. Below
+we vary \texttt{lam} from \(10^{-2}\) to \(10^6\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{age}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{k}{for} \PY{n}{lam} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{logspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{:}
+    \PY{n}{gam} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{s\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{n}{lam}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,}
+            \PY{n}{gam}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{)}\PY{p}{,}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}:.1e\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{lam}\PY{p}{)}\PY{p}{,}
+            \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lambda\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_52_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The \texttt{pygam} package can perform a search for an optimal smoothing
+parameter.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}opt} \PY{o}{=} \PY{n}{gam}\PY{o}{.}\PY{n}{gridsearch}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,}
+        \PY{n}{gam\PYZus{}opt}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{)}\PY{p}{,}
+        \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grid search}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,0,0}}{  0\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,0,0}}{(0 of 11)} |
+| Elapsed Time: 0:00:00 ETA:  --:--:--
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,105,0}}{ 18\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,105,0}}{(2 of 11)} |\#\#\#\#
+| Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,156,0}}{ 36\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,156,0}}{(4 of 11)} |\#\#\#\#\#\#\#\#\#
+| Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,189,0}}{ 45\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{255,189,0}}{(5 of 11)} |\#\#\#\#\#\#\#\#\#\#\#
+| Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{236,255,0}}{ 63\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{236,255,0}}{(7 of 11)} |\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
+| Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{185,255,0}}{ 81\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{185,255,0}}{(9 of 11)}
+|\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#     | Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{160,255,0}}{ 90\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{160,255,0}}{(10 of 11)}
+|\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#   | Elapsed Time: 0:00:00 ETA:   0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,255,0}}{100\%} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,255,0}}{(11 of 11)}
+|\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#| Elapsed Time: 0:00:00 Time:  0:00:00
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+ 
+            
+\prompt{Out}{outcolor}{25}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_54_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    Alternatively, we can fix the degrees of freedom of the smoothing spline
+using a function included in the \texttt{ISLP.pygam} package. Below we
+find a value of \(\lambda\) that gives us roughly four degrees of
+freedom. We note here that these degrees of freedom include the
+unpenalized intercept and linear term of the smoothing spline, hence
+there are at least two degrees of freedom.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{age\PYZus{}term} \PY{o}{=} \PY{n}{gam}\PY{o}{.}\PY{n}{terms}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{lam\PYZus{}4} \PY{o}{=} \PY{n}{approx\PYZus{}lam}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{age\PYZus{}term}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{age\PYZus{}term}\PY{o}{.}\PY{n}{lam} \PY{o}{=} \PY{n}{lam\PYZus{}4}
+\PY{n}{degrees\PYZus{}of\PYZus{}freedom}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{age\PYZus{}term}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+4.000000100001664
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's vary the degrees of freedom in a similar plot to above. We choose
+the degrees of freedom as the desired degrees of freedom plus one to
+account for the fact that these smoothing splines always have an
+intercept term. Hence, a value of one for \texttt{df} is just a linear
+fit.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,}
+           \PY{n}{y}\PY{p}{,}
+           \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{k}{for} \PY{n}{df} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{]}\PY{p}{:}
+    \PY{n}{lam} \PY{o}{=} \PY{n}{approx\PYZus{}lam}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{age\PYZus{}term}\PY{p}{,} \PY{n}{df}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{age\PYZus{}term}\PY{o}{.}\PY{n}{lam} \PY{o}{=} \PY{n}{lam}
+    \PY{n}{gam}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}age}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,}
+            \PY{n}{gam}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{)}\PY{p}{,}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}:d\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{,}
+            \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Degrees of freedom}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{additive-models-with-several-terms}{%
+\subsubsection{Additive Models with Several
+Terms}\label{additive-models-with-several-terms}}
+
+The strength of generalized additive models lies in their ability to fit
+multivariate regression models with more flexibility than linear models.
+We demonstrate two approaches: the first in a more manual fashion using
+natural splines and piecewise constant functions, and the second using
+the \texttt{pygam} package and smoothing splines.
+
+We now fit a GAM by hand to predict \texttt{wage} using natural spline
+functions of \texttt{year} and \texttt{age}, treating \texttt{education}
+as a qualitative predictor, as in (7.16). Since this is just a big
+linear regression model using an appropriate choice of basis functions,
+we can simply do this using the \texttt{sm.OLS()} function.
+
+We will build the model matrix in a more manual fashion here, since we
+wish to access the pieces separately when constructing partial
+dependence plots.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ns\PYZus{}age} \PY{o}{=} \PY{n}{NaturalSpline}\PY{p}{(}\PY{n}{df}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{age}\PY{p}{)}
+\PY{n}{ns\PYZus{}year} \PY{o}{=} \PY{n}{NaturalSpline}\PY{p}{(}\PY{n}{df}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{Xs} \PY{o}{=} \PY{p}{[}\PY{n}{ns\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{age}\PY{p}{)}\PY{p}{,}
+      \PY{n}{ns\PYZus{}year}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+      \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{values}\PY{p}{]}
+\PY{n}{X\PYZus{}bh} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{n}{Xs}\PY{p}{)}
+\PY{n}{gam\PYZus{}bh} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}bh}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Here the function \texttt{NaturalSpline()} is the workhorse supporting
+the \texttt{ns()} helper function. We chose to use all columns of the
+indicator matrix for the categorical variable \texttt{education}, making
+an intercept redundant. Finally, we stacked the three component matrices
+horizontally to form the model matrix \texttt{X\_bh}.
+
+We now show how to construct partial dependence plots for each of the
+terms in our rudimentary GAM. We can do this by hand, given grids for
+\texttt{age} and \texttt{year}. We simply predict with new \(X\)
+matrices, fixing all but one of the features at a time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{age\PYZus{}grid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{age}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                       \PY{n}{age}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                       \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{X\PYZus{}age\PYZus{}bh} \PY{o}{=} \PY{n}{X\PYZus{}bh}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{100}\PY{p}{]}
+\PY{n}{X\PYZus{}age\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{X\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}
+\PY{n}{X\PYZus{}age\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{ns\PYZus{}age}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{)}
+\PY{n}{preds} \PY{o}{=} \PY{n}{gam\PYZus{}bh}\PY{o}{.}\PY{n}{get\PYZus{}prediction}\PY{p}{(}\PY{n}{X\PYZus{}age\PYZus{}bh}\PY{p}{)}
+\PY{n}{bounds\PYZus{}age} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{conf\PYZus{}int}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}
+\PY{n}{partial\PYZus{}age} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{predicted\PYZus{}mean}
+\PY{n}{center} \PY{o}{=} \PY{n}{partial\PYZus{}age}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{partial\PYZus{}age} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{center}
+\PY{n}{bounds\PYZus{}age} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{center}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,} \PY{n}{partial\PYZus{}age}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,} \PY{n}{bounds\PYZus{}age}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,} \PY{n}{bounds\PYZus{}age}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of age on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_62_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Let's explain in some detail what we did above. The idea is to create a
+new prediction matrix, where all but the columns belonging to
+\texttt{age} are constant (and set to their training-data means). The
+four columns for \texttt{age} are filled in with the natural spline
+basis evaluated at the 100 values in \texttt{age\_grid}.
+
+\begin{itemize}
+\tightlist
+\item
+  We made a grid of length 100 in \texttt{age}, and created a matrix
+  \texttt{X\_age\_bh} with 100 rows and the same number of columns as
+  \texttt{X\_bh}.
+\item
+  We replaced every row of this matrix with the column means of the
+  original.
+\item
+  We then replace just the first four columns representing \texttt{age}
+  with the natural spline basis computed at the values in
+  \texttt{age\_grid}.
+\end{itemize}
+
+The remaining steps should by now be familiar.
+
+We also look at the effect of \texttt{year} on \texttt{wage}; the
+process is the same.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{year\PYZus{}grid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{2003}\PY{p}{,} \PY{l+m+mi}{2009}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{year\PYZus{}grid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                        \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                        \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{X\PYZus{}year\PYZus{}bh} \PY{o}{=} \PY{n}{X\PYZus{}bh}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{100}\PY{p}{]}
+\PY{n}{X\PYZus{}year\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{X\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}
+\PY{n}{X\PYZus{}year\PYZus{}bh}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]} \PY{o}{=} \PY{n}{ns\PYZus{}year}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{year\PYZus{}grid}\PY{p}{)}
+\PY{n}{preds} \PY{o}{=} \PY{n}{gam\PYZus{}bh}\PY{o}{.}\PY{n}{get\PYZus{}prediction}\PY{p}{(}\PY{n}{X\PYZus{}year\PYZus{}bh}\PY{p}{)}
+\PY{n}{bounds\PYZus{}year} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{conf\PYZus{}int}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}
+\PY{n}{partial\PYZus{}year} \PY{o}{=} \PY{n}{preds}\PY{o}{.}\PY{n}{predicted\PYZus{}mean}
+\PY{n}{center} \PY{o}{=} \PY{n}{partial\PYZus{}year}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{partial\PYZus{}year} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{center}
+\PY{n}{bounds\PYZus{}year} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{center}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{year\PYZus{}grid}\PY{p}{,} \PY{n}{partial\PYZus{}year}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{year\PYZus{}grid}\PY{p}{,} \PY{n}{bounds\PYZus{}year}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{year\PYZus{}grid}\PY{p}{,} \PY{n}{bounds\PYZus{}year}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of year on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_64_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We now fit the model (7.16) using smoothing splines rather than natural
+splines. All of the terms in (7.16) are fit simultaneously, taking each
+other into account to explain the response. The \texttt{pygam} package
+only works with matrices, so we must convert the categorical series
+\texttt{education} to its array representation, which can be found with
+the \texttt{cat.codes} attribute of \texttt{education}. As \texttt{year}
+only has 7 unique values, we use only seven basis functions for it.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}full} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{s\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+}
+                     \PY{n}{s\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{n\PYZus{}splines}\PY{o}{=}\PY{l+m+mi}{7}\PY{p}{)} \PY{o}{+}
+                     \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{Xgam} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{[}\PY{n}{age}\PY{p}{,}
+                        \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                        \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{cat}\PY{o}{.}\PY{n}{codes}\PY{p}{]}\PY{p}{)}
+\PY{n}{gam\PYZus{}full} \PY{o}{=} \PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The two \texttt{s\_gam()} terms result in smoothing spline fits, and use
+a default value for \(\lambda\) (\texttt{lam=0.6}), which is somewhat
+arbitrary. For the categorical term \texttt{education}, specified using
+a \texttt{f\_gam()} term, we specify \texttt{lam=0} to avoid any
+shrinkage. We produce the partial dependence plot in \texttt{age} to see
+the effect of these choices.
+
+The values for the plot are generated by the \texttt{pygam} package. We
+provide a \texttt{plot\_gam()} function for partial-dependence plots in
+\texttt{ISLP.pygam}, which makes this job easier than in our last
+example with natural splines.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}full}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of age on wage \PYZhy{} default lam=0.6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_68_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We see that the function is somewhat wiggly. It is more natural to
+specify the \texttt{df} than a value for \texttt{lam}. We refit a GAM
+using four degrees of freedom each for \texttt{age} and \texttt{year}.
+Recall that the addition of one below takes into account the intercept
+of the smoothing spline.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{age\PYZus{}term} \PY{o}{=} \PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{terms}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{age\PYZus{}term}\PY{o}{.}\PY{n}{lam} \PY{o}{=} \PY{n}{approx\PYZus{}lam}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{age\PYZus{}term}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{l+m+mi}{4}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{year\PYZus{}term} \PY{o}{=} \PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{terms}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{year\PYZus{}term}\PY{o}{.}\PY{n}{lam} \PY{o}{=} \PY{n}{approx\PYZus{}lam}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{year\PYZus{}term}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{l+m+mi}{4}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{gam\PYZus{}full} \PY{o}{=} \PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Note that updating \texttt{age\_term.lam} above updates it in
+\texttt{gam\_full.terms{[}0{]}} as well! Likewise for
+\texttt{year\_term.lam}.
+
+Repeating the plot for \texttt{age}, we see that it is much smoother. We
+also produce the plot for \texttt{year}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}full}\PY{p}{,}
+         \PY{l+m+mi}{1}\PY{p}{,}
+         \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of year on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 1.0, 'Partial dependence of year on wage')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_72_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Finally we plot \texttt{education}, which is categorical. The partial
+dependence plot is different, and more suitable for the set of fitted
+constants for each level of this variable.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}full}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of wage on education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{cat}\PY{o}{.}\PY{n}{categories}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_74_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{anova-tests-for-additive-models}{%
+\subsubsection{ANOVA Tests for Additive
+Models}\label{anova-tests-for-additive-models}}
+
+In all of our models, the function of \texttt{year} looks rather linear.
+We can perform a series of ANOVA tests in order to determine which of
+these three models is best: a GAM that excludes \texttt{year}
+(\(\mathcal{M}_1\)), a GAM that uses a linear function of \texttt{year}
+(\(\mathcal{M}_2\)), or a GAM that uses a spline function of
+\texttt{year} (\(\mathcal{M}_3\)).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}0} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{age\PYZus{}term} \PY{o}{+} \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}0}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\PY{n}{gam\PYZus{}linear} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{age\PYZus{}term} \PY{o}{+}
+                       \PY{n}{l\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+}
+                       \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}linear}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LinearGAM(callbacks=[Deviance(), Diffs()], fit\_intercept=True,
+   max\_iter=100, scale=None, terms=s(0) + l(1) + f(2) + intercept,
+   tol=0.0001, verbose=False)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice our use of \texttt{age\_term} in the expressions above. We do
+this because earlier we set the value for \texttt{lam} in this term to
+achieve four degrees of freedom.
+
+To directly assess the effect of \texttt{year} we run an ANOVA on the
+three models fit above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{anova\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}0}\PY{p}{,} \PY{n}{gam\PYZus{}linear}\PY{p}{,} \PY{n}{gam\PYZus{}full}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       deviance           df  deviance\_diff   df\_diff          F    pvalue
+0  3.714362e+06  2991.004005            NaN       NaN        NaN       NaN
+1  3.696746e+06  2990.005190   17616.542840  0.998815  14.265131  0.002314
+2  3.693143e+06  2987.007254    3602.893655  2.997936   0.972007  0.435579
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We find that there is compelling evidence that a GAM with a linear
+function in \texttt{year} is better than a GAM that does not include
+\texttt{year} at all (\(p\)-value= 0.002). However, there is no evidence
+that a non-linear function of \texttt{year} is needed
+(\(p\)-value=0.435). In other words, based on the results of this ANOVA,
+\(\mathcal{M}_2\) is preferred.
+
+We can repeat the same process for \texttt{age} as well. We see there is
+very clear evidence that a non-linear term is required for \texttt{age}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}0} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{year\PYZus{}term} \PY{o}{+}
+                  \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}linear} \PY{o}{=} \PY{n}{LinearGAM}\PY{p}{(}\PY{n}{l\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+}
+                       \PY{n}{year\PYZus{}term} \PY{o}{+}
+                       \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}0}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\PY{n}{gam\PYZus{}linear}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\PY{n}{anova\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}0}\PY{p}{,} \PY{n}{gam\PYZus{}linear}\PY{p}{,} \PY{n}{gam\PYZus{}full}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       deviance           df  deviance\_diff   df\_diff           F  \textbackslash{}
+0  3.975443e+06  2991.000589            NaN       NaN         NaN
+1  3.850247e+06  2990.000704  125196.137317  0.999884  101.270106
+2  3.693143e+06  2987.007254  157103.978302  2.993450   42.447812
+
+         pvalue
+0           NaN
+1  1.681120e-07
+2  5.669414e-07
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There is a (verbose) \texttt{summary()} method for the GAM fit.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+LinearGAM
+===============================================
+==========================================================
+Distribution:                        NormalDist Effective DoF:
+12.9927
+Link Function:                     IdentityLink Log Likelihood:
+-24117.907
+Number of Samples:                         3000 AIC:
+48263.7995
+                                                AICc:
+48263.94
+                                                GCV:
+1246.1129
+                                                Scale:
+1236.4024
+                                                Pseudo R-Squared:
+0.2928
+================================================================================
+==========================
+Feature Function                  Lambda               Rank         EDoF
+P > x        Sig. Code
+================================= ==================== ============ ============
+============ ============
+s(0)                              [465.0491]           20           5.1
+1.11e-16     ***
+s(1)                              [2.1564]             7            4.0
+8.10e-03     **
+f(2)                              [0]                  5            4.0
+1.11e-16     ***
+intercept                                              1            0.0
+1.11e-16     ***
+================================================================================
+==========================
+Significance codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+WARNING: Fitting splines and a linear function to a feature introduces a model
+identifiability problem
+         which can cause p-values to appear significant when they are not.
+
+WARNING: p-values calculated in this manner behave correctly for un-penalized
+models or models with
+         known smoothing parameters, but when smoothing parameters have been
+estimated, the p-values
+         are typically lower than they should be, meaning that the tests reject
+the null too readily.
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/16/8y65\_zv174qgdp4ktlmpv12h0000gq/T/ipykernel\_70598/2135516388.py:1
+: UserWarning: KNOWN BUG: p-values computed in this summary are likely much
+smaller than they should be.
+
+Please do not make inferences based on these values!
+
+Collaborate on a solution, and stay up to date at:
+github.com/dswah/pyGAM/issues/163
+
+  gam\_full.summary()
+    \end{Verbatim}
+
+    We can make predictions from \texttt{gam} objects, just like from
+\texttt{lm} objects, using the \texttt{predict()} method for the class
+\texttt{gam}. Here we make predictions on the training set.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Yhat} \PY{o}{=} \PY{n}{gam\PYZus{}full}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{Xgam}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    In order to fit a logistic regression GAM, we use \texttt{LogisticGAM()}
+from \texttt{pygam}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}logit} \PY{o}{=} \PY{n}{LogisticGAM}\PY{p}{(}\PY{n}{age\PYZus{}term} \PY{o}{+} 
+                        \PY{n}{l\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+}
+                        \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}logit}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam}\PY{p}{,} \PY{n}{high\PYZus{}earn}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit\_intercept=True, max\_iter=100,
+   terms=s(0) + l(1) + f(2) + intercept, tol=0.0001, verbose=False)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}logit}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of wage on education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{cat}\PY{o}{.}\PY{n}{categories}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_87_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The model seems to be very flat, with especially high error bars for the
+first category. Let's look at the data a bit more closely.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{high\PYZus{}earn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+education  1. < HS Grad  2. HS Grad  3. Some College  4. College Grad  \textbackslash{}
+high\_earn
+False               268         966              643              663
+True                  0           5                7               22
+
+education  5. Advanced Degree
+high\_earn
+False                     381
+True                       45
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We see that there are no high earners in the first category of
+education, meaning that the model will have a hard time fitting. We will
+fit a logistic regression GAM excluding all observations falling into
+this category. This provides more sensible results.
+
+To do so, we could subset the model matrix, though this will not remove
+the column from \texttt{Xgam}. While we can deduce which column
+corresponds to this feature, for reproducibility's sake we reform the
+model matrix on this smaller subset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{only\PYZus{}hs} \PY{o}{=} \PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1. \PYZlt{} HS Grad}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{Wage\PYZus{}} \PY{o}{=} \PY{n}{Wage}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{only\PYZus{}hs}\PY{p}{]}
+\PY{n}{Xgam\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{[}\PY{n}{Wage\PYZus{}}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                         \PY{n}{Wage\PYZus{}}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                         \PY{n}{Wage\PYZus{}}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{cat}\PY{o}{.}\PY{n}{codes}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{high\PYZus{}earn\PYZus{}} \PY{o}{=} \PY{n}{Wage\PYZus{}}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{high\PYZus{}earn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    In the second-to-last line above, we subtract one from the codes of the
+category, due to a bug in \texttt{pygam}. It just relabels the education
+values and hence has no effect on the fit.
+
+We now fit the model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gam\PYZus{}logit\PYZus{}} \PY{o}{=} \PY{n}{LogisticGAM}\PY{p}{(}\PY{n}{age\PYZus{}term} \PY{o}{+}
+                         \PY{n}{year\PYZus{}term} \PY{o}{+}
+                         \PY{n}{f\PYZus{}gam}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{lam}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\PY{n}{gam\PYZus{}logit\PYZus{}}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Xgam\PYZus{}}\PY{p}{,} \PY{n}{high\PYZus{}earn\PYZus{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit\_intercept=True, max\_iter=100,
+   terms=s(0) + s(1) + f(2) + intercept, tol=0.0001, verbose=False)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's look at the effect of \texttt{education}, \texttt{year} and
+\texttt{age} on high earner status now that we've removed those
+observations.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}logit\PYZus{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of high earner status on education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{Wage}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{education}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{cat}\PY{o}{.}\PY{n}{categories}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]}\PY{p}{,}
+                   \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_95_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}logit\PYZus{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of high earner status on year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_96_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot\PYZus{}gam}\PY{p}{(}\PY{n}{gam\PYZus{}logit\PYZus{}}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Effect on wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Partial dependence of high earner status on age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_97_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{local-regression}{%
+\subsection{Local Regression}\label{local-regression}}
+
+We illustrate the use of local regression using the \texttt{lowess()}
+function from \texttt{sm.nonparametric}. Some implementations of GAMs
+allow terms to be local regression operators; this is not the case in
+\texttt{pygam}.
+
+Here we fit local linear regression models using spans of 0.2 and 0.5;
+that is, each neighborhood consists of 20\% or 50\% of the observations.
+As expected, using a span of 0.5 is smoother than 0.2.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lowess} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{nonparametric}\PY{o}{.}\PY{n}{lowess}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{age}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{k}{for} \PY{n}{span} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{:}
+    \PY{n}{fitted} \PY{o}{=} \PY{n}{lowess}\PY{p}{(}\PY{n}{y}\PY{p}{,}
+                    \PY{n}{age}\PY{p}{,}
+                    \PY{n}{frac}\PY{o}{=}\PY{n}{span}\PY{p}{,}
+                    \PY{n}{xvals}\PY{o}{=}\PY{n}{age\PYZus{}grid}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{age\PYZus{}grid}\PY{p}{,}
+            \PY{n}{fitted}\PY{p}{,}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}:.1f\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{span}\PY{p}{)}\PY{p}{,}
+            \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{;}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{span}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch07-nonlin-lab_files/artifacts/latex/Ch07-nonlin-lab_99_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
