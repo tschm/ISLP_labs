@@ -1,0 +1,3582 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Ch02-statlearn-lab}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{introduction-to-python}{%
+\section{Introduction to Python}\label{introduction-to-python}}
+
+\href{https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch02-statlearn-lab.ipynb}{\includesvg{https://mybinder.org/badge_logo.svg}}
+
+    \hypertarget{getting-started}{%
+\subsection{Getting Started}\label{getting-started}}
+
+    To run the labs in this book, you will need two things:
+
+\begin{itemize}
+\tightlist
+\item
+  An installation of \texttt{Python3}, which is the specific version of
+  \texttt{Python} used in the labs.
+\item
+  Access to \texttt{Jupyter}, a very popular \texttt{Python} interface
+  that runs code through a file called a \emph{notebook}.
+\end{itemize}
+
+    You can download and install \texttt{Python3} by following the
+instructions available at \href{http://anaconda.com}{anaconda.com}.
+
+    There are a number of ways to get access to \texttt{Jupyter}. Here are
+just a few:
+
+\begin{itemize}
+\tightlist
+\item
+  Using Google's \texttt{Colaboratory} service:
+  \href{https://colab.research.google.com/}{colab.research.google.com/}.
+\item
+  Using \texttt{JupyterHub}, available at
+  \href{https://jupyter.org/hub}{jupyter.org/hub}.
+\item
+  Using your own \texttt{jupyter} installation. Installation
+  instructions are available at
+  \href{https://jupyter.org/install}{jupyter.org/install}.
+\end{itemize}
+
+Please see the \texttt{Python} resources page on the book website
+\href{https://www.statlearning.com}{statlearning.com} for up-to-date
+information about getting \texttt{Python} and \texttt{Jupyter} working
+on your computer.
+
+You will need to install the \texttt{ISLP} package, which provides
+access to the datasets and custom-built functions that we provide.
+Inside a macOS or Linux terminal type \texttt{pip\ install\ ISLP}; this
+also installs most other packages needed in the labs. The
+\texttt{Python} resources page has a link to the \texttt{ISLP}
+documentation website.
+
+To run this lab, download the file \texttt{Ch2-statlearn-lab.ipynb} from
+the \texttt{Python} resources page. Now run the following code at the
+command line: \texttt{jupyter\ lab\ Ch2-statlearn-lab.ipynb}.
+
+If you're using Windows, you can use the \texttt{start\ menu} to access
+\texttt{anaconda}, and follow the links. For example, to install
+\texttt{ISLP} and run this lab, you can run the same code above in an
+\texttt{anaconda} shell.
+
+    \hypertarget{basic-commands}{%
+\subsection{Basic Commands}\label{basic-commands}}
+
+    In this lab, we will introduce some simple \texttt{Python} commands. For
+more resources about \texttt{Python} in general, readers may want to
+consult the tutorial at
+\href{https://docs.python.org/3/tutorial/}{docs.python.org/3/tutorial/}.
+
+    Like most programming languages, \texttt{Python} uses \emph{functions}
+to perform operations. To run a function called \texttt{fun}, we type
+\texttt{fun(input1,input2)}, where the inputs (or \emph{arguments})
+\texttt{input1} and \texttt{input2} tell \texttt{Python} how to run the
+function. A function can have any number of inputs. For example, the
+\texttt{print()} function outputs a text representation of all of its
+arguments to the console.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fit a model with}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{11}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+fit a model with 11 variables
+    \end{Verbatim}
+
+    The following command will provide information about the
+\texttt{print()} function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+print\PY{o}{?}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textcolor{ansi-red}{Signature:} print(*args, sep=\textcolor{ansi-yellow}{' '}, end=\textcolor{ansi-yellow}{'\textbackslash{}n'}, file=\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{None}}, flush=\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{False}})
+\textcolor{ansi-red}{Docstring:}
+Prints the values to a stream, or to sys.stdout by default.
+
+sep
+  string inserted between values, default a space.
+end
+  string appended after the last value, default a newline.
+file
+  a file-like object (stream); defaults to the current sys.stdout.
+flush
+  whether to forcibly flush the stream.
+\textcolor{ansi-red}{Type:}      builtin\_function\_or\_method
+    \end{Verbatim}
+
+    
+    Adding two integers in \texttt{Python} is pretty intuitive.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+m+mi}{3} \PY{o}{+} \PY{l+m+mi}{5}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+8
+\end{Verbatim}
+\end{tcolorbox}
+        
+    In \texttt{Python}, textual data is handled using \emph{strings}. For
+instance, \texttt{"hello"} and
+\texttt{\textquotesingle{}hello\textquotesingle{}} are strings. We can
+concatenate them using the addition \texttt{+} symbol.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hello}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{world}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'hello world'
+\end{Verbatim}
+\end{tcolorbox}
+        
+    A string is actually a type of \emph{sequence}: this is a generic term
+for an ordered list. The three most important types of sequences are
+lists, tuples, and strings.\\
+We introduce lists now.
+
+    The following command instructs \texttt{Python} to join together the
+numbers 3, 4, and 5, and to save them as a \emph{list} named \texttt{x}.
+When we type \texttt{x}, it gives us back the list.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}
+\PY{n}{x}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[3, 4, 5]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Note that we used the brackets \texttt{{[}{]}} to construct this list.
+
+We will often want to add two sets of numbers together. It is reasonable
+to try the following code, though it will not produce the desired
+results.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{]}
+\PY{n}{x} \PY{o}{+} \PY{n}{y}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[3, 4, 5, 4, 9, 7]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The result may appear slightly counterintuitive: why did \texttt{Python}
+not add the entries of the lists element-by-element? In \texttt{Python},
+lists hold \emph{arbitrary} objects, and are added using
+\emph{concatenation}. In fact, concatenation is the behavior that we saw
+earlier when we entered \texttt{"hello"\ +\ "\ "\ +\ "world"}.
+
+    This example reflects the fact that \texttt{Python} is a general-purpose
+programming language. Much of \texttt{Python}'s data-specific
+functionality comes from other packages, notably \texttt{numpy} and
+\texttt{pandas}. In the next section, we will introduce the
+\texttt{numpy} package. See
+\href{https://docs.scipy.org/doc/numpy/user/quickstart.html}{docs.scipy.org/doc/numpy/user/quickstart.html}
+for more information about \texttt{numpy}.
+
+    \hypertarget{introduction-to-numerical-python}{%
+\subsection{Introduction to Numerical
+Python}\label{introduction-to-numerical-python}}
+
+As mentioned earlier, this book makes use of functionality that is
+contained in the \texttt{numpy} \emph{library}, or \emph{package}. A
+package is a collection of modules that are not necessarily included in
+the base \texttt{Python} distribution. The name \texttt{numpy} is an
+abbreviation for \emph{numerical Python}.
+
+    To access \texttt{numpy}, we must first \texttt{import} it.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    In the previous line, we named the \texttt{numpy} \emph{module}
+\texttt{np}; an abbreviation for easier referencing.
+
+    In \texttt{numpy}, an \emph{array} is a generic term for a
+multidimensional set of numbers. We use the \texttt{np.array()} function
+to define \texttt{x} and \texttt{y}, which are one-dimensional arrays,
+i.e.~vectors.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Note that if you forgot to run the \texttt{import\ numpy\ as\ np}
+command earlier, then you will encounter an error in calling the
+\texttt{np.array()} function in the previous line. The syntax
+\texttt{np.array()} indicates that the function being called is part of
+the \texttt{numpy} package, which we have abbreviated as \texttt{np}.
+
+    Since \texttt{x} and \texttt{y} have been defined using
+\texttt{np.array()}, we get a sensible result when we add them together.
+Compare this to our results in the previous section, when we tried to
+add two lists without using \texttt{numpy}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{+} \PY{n}{y}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 7, 13, 12])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    In \texttt{numpy}, matrices are typically represented as two-dimensional
+arrays, and vectors as one-dimensional arrays. \{While it is also
+possible to create matrices using \texttt{np.matrix()}, we will use
+\texttt{np.array()} throughout the labs in this book.\} We can create a
+two-dimensional array as follows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{x}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[1, 2],
+       [3, 4]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    The object \texttt{x} has several \emph{attributes}, or associated
+objects. To access an attribute of \texttt{x}, we type
+\texttt{x.attribute}, where we replace \texttt{attribute} with the name
+of the attribute. For instance, we can access the \texttt{ndim}
+attribute of \texttt{x} as follows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{o}{.}\PY{n}{ndim}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+2
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The output indicates that \texttt{x} is a two-dimensional array.\\
+Similarly, \texttt{x.dtype} is the \emph{data type} attribute of the
+object \texttt{x}. This indicates that \texttt{x} is comprised of 64-bit
+integers:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{o}{.}\PY{n}{dtype}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+dtype('int64')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Why is \texttt{x} comprised of integers? This is because we created
+\texttt{x} by passing in exclusively integers to the \texttt{np.array()}
+function. If we had passed in any decimals, then we would have obtained
+an array of \emph{floating point numbers} (i.e.~real-valued numbers).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mf}{3.0}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{dtype}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+dtype('float64')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Typing \texttt{fun?} will cause \texttt{Python} to display documentation
+associated with the function \texttt{fun}, if it exists. We can try this
+for \texttt{np.array()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+np.array\PY{o}{?}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textcolor{ansi-red}{Docstring:}
+array(object, dtype=None, *, copy=True, order='K', subok=False, ndmin=0,
+      like=None)
+
+Create an array.
+
+Parameters
+----------
+object : array\_like
+    An array, any object exposing the array interface, an object whose
+    ``\_\_array\_\_`` method returns an array, or any (nested) sequence.
+    If object is a scalar, a 0-dimensional array containing object is
+    returned.
+dtype : data-type, optional
+    The desired data-type for the array. If not given, NumPy will try to use
+    a default ``dtype`` that can represent the values (by applying promotion
+    rules when necessary.)
+copy : bool, optional
+    If true (default), then the object is copied.  Otherwise, a copy will
+    only be made if ``\_\_array\_\_`` returns a copy, if obj is a nested
+    sequence, or if a copy is needed to satisfy any of the other
+    requirements (``dtype``, ``order``, etc.).
+order : \{'K', 'A', 'C', 'F'\}, optional
+    Specify the memory layout of the array. If object is not an array, the
+    newly created array will be in C order (row major) unless 'F' is
+    specified, in which case it will be in Fortran order (column major).
+    If object is an array the following holds.
+
+    ===== ========= ===================================================
+    order  no copy                     copy=True
+    ===== ========= ===================================================
+    'K'   unchanged F \& C order preserved, otherwise most similar order
+    'A'   unchanged F order if input is F and not C, otherwise C order
+    'C'   C order   C order
+    'F'   F order   F order
+    ===== ========= ===================================================
+
+    When ``copy=False`` and a copy is made for other reasons, the result is
+    the same as if ``copy=True``, with some exceptions for 'A', see the
+    Notes section. The default order is 'K'.
+subok : bool, optional
+    If True, then sub-classes will be passed-through, otherwise
+    the returned array will be forced to be a base-class array (default).
+ndmin : int, optional
+    Specifies the minimum number of dimensions that the resulting
+    array should have.  Ones will be prepended to the shape as
+    needed to meet this requirement.
+like : array\_like, optional
+    Reference object to allow the creation of arrays which are not
+    NumPy arrays. If an array-like passed in as ``like`` supports
+    the ``\_\_array\_function\_\_`` protocol, the result will be defined
+    by it. In this case, it ensures the creation of an array object
+    compatible with that passed in via this argument.
+
+    .. versionadded:: 1.20.0
+
+Returns
+-------
+out : ndarray
+    An array object satisfying the specified requirements.
+
+See Also
+--------
+empty\_like : Return an empty array with shape and type of input.
+ones\_like : Return an array of ones with shape and type of input.
+zeros\_like : Return an array of zeros with shape and type of input.
+full\_like : Return a new array with shape of input filled with value.
+empty : Return a new uninitialized array.
+ones : Return a new array setting values to one.
+zeros : Return a new array setting values to zero.
+full : Return a new array of given shape filled with value.
+
+
+Notes
+-----
+When order is 'A' and ``object`` is an array in neither 'C' nor 'F' order,
+and a copy is forced by a change in dtype, then the order of the result is
+not necessarily 'C' as expected. This is likely a bug.
+
+Examples
+--------
+>>> np.array([1, 2, 3])
+array([1, 2, 3])
+
+Upcasting:
+
+>>> np.array([1, 2, 3.0])
+array([ 1.,  2.,  3.])
+
+More than one dimension:
+
+>>> np.array([[1, 2], [3, 4]])
+array([[1, 2],
+       [3, 4]])
+
+Minimum dimensions 2:
+
+>>> np.array([1, 2, 3], ndmin=2)
+array([[1, 2, 3]])
+
+Type provided:
+
+>>> np.array([1, 2, 3], dtype=complex)
+array([ 1.+0.j,  2.+0.j,  3.+0.j])
+
+Data-type consisting of more than one element:
+
+>>> x = np.array([(1,2),(3,4)],dtype=[('a','<i4'),('b','<i4')])
+>>> x['a']
+array([1, 3])
+
+Creating an array from sub-classes:
+
+>>> np.array(np.mat('1 2; 3 4'))
+array([[1, 2],
+       [3, 4]])
+
+>>> np.array(np.mat('1 2; 3 4'), subok=True)
+matrix([[1, 2],
+        [3, 4]])
+\textcolor{ansi-red}{Type:}      builtin\_function\_or\_method
+    \end{Verbatim}
+
+    
+    This documentation indicates that we could create a floating point array
+by passing a \texttt{dtype} argument into \texttt{np.array()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}\PY{o}{.}\PY{n}{dtype}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+dtype('float64')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The array \texttt{x} is two-dimensional. We can find out the number of
+rows and columns by looking at its \texttt{shape} attribute.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(2, 2)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    A \emph{method} is a function that is associated with an object. For
+instance, given an array \texttt{x}, the expression \texttt{x.sum()}
+sums all of its elements, using the \texttt{sum()} method for arrays.
+The call \texttt{x.sum()} automatically provides \texttt{x} as the first
+argument to its \texttt{sum()} method.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
+\PY{n}{x}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+10
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We could also sum the elements of \texttt{x} by passing in \texttt{x} as
+an argument to the \texttt{np.sum()} function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+10
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As another example, the \texttt{reshape()} method returns a new array
+with the same elements as \texttt{x}, but a different shape. We do this
+by passing in a \texttt{tuple} in our call to \texttt{reshape()}, in
+this case \texttt{(2,\ 3)}. This tuple specifies that we would like to
+create a two-dimensional array with \(2\) rows and \(3\) columns. \{Like
+lists, tuples represent a sequence of objects. Why do we need more than
+one way to create a sequence? There are a few differences between tuples
+and lists, but perhaps the most important is that elements of a tuple
+cannot be modified, whereas elements of a list can be.\}
+
+In what follows, the \texttt{\textbackslash{}n} character creates a
+\emph{new line}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{beginning x:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+\PY{n}{x\PYZus{}reshape} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reshaped x:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x\PYZus{}reshape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+beginning x:
+ [1 2 3 4 5 6]
+reshaped x:
+ [[1 2 3]
+ [4 5 6]]
+    \end{Verbatim}
+
+    The previous output reveals that \texttt{numpy} arrays are specified as
+a sequence of \emph{rows}. This is called \emph{row-major ordering}, as
+opposed to \emph{column-major ordering}.
+
+    \texttt{Python} (and hence \texttt{numpy}) uses 0-based indexing. This
+means that to access the top left element of \texttt{x\_reshape}, we
+type in \texttt{x\_reshape{[}0,0{]}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x\PYZus{}reshape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} 
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Similarly, \texttt{x\_reshape{[}1,2{]}} yields the element in the second
+row and the third column of \texttt{x\_reshape}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x\PYZus{}reshape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} 
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+6
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Similarly, \texttt{x{[}2{]}} yields the third entry of \texttt{x}.
+
+Now, let's modify the top left element of \texttt{x\_reshape}. To our
+surprise, we discover that the first element of \texttt{x} has been
+modified as well!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x before we modify x\PYZus{}reshape:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x\PYZus{}reshape before we modify x\PYZus{}reshape:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x\PYZus{}reshape}\PY{p}{)}
+\PY{n}{x\PYZus{}reshape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{5}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x\PYZus{}reshape after we modify its top left element:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x\PYZus{}reshape}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x after we modify top left element of x\PYZus{}reshape:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+x before we modify x\_reshape:
+ [1 2 3 4 5 6]
+x\_reshape before we modify x\_reshape:
+ [[1 2 3]
+ [4 5 6]]
+x\_reshape after we modify its top left element:
+ [[5 2 3]
+ [4 5 6]]
+x after we modify top left element of x\_reshape:
+ [5 2 3 4 5 6]
+    \end{Verbatim}
+
+    Modifying \texttt{x\_reshape} also modified \texttt{x} because the two
+objects occupy the same space in memory.
+
+    We just saw that we can modify an element of an array. Can we also
+modify a tuple? It turns out that we cannot --- and trying to do so
+introduces an \emph{exception}, or error.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{my\PYZus{}tuple} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{my\PYZus{}tuple}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{2}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{TypeError}                                 Traceback (most recent call last)
+\textcolor{ansi-cyan}{Cell}\textcolor{ansi-cyan}{ }\textcolor{ansi-green}{In[23]}\textcolor{ansi-green}{, line 2}
+\textcolor{ansi-green}{      1} my\_tuple = (\textcolor{ansi-green}{3}, \textcolor{ansi-green}{4}, \textcolor{ansi-green}{5})
+\textcolor{ansi-green}{----> }\textcolor{ansi-green}{2} \setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{my\_tuple\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{[\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{0\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{]\strut} = \textcolor{ansi-green}{2}
+
+\textcolor{ansi-red}{TypeError}: 'tuple' object does not support item assignment
+    \end{Verbatim}
+
+    We now briefly mention some attributes of arrays that will come in
+handy. An array's \texttt{shape} attribute contains its dimension; this
+is always a tuple. The \texttt{ndim} attribute yields the number of
+dimensions, and \texttt{T} provides its transpose.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x\PYZus{}reshape}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{x\PYZus{}reshape}\PY{o}{.}\PY{n}{ndim}\PY{p}{,} \PY{n}{x\PYZus{}reshape}\PY{o}{.}\PY{n}{T}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+((2, 3),
+ 2,
+ array([[5, 4],
+        [2, 5],
+        [3, 6]]))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that the three individual outputs \texttt{(2,3)}, \texttt{2}, and
+\texttt{array({[}{[}5,\ 4{]},{[}2,\ 5{]},\ {[}3,6{]}{]})} are themselves
+output as a tuple.
+
+We will often want to apply functions to arrays. For instance, we can
+compute the square root of the entries using the \texttt{np.sqrt()}
+function:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([2.23606798, 1.41421356, 1.73205081, 2.        , 2.23606798,
+       2.44948974])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can also square the elements:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([25,  4,  9, 16, 25, 36])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can compute the square roots using the same notation, raising to the
+power of \(1/2\) instead of 2.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{0.5}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([2.23606798, 1.41421356, 1.73205081, 2.        , 2.23606798,
+       2.44948974])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Throughout this book, we will often want to generate random data. The
+\texttt{np.random.normal()} function generates a vector of random normal
+variables. We can learn more about this function by looking at the help
+page, via a call to \texttt{np.random.normal?}. The first line of the
+help page reads \texttt{normal(loc=0.0,\ scale=1.0,\ size=None)}. This
+\emph{signature} line tells us that the function's arguments are
+\texttt{loc}, \texttt{scale}, and \texttt{size}. These are
+\emph{keyword} arguments, which means that when they are passed into the
+function, they can be referred to by name (in any order).
+\{\texttt{Python} also uses \emph{positional} arguments. Positional
+arguments do not need to use a keyword. To see an example, type in
+\texttt{np.sum?}. We see that \texttt{a} is a positional argument,
+i.e.~this function assumes that the first unnamed argument that it
+receives is the array to be summed. By contrast, \texttt{axis} and
+\texttt{dtype} are keyword arguments: the position in which these
+arguments are entered into \texttt{np.sum()} does not matter.\} By
+default, this function will generate random normal variable(s) with mean
+(\texttt{loc}) \(0\) and standard deviation (\texttt{scale}) \(1\);
+furthermore, a single random variable will be generated unless the
+argument to \texttt{size} is changed.
+
+We now generate 50 independent random variables from a \(N(0,1)\)
+distribution.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\PY{n}{x}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([-0.06755286, -0.59515975, -0.59124445,  0.93345285,  0.50593652,
+       -1.76907045, -0.25741405,  0.87796801,  0.29867187,  1.19609283,
+        0.16468045,  0.11386838, -1.82591518, -0.53335271, -0.85678655,
+       -0.19322137,  0.65343707,  0.47160945,  0.33741741,  0.58690539,
+       -1.00195451,  1.32539572, -0.84977831,  0.6590251 ,  0.4127158 ,
+       -0.01590489, -0.33792676, -1.0412565 ,  0.57664837, -0.89242264,
+       -0.03146975, -2.94619409,  0.84020772, -0.51395234, -1.48913189,
+       -1.67531694,  0.34131073,  0.01197368, -0.13921446,  0.37209259,
+       -1.1667784 , -0.14614259, -1.11819663,  1.43098144,  0.22207642,
+        0.64787668, -0.06510998, -1.15919834, -0.84805457, -0.73155173])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We create an array \texttt{y} by adding an independent \(N(50,1)\)
+random variable to each element of \texttt{x}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y} \PY{o}{=} \PY{n}{x} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The \texttt{np.corrcoef()} function computes the correlation matrix
+between \texttt{x} and \texttt{y}. The off-diagonal elements give the
+correlation between \texttt{x} and \texttt{y}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{corrcoef}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[1.        , 0.56659826],
+       [0.56659826, 1.        ]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    If you're following along in your own \texttt{Jupyter} notebook, then
+you probably noticed that you got a different set of results when you
+ran the past few commands. In particular, each time we call
+\texttt{np.random.normal()}, we will get a different answer, as shown in
+the following example.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[-1.07468791 -1.07888433]
+[ 3.84695783 -4.83482283]
+    \end{Verbatim}
+
+    
+
+    In order to ensure that our code provides exactly the same results each
+time it is run, we can set a \emph{random seed} using the
+\texttt{np.random.default\_rng()} function. This function takes an
+arbitrary, user-specified integer argument. If we set a random seed
+before generating random data, then re-running our code will yield the
+same results. The object \texttt{rng} has essentially all the random
+number generating methods found in \texttt{np.random}. Hence, to
+generate normal data we use \texttt{rng.normal()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{1303}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{rng}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{n}{rng2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{1303}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{rng2}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 4.09482632 -1.07485605]
+[ 4.09482632 -1.07485605]
+    \end{Verbatim}
+
+    Throughout the labs in this book, we use
+\texttt{np.random.default\_rng()} whenever we perform calculations
+involving random quantities within \texttt{numpy}. In principle, this
+should enable the reader to exactly reproduce the stated results.
+However, as new versions of \texttt{numpy} become available, it is
+possible that some small discrepancies may occur between the output in
+the labs and the output from \texttt{numpy}.
+
+The \texttt{np.mean()}, \texttt{np.var()}, and \texttt{np.std()}
+functions can be used to compute the mean, variance, and standard
+deviation of arrays. These functions are also available as methods on
+the arrays.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{,} \PY{n}{y}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(-0.1126795190952861, -0.1126795190952861)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{,} \PY{n}{y}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(2.7243406406465125, 2.7243406406465125, 2.7243406406465125)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that by default \texttt{np.var()} divides by the sample size
+\(n\) rather than \(n-1\); see the \texttt{ddof} argument in
+\texttt{np.var?}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(1.6505576756498128, 1.6505576756498128)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{np.mean()}, \texttt{np.var()}, and \texttt{np.std()}
+functions can also be applied to the rows and columns of a matrix. To
+see this, we construct a \(10 \times 3\) matrix of \(N(0,1)\) random
+variables, and consider computing its row sums.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{X}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 0.22578661, -0.35263079, -0.28128742],
+       [-0.66804635, -1.05515055, -0.39080098],
+       [ 0.48194539, -0.23855361,  0.9577587 ],
+       [-0.19980213,  0.02425957,  1.54582085],
+       [ 0.54510552, -0.50522874, -0.18283897],
+       [ 0.54052513,  1.93508803, -0.26962033],
+       [-0.24355868,  1.0023136 , -0.88645994],
+       [-0.29172023,  0.88253897,  0.58035002],
+       [ 0.0915167 ,  0.67010435, -2.82816231],
+       [ 1.02130682, -0.95964476, -1.66861984]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Since arrays are row-major ordered, the first axis,
+i.e.~\texttt{axis=0}, refers to its rows. We pass this argument into the
+\texttt{mean()} method for the object \texttt{X}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 0.15030588,  0.14030961, -0.34238602])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The following yields the same result.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 0.15030588,  0.14030961, -0.34238602])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    \hypertarget{graphics}{%
+\subsection{Graphics}\label{graphics}}
+
+In \texttt{Python}, common practice is to use the library
+\texttt{matplotlib} for graphics. However, since \texttt{Python} was not
+written with data analysis in mind, the notion of plotting is not
+intrinsic to the language. We will use the \texttt{subplots()} function
+from \texttt{matplotlib.pyplot} to create a figure and the axes onto
+which we plot our data. For many more examples of how to make plots in
+\texttt{Python}, readers are encouraged to visit
+\href{https://matplotlib.org/stable/gallery/index.html}{matplotlib.org/stable/gallery/}.
+
+In \texttt{matplotlib}, a plot consists of a \emph{figure} and one or
+more \emph{axes}. You can think of the figure as the blank canvas upon
+which one or more plots will be displayed: it is the entire plotting
+window. The \emph{axes} contain important information about each plot,
+such as its \(x\)- and \(y\)-axis labels, title, and more. (Note that in
+\texttt{matplotlib}, the word \emph{axes} is not the plural of
+\emph{axis}: a plot's \emph{axes} contains much more information than
+just the \(x\)-axis and the \(y\)-axis.)
+
+We begin by importing the \texttt{subplots()} function from
+\texttt{matplotlib}. We use this function throughout when creating
+figures. The function returns a tuple of length two: a figure object as
+well as the relevant axes object. We will typically pass
+\texttt{figsize} as a keyword argument. Having created our axes, we
+attempt our first plot using its \texttt{plot()} method. To learn more
+about it, type \texttt{ax.plot?}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{subplots}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_96_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We pause here to note that we have \emph{unpacked} the tuple of length
+two returned by \texttt{subplots()} into the two distinct variables
+\texttt{fig} and \texttt{ax}. Unpacking is typically preferred to the
+following equivalent but slightly more verbose code:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{output} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig} \PY{o}{=} \PY{n}{output}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{ax} \PY{o}{=} \PY{n}{output}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_98_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We see that our earlier cell produced a line plot, which is the default.
+To create a scatterplot, we provide an additional argument to
+\texttt{ax.plot()}, indicating that circles should be displayed.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_100_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Different values of this additional argument can be used to produce
+different colored lines as well as different linestyles.
+
+    As an alternative, we could use the \texttt{ax.scatter()} function to
+create a scatterplot.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_103_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Notice that in the code blocks above, we have ended the last line with a
+semicolon. This prevents \texttt{ax.plot(x,\ y)} from printing text to
+the notebook. However, it does not prevent a plot from being produced.
+If we omit the trailing semi-colon, then we obtain the following output:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x11843af60>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_105_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    In what follows, we will use trailing semicolons whenever the text that
+would be output is not germane to the discussion at hand.
+
+    To label our plot, we make use of the \texttt{set\_xlabel()},
+\texttt{set\_ylabel()}, and \texttt{set\_title()} methods of
+\texttt{ax}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{this is the x\PYZhy{}axis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{this is the y\PYZhy{}axis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Plot of X vs Y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_108_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Having access to the figure object \texttt{fig} itself means that we can
+go in and change some aspects and then redisplay it. Here, we change the
+size from \texttt{(8,\ 8)} to \texttt{(12,\ 3)}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}size\PYZus{}inches}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{45}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_110_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    
+
+    Occasionally we will want to create several plots within a figure. This
+can be achieved by passing additional arguments to \texttt{subplots()}.
+Below, we create a \(2 \times 3\) grid of plots in a figure of size
+determined by the \texttt{figsize} argument. In such situations, there
+is often a relationship between the axes in the plots. For example, all
+plots may have a common \(x\)-axis. The \texttt{subplots()} function can
+automatically handle this situation when passed the keyword argument
+\texttt{sharex=True}. The \texttt{axes} object below is an array
+pointing to different plots in the figure.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}
+                     \PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,}
+                     \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_113_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We now produce a scatter plot with
+\texttt{\textquotesingle{}o\textquotesingle{}} in the second column of
+the first row and a scatter plot with
+\texttt{\textquotesingle{}+\textquotesingle{}} in the third column of
+the second row.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{47}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_115_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    Type \texttt{subplots?} to learn more about \texttt{subplots()}.
+
+    To save the output of \texttt{fig}, we call its \texttt{savefig()}
+method. The argument \texttt{dpi} is the dots per inch, used to
+determine how large the figure will be in pixels.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Figure.png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Figure.pdf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We can continue to modify \texttt{fig} using step-by-step updates; for
+example, we can modify the range of the \(x\)-axis, re-save the figure,
+and even re-display it.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Figure\PYZus{}updated.jpg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{49}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_120_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    We now create some more sophisticated plots. The \texttt{ax.contour()}
+method produces a \emph{contour plot} in order to represent
+three-dimensional data, similar to a topographical map. It takes three
+arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  A vector of \texttt{x} values (the first dimension),
+\item
+  A vector of \texttt{y} values (the second dimension), and
+\item
+  A matrix whose elements correspond to the \texttt{z} value (the third
+  dimension) for each pair of \texttt{(x,y)} coordinates.
+\end{itemize}
+
+To create \texttt{x} and \texttt{y}, we'll use the command
+\texttt{np.linspace(a,\ b,\ n)}, which returns a vector of \texttt{n}
+numbers starting at \texttt{a} and ending at \texttt{b}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{x}
+\PY{n}{f} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{multiply}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{contour}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{f}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_122_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We can increase the resolution by adding more levels to the image.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{contour}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{levels}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_124_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    To fine-tune the output of the \texttt{ax.contour()} function, take a
+look at the help file by typing \texttt{ax.contour?}.
+
+The \texttt{ax.imshow()} method is similar to \texttt{ax.contour()},
+except that it produces a color-coded plot whose colors depend on the
+\texttt{z} value. This is known as a \emph{heatmap}, and is sometimes
+used to plot temperature in weather forecasts.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{f}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_126_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{sequences-and-slice-notation}{%
+\subsection{Sequences and Slice
+Notation}\label{sequences-and-slice-notation}}
+
+    As seen above, the function \texttt{np.linspace()} can be used to create
+a sequence of numbers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{seq1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{11}\PY{p}{)}
+\PY{n}{seq1}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The function \texttt{np.arange()} returns a sequence of numbers spaced
+out by \texttt{step}. If \texttt{step} is not specified, then a default
+value of \(1\) is used. Let's create a sequence that starts at \(0\) and
+ends at \(10\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{seq2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{seq2}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Why isn't \(10\) output above? This has to do with \emph{slice} notation
+in \texttt{Python}. Slice notation\\
+is used to index sequences such as lists, tuples and arrays. Suppose we
+want to retrieve the fourth through sixth (inclusive) entries of a
+string. We obtain a slice of the string using the indexing notation
+\texttt{{[}3:6{]}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hello world}\PY{l+s+s2}{\PYZdq{}}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'lo '
+\end{Verbatim}
+\end{tcolorbox}
+        
+    In the code block above, the notation \texttt{3:6} is shorthand for
+\texttt{slice(3,6)} when used inside \texttt{{[}{]}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hello world}\PY{l+s+s2}{\PYZdq{}}\PY{p}{[}\PY{n+nb}{slice}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'lo '
+\end{Verbatim}
+\end{tcolorbox}
+        
+    You might have expected \texttt{slice(3,6)} to output the fourth through
+seventh characters in the text string (recalling that \texttt{Python}
+begins its indexing at zero), but instead it output the fourth through
+sixth. This also explains why the earlier \texttt{np.arange(0,\ 10)}
+command output only the integers from \(0\) to \(9\). See the
+documentation \texttt{slice?} for useful options in creating slices.
+
+    \hypertarget{indexing-data}{%
+\subsection{Indexing Data}\label{indexing-data}}
+
+To begin, we create a two-dimensional \texttt{numpy} array.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{A}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11],
+       [12, 13, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Typing \texttt{A{[}1,2{]}} retrieves the element corresponding to the
+second row and third column. (As usual, \texttt{Python} indexes from
+\(0.\))
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+6
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The first number after the open-bracket symbol \texttt{{[}} refers to
+the row, and the second number refers to the column.
+
+\hypertarget{indexing-rows-columns-and-submatrices}{%
+\subsubsection{Indexing Rows, Columns, and
+Submatrices}\label{indexing-rows-columns-and-submatrices}}
+
+To select multiple rows at a time, we can pass in a list specifying our
+selection. For instance, \texttt{{[}1,3{]}} will retrieve the second and
+fourth rows:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  5,  6,  7],
+       [12, 13, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    To select the first and third columns, we pass in \texttt{{[}0,2{]}} as
+the second argument in the square brackets. In this case we need to
+supply the first argument \texttt{:} which selects all rows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 0,  2],
+       [ 4,  6],
+       [ 8, 10],
+       [12, 14]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Now, suppose that we want to select the submatrix made up of the second
+and fourth rows as well as the first and third columns. This is where
+indexing gets slightly tricky. It is natural to try to use lists to
+retrieve the rows and columns:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 4, 14])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Oops --- what happened? We got a one-dimensional array of length two
+identical to
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 4, 14])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Similarly, the following code fails to extract the submatrix comprised
+of the second and fourth rows and the first, third, and fourth columns:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{IndexError}                                Traceback (most recent call last)
+\textcolor{ansi-cyan}{Cell}\textcolor{ansi-cyan}{ }\textcolor{ansi-green}{In[63]}\textcolor{ansi-green}{, line 1}
+\textcolor{ansi-green}{----> }\textcolor{ansi-green}{1} \setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{A\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{[\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{[\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{1\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{,\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{3\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{]\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{,\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{[\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{0\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{,\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{2\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{,\strut}\textcolor{ansi-green}{\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{3\strut}}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{]\strut}\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{]\strut}
+
+\textcolor{ansi-red}{IndexError}: shape mismatch: indexing arrays could not be broadcast together with shapes (2,) (3,) 
+    \end{Verbatim}
+
+    We can see what has gone wrong here. When supplied with two indexing
+lists, the \texttt{numpy} interpretation is that these provide pairs of
+\(i,j\) indices for a series of entries. That is why the pair of lists
+must have the same length. However, that was not our intent, since we
+are looking for a submatrix.
+
+One easy way to do this is as follows. We first create a submatrix by
+subsetting the rows of \texttt{A}, and then on the fly we make a further
+submatrix by subsetting its columns.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  6],
+       [12, 14]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    There are more efficient ways of achieving the same result.
+
+The \emph{convenience function} \texttt{np.ix\_()} allows us to extract
+a submatrix using lists, by creating an intermediate \emph{mesh} object.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ix\PYZus{}}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\PY{n}{A}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  6,  7],
+       [12, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Alternatively, we can subset matrices efficiently using slices.
+
+The slice \texttt{1:4:2} captures the second and fourth items of a
+sequence, while the slice \texttt{0:3:2} captures the first and third
+items (the third element in a slice sequence is the step size).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  6],
+       [12, 14]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    Why are we able to retrieve a submatrix directly using slices but not
+using lists? It's because they are different \texttt{Python} types, and
+are treated differently by \texttt{numpy}. Slices can be used to extract
+objects from arbitrary sequences, such as strings, lists, and tuples,
+while the use of lists for indexing is more limited.
+
+    \hypertarget{boolean-indexing}{%
+\subsubsection{Boolean Indexing}\label{boolean-indexing}}
+
+In \texttt{numpy}, a \emph{Boolean} is a type that equals either
+\texttt{True} or \texttt{False} (also represented as \(1\) and \(0\),
+respectively). The next line creates a vector of \(0\)'s, represented as
+Booleans, of length equal to the first dimension of \texttt{A}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{67}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{keep\PYZus{}rows} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{A}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{bool}\PY{p}{)}
+\PY{n}{keep\PYZus{}rows}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{67}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([False, False, False, False])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We now set two of the elements to \texttt{True}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{keep\PYZus{}rows}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{k+kc}{True}
+\PY{n}{keep\PYZus{}rows}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([False,  True, False,  True])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Note that the elements of \texttt{keep\_rows}, when viewed as integers,
+are the same as the values of \texttt{np.array({[}0,1,0,1{]})}. Below,
+we use \texttt{==} to verify their equality. When applied to two arrays,
+the \texttt{==} operation is applied elementwise.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{n}{keep\PYZus{}rows} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+True
+\end{Verbatim}
+\end{tcolorbox}
+        
+    (Here, the function \texttt{np.all()} has checked whether all entries of
+an array are \texttt{True}. A similar function, \texttt{np.any()}, can
+be used to check whether any entries of an array are \texttt{True}.)
+
+    However, even though \texttt{np.array({[}0,1,0,1{]})} and
+\texttt{keep\_rows} are equal according to \texttt{==}, they index
+different sets of rows! The former retrieves the first, second, first,
+and second rows of \texttt{A}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[0, 1, 2, 3],
+       [4, 5, 6, 7],
+       [0, 1, 2, 3],
+       [4, 5, 6, 7]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    By contrast, \texttt{keep\_rows} retrieves only the second and fourth
+rows of \texttt{A} --- i.e.~the rows for which the Boolean equals
+\texttt{True}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A}\PY{p}{[}\PY{n}{keep\PYZus{}rows}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  5,  6,  7],
+       [12, 13, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This example shows that Booleans and integers are treated differently by
+\texttt{numpy}.
+
+    We again make use of the \texttt{np.ix\_()} function to create a mesh
+containing the second and fourth rows, and the first, third, and fourth
+columns. This time, we apply the function to Booleans, rather than
+lists.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{keep\PYZus{}cols} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{A}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n+nb}{bool}\PY{p}{)}
+\PY{n}{keep\PYZus{}cols}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{k+kc}{True}
+\PY{n}{idx\PYZus{}bool} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ix\PYZus{}}\PY{p}{(}\PY{n}{keep\PYZus{}rows}\PY{p}{,} \PY{n}{keep\PYZus{}cols}\PY{p}{)}
+\PY{n}{A}\PY{p}{[}\PY{n}{idx\PYZus{}bool}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  6,  7],
+       [12, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can also mix a list with an array of Booleans in the arguments to
+\texttt{np.ix\_()}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{idx\PYZus{}mixed} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ix\PYZus{}}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{keep\PYZus{}cols}\PY{p}{)}
+\PY{n}{A}\PY{p}{[}\PY{n}{idx\PYZus{}mixed}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 4,  6,  7],
+       [12, 14, 15]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+    For more details on indexing in \texttt{numpy}, readers are referred to
+the \texttt{numpy} tutorial mentioned earlier.
+
+    \hypertarget{loading-data}{%
+\subsection{Loading Data}\label{loading-data}}
+
+Data sets often contain different types of data, and may have names
+associated with the rows or columns. For these reasons, they typically
+are best accommodated using a \emph{data frame}. We can think of a data
+frame as a sequence of arrays of identical length; these are the
+columns. Entries in the different arrays can be combined to form a row.
+The \texttt{pandas} library can be used to create and work with data
+frame objects.
+
+    \hypertarget{reading-in-a-data-set}{%
+\subsubsection{Reading in a Data Set}\label{reading-in-a-data-set}}
+
+The first step of most analyses involves importing a data set into
+\texttt{Python}.\\
+Before attempting to load a data set, we must make sure that
+\texttt{Python} knows where to find the file containing it. If the file
+is in the same location as this notebook file, then we are all set.
+Otherwise, the command \texttt{os.chdir()} can be used to \emph{change
+directory}. (You will need to call \texttt{import\ os} before calling
+\texttt{os.chdir()}.)
+
+    We will begin by reading in \texttt{Auto.csv}, available on the book
+website. This is a comma-separated file, and can be read in using
+\texttt{pd.read\_csv()}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{n}{Auto} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Auto.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Auto}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      mpg  cylinders  displacement  horsepower  weight  acceleration  year  \textbackslash{}
+0    18.0          8         307.0         130    3504          12.0    70
+1    15.0          8         350.0         165    3693          11.5    70
+2    18.0          8         318.0         150    3436          11.0    70
+3    16.0          8         304.0         150    3433          12.0    70
+4    17.0          8         302.0         140    3449          10.5    70
+..    {\ldots}        {\ldots}           {\ldots}         {\ldots}     {\ldots}           {\ldots}   {\ldots}
+387  27.0          4         140.0          86    2790          15.6    82
+388  44.0          4          97.0          52    2130          24.6    82
+389  32.0          4         135.0          84    2295          11.6    82
+390  28.0          4         120.0          79    2625          18.6    82
+391  31.0          4         119.0          82    2720          19.4    82
+
+     origin                       name
+0         1  chevrolet chevelle malibu
+1         1          buick skylark 320
+2         1         plymouth satellite
+3         1              amc rebel sst
+4         1                ford torino
+..      {\ldots}                        {\ldots}
+387       1            ford mustang gl
+388       2                  vw pickup
+389       1              dodge rampage
+390       1                ford ranger
+391       1                 chevy s-10
+
+[392 rows x 9 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The book website also has a whitespace-delimited version of this data,
+called \texttt{Auto.data}. This can be read in as follows:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Auto.data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{delim\PYZus{}whitespace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/\_3/k\_9k5d5n5zz57w7qfll9rzs40000gn/T/ipykernel\_64281/1967952672.py:1
+: FutureWarning: The 'delim\_whitespace' keyword in pd.read\_csv is deprecated and
+will be removed in a future version. Use ``sep='\textbackslash{}s+'`` instead
+  Auto = pd.read\_csv('Auto.data', delim\_whitespace=True)
+    \end{Verbatim}
+
+    Both \texttt{Auto.csv} and \texttt{Auto.data} are simply text files.
+Before loading data into \texttt{Python}, it is a good idea to view it
+using a text editor or other software, such as Microsoft Excel.
+
+    We now take a look at the column of \texttt{Auto} corresponding to the
+variable \texttt{horsepower}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0      130.0
+1      165.0
+2      150.0
+3      150.0
+4      140.0
+       {\ldots}
+392    86.00
+393    52.00
+394    84.00
+395    79.00
+396    82.00
+Name: horsepower, Length: 397, dtype: object
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We see that the \texttt{dtype} of this column is \texttt{object}. It
+turns out that all values of the \texttt{horsepower} column were
+interpreted as strings when reading in the data. We can find out why by
+looking at the unique values.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['100.0', '102.0', '103.0', '105.0', '107.0', '108.0', '110.0',
+       '112.0', '113.0', '115.0', '116.0', '120.0', '122.0', '125.0',
+       '129.0', '130.0', '132.0', '133.0', '135.0', '137.0', '138.0',
+       '139.0', '140.0', '142.0', '145.0', '148.0', '149.0', '150.0',
+       '152.0', '153.0', '155.0', '158.0', '160.0', '165.0', '167.0',
+       '170.0', '175.0', '180.0', '190.0', '193.0', '198.0', '200.0',
+       '208.0', '210.0', '215.0', '220.0', '225.0', '230.0', '46.00',
+       '48.00', '49.00', '52.00', '53.00', '54.00', '58.00', '60.00',
+       '61.00', '62.00', '63.00', '64.00', '65.00', '66.00', '67.00',
+       '68.00', '69.00', '70.00', '71.00', '72.00', '74.00', '75.00',
+       '76.00', '77.00', '78.00', '79.00', '80.00', '81.00', '82.00',
+       '83.00', '84.00', '85.00', '86.00', '87.00', '88.00', '89.00',
+       '90.00', '91.00', '92.00', '93.00', '94.00', '95.00', '96.00',
+       '97.00', '98.00', '?'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We see the culprit is the value \texttt{?}, which is being used to
+encode missing values.
+
+    To fix the problem, we must provide \texttt{pd.read\_csv()} with an
+argument called \texttt{na\_values}. Now, each instance of \texttt{?} in
+the file is replaced with the value \texttt{np.nan}, which means
+\emph{not a number}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Auto.data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{n}{na\PYZus{}values}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{?}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                   \PY{n}{delim\PYZus{}whitespace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/\_3/k\_9k5d5n5zz57w7qfll9rzs40000gn/T/ipykernel\_64281/134681464.py:1:
+FutureWarning: The 'delim\_whitespace' keyword in pd.read\_csv is deprecated and
+will be removed in a future version. Use ``sep='\textbackslash{}s+'`` instead
+  Auto = pd.read\_csv('Auto.data',
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+40952.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{Auto.shape} attribute tells us that the data has 397
+observations, or rows, and nine variables, or columns.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(397, 9)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There are various ways to deal with missing data. In this case, since
+only five of the rows contain missing observations, we choose to use the
+\texttt{Auto.dropna()} method to simply remove these rows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}new} \PY{o}{=} \PY{n}{Auto}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+\PY{n}{Auto\PYZus{}new}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(392, 9)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{basics-of-selecting-rows-and-columns}{%
+\subsubsection{Basics of Selecting Rows and
+Columns}\label{basics-of-selecting-rows-and-columns}}
+
+We can use \texttt{Auto.columns} to check the variable names.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto} \PY{o}{=} \PY{n}{Auto\PYZus{}new} \PY{c+c1}{\PYZsh{} overwrite the previous value}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Index(['mpg', 'cylinders', 'displacement', 'horsepower', 'weight',
+       'acceleration', 'year', 'origin', 'name'],
+      dtype='object')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Accessing the rows and columns of a data frame is similar, but not
+identical, to accessing the rows and columns of an array. Recall that
+the first argument to the \texttt{{[}{]}} method is always applied to
+the rows of the array.\\
+Similarly, passing in a slice to the \texttt{{[}{]}} method creates a
+data frame whose \emph{rows} are determined by the slice:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+    mpg  cylinders  displacement  horsepower  weight  acceleration  year  \textbackslash{}
+0  18.0          8         307.0       130.0  3504.0          12.0    70
+1  15.0          8         350.0       165.0  3693.0          11.5    70
+2  18.0          8         318.0       150.0  3436.0          11.0    70
+
+   origin                       name
+0       1  chevrolet chevelle malibu
+1       1          buick skylark 320
+2       1         plymouth satellite
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Similarly, an array of Booleans can be used to subset the rows:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{idx\PYZus{}80} \PY{o}{=} \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{80}
+\PY{n}{Auto}\PY{p}{[}\PY{n}{idx\PYZus{}80}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      mpg  cylinders  displacement  horsepower  weight  acceleration  year  \textbackslash{}
+338  27.2          4         135.0        84.0  2490.0          15.7    81
+339  26.6          4         151.0        84.0  2635.0          16.4    81
+340  25.8          4         156.0        92.0  2620.0          14.4    81
+341  23.5          6         173.0       110.0  2725.0          12.6    81
+342  30.0          4         135.0        84.0  2385.0          12.9    81
+343  39.1          4          79.0        58.0  1755.0          16.9    81
+344  39.0          4          86.0        64.0  1875.0          16.4    81
+345  35.1          4          81.0        60.0  1760.0          16.1    81
+346  32.3          4          97.0        67.0  2065.0          17.8    81
+347  37.0          4          85.0        65.0  1975.0          19.4    81
+348  37.7          4          89.0        62.0  2050.0          17.3    81
+349  34.1          4          91.0        68.0  1985.0          16.0    81
+350  34.7          4         105.0        63.0  2215.0          14.9    81
+351  34.4          4          98.0        65.0  2045.0          16.2    81
+352  29.9          4          98.0        65.0  2380.0          20.7    81
+353  33.0          4         105.0        74.0  2190.0          14.2    81
+355  33.7          4         107.0        75.0  2210.0          14.4    81
+356  32.4          4         108.0        75.0  2350.0          16.8    81
+357  32.9          4         119.0       100.0  2615.0          14.8    81
+358  31.6          4         120.0        74.0  2635.0          18.3    81
+359  28.1          4         141.0        80.0  3230.0          20.4    81
+360  30.7          6         145.0        76.0  3160.0          19.6    81
+361  25.4          6         168.0       116.0  2900.0          12.6    81
+362  24.2          6         146.0       120.0  2930.0          13.8    81
+363  22.4          6         231.0       110.0  3415.0          15.8    81
+364  26.6          8         350.0       105.0  3725.0          19.0    81
+365  20.2          6         200.0        88.0  3060.0          17.1    81
+366  17.6          6         225.0        85.0  3465.0          16.6    81
+367  28.0          4         112.0        88.0  2605.0          19.6    82
+368  27.0          4         112.0        88.0  2640.0          18.6    82
+369  34.0          4         112.0        88.0  2395.0          18.0    82
+370  31.0          4         112.0        85.0  2575.0          16.2    82
+371  29.0          4         135.0        84.0  2525.0          16.0    82
+372  27.0          4         151.0        90.0  2735.0          18.0    82
+373  24.0          4         140.0        92.0  2865.0          16.4    82
+374  36.0          4         105.0        74.0  1980.0          15.3    82
+375  37.0          4          91.0        68.0  2025.0          18.2    82
+376  31.0          4          91.0        68.0  1970.0          17.6    82
+377  38.0          4         105.0        63.0  2125.0          14.7    82
+378  36.0          4          98.0        70.0  2125.0          17.3    82
+379  36.0          4         120.0        88.0  2160.0          14.5    82
+380  36.0          4         107.0        75.0  2205.0          14.5    82
+381  34.0          4         108.0        70.0  2245.0          16.9    82
+382  38.0          4          91.0        67.0  1965.0          15.0    82
+383  32.0          4          91.0        67.0  1965.0          15.7    82
+384  38.0          4          91.0        67.0  1995.0          16.2    82
+385  25.0          6         181.0       110.0  2945.0          16.4    82
+386  38.0          6         262.0        85.0  3015.0          17.0    82
+387  26.0          4         156.0        92.0  2585.0          14.5    82
+388  22.0          6         232.0       112.0  2835.0          14.7    82
+389  32.0          4         144.0        96.0  2665.0          13.9    82
+390  36.0          4         135.0        84.0  2370.0          13.0    82
+391  27.0          4         151.0        90.0  2950.0          17.3    82
+392  27.0          4         140.0        86.0  2790.0          15.6    82
+393  44.0          4          97.0        52.0  2130.0          24.6    82
+394  32.0          4         135.0        84.0  2295.0          11.6    82
+395  28.0          4         120.0        79.0  2625.0          18.6    82
+396  31.0          4         119.0        82.0  2720.0          19.4    82
+
+     origin                               name
+338       1                   plymouth reliant
+339       1                      buick skylark
+340       1             dodge aries wagon (sw)
+341       1                 chevrolet citation
+342       1                   plymouth reliant
+343       3                     toyota starlet
+344       1                     plymouth champ
+345       3                   honda civic 1300
+346       3                             subaru
+347       3                     datsun 210 mpg
+348       3                      toyota tercel
+349       3                        mazda glc 4
+350       1                 plymouth horizon 4
+351       1                     ford escort 4w
+352       1                     ford escort 2h
+353       2                   volkswagen jetta
+355       3                      honda prelude
+356       3                     toyota corolla
+357       3                       datsun 200sx
+358       3                          mazda 626
+359       2          peugeot 505s turbo diesel
+360       2                       volvo diesel
+361       3                    toyota cressida
+362       3                  datsun 810 maxima
+363       1                      buick century
+364       1              oldsmobile cutlass ls
+365       1                    ford granada gl
+366       1             chrysler lebaron salon
+367       1                 chevrolet cavalier
+368       1           chevrolet cavalier wagon
+369       1          chevrolet cavalier 2-door
+370       1         pontiac j2000 se hatchback
+371       1                     dodge aries se
+372       1                    pontiac phoenix
+373       1               ford fairmont futura
+374       2                volkswagen rabbit l
+375       3                 mazda glc custom l
+376       3                   mazda glc custom
+377       1             plymouth horizon miser
+378       1                     mercury lynx l
+379       3                   nissan stanza xe
+380       3                       honda accord
+381       3                     toyota corolla
+382       3                        honda civic
+383       3                 honda civic (auto)
+384       3                      datsun 310 gx
+385       1              buick century limited
+386       1  oldsmobile cutlass ciera (diesel)
+387       1         chrysler lebaron medallion
+388       1                     ford granada l
+389       3                   toyota celica gt
+390       1                  dodge charger 2.2
+391       1                   chevrolet camaro
+392       1                    ford mustang gl
+393       2                          vw pickup
+394       1                      dodge rampage
+395       1                        ford ranger
+396       1                         chevy s-10
+\end{Verbatim}
+\end{tcolorbox}
+        
+    However, if we pass in a list of strings to the \texttt{{[}{]}} method,
+then we obtain a data frame containing the corresponding set of
+\emph{columns}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      mpg  horsepower
+0    18.0       130.0
+1    15.0       165.0
+2    18.0       150.0
+3    16.0       150.0
+4    17.0       140.0
+..    {\ldots}         {\ldots}
+392  27.0        86.0
+393  44.0        52.0
+394  32.0        84.0
+395  28.0        79.0
+396  31.0        82.0
+
+[392 rows x 2 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Since we did not specify an \emph{index} column when we loaded our data
+frame, the rows are labeled using integers 0 to 396.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{o}{.}\PY{n}{index}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+       {\ldots}
+       387, 388, 389, 390, 391, 392, 393, 394, 395, 396],
+      dtype='int64', length=392)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can use the \texttt{set\_index()} method to re-name the rows using
+the contents of
+\texttt{Auto{[}\textquotesingle{}name\textquotesingle{}{]}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{86}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re} \PY{o}{=} \PY{n}{Auto}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Auto\PYZus{}re}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{86}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            mpg  cylinders  displacement  horsepower  weight  \textbackslash{}
+name
+chevrolet chevelle malibu  18.0          8         307.0       130.0  3504.0
+buick skylark 320          15.0          8         350.0       165.0  3693.0
+plymouth satellite         18.0          8         318.0       150.0  3436.0
+amc rebel sst              16.0          8         304.0       150.0  3433.0
+ford torino                17.0          8         302.0       140.0  3449.0
+{\ldots}                         {\ldots}        {\ldots}           {\ldots}         {\ldots}     {\ldots}
+ford mustang gl            27.0          4         140.0        86.0  2790.0
+vw pickup                  44.0          4          97.0        52.0  2130.0
+dodge rampage              32.0          4         135.0        84.0  2295.0
+ford ranger                28.0          4         120.0        79.0  2625.0
+chevy s-10                 31.0          4         119.0        82.0  2720.0
+
+                           acceleration  year  origin
+name
+chevrolet chevelle malibu          12.0    70       1
+buick skylark 320                  11.5    70       1
+plymouth satellite                 11.0    70       1
+amc rebel sst                      12.0    70       1
+ford torino                        10.5    70       1
+{\ldots}                                 {\ldots}   {\ldots}     {\ldots}
+ford mustang gl                    15.6    82       1
+vw pickup                          24.6    82       2
+dodge rampage                      11.6    82       1
+ford ranger                        18.6    82       1
+chevy s-10                         19.4    82       1
+
+[392 rows x 8 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Index(['mpg', 'cylinders', 'displacement', 'horsepower', 'weight',
+       'acceleration', 'year', 'origin'],
+      dtype='object')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We see that the column \texttt{\textquotesingle{}name\textquotesingle{}}
+is no longer there.
+
+Now that the index has been set to \texttt{name}, we can access rows of
+the data frame by \texttt{name} using the \texttt{\{loc{[}{]}}\} method
+of \texttt{Auto}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rows} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{amc rebel sst}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ford torino}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{rows}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                mpg  cylinders  displacement  horsepower  weight  \textbackslash{}
+name
+amc rebel sst  16.0          8         304.0       150.0  3433.0
+ford torino    17.0          8         302.0       140.0  3449.0
+
+               acceleration  year  origin
+name
+amc rebel sst          12.0    70       1
+ford torino            10.5    70       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As an alternative to using the index name, we could retrieve the 4th and
+5th rows of \texttt{Auto} using the \texttt{\{iloc{[}{]}}\} method:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                mpg  cylinders  displacement  horsepower  weight  \textbackslash{}
+name
+amc rebel sst  16.0          8         304.0       150.0  3433.0
+ford torino    17.0          8         302.0       140.0  3449.0
+
+               acceleration  year  origin
+name
+amc rebel sst          12.0    70       1
+ford torino            10.5    70       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can also use it to retrieve the 1st, 3rd and and 4th columns of
+\texttt{Auto\_re}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            mpg  displacement  horsepower
+name
+chevrolet chevelle malibu  18.0         307.0       130.0
+buick skylark 320          15.0         350.0       165.0
+plymouth satellite         18.0         318.0       150.0
+amc rebel sst              16.0         304.0       150.0
+ford torino                17.0         302.0       140.0
+{\ldots}                         {\ldots}           {\ldots}         {\ldots}
+ford mustang gl            27.0         140.0        86.0
+vw pickup                  44.0          97.0        52.0
+dodge rampage              32.0         135.0        84.0
+ford ranger                28.0         120.0        79.0
+chevy s-10                 31.0         119.0        82.0
+
+[392 rows x 3 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can extract the 4th and 5th rows, as well as the 1st, 3rd and 4th
+columns, using a single call to \texttt{iloc{[}{]}}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                mpg  displacement  horsepower
+name
+amc rebel sst  16.0         304.0       150.0
+ford torino    17.0         302.0       140.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Index entries need not be unique: there are several cars in the data
+frame named \texttt{ford\ galaxie\ 500}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ford galaxie 500}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{origin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                   mpg  origin
+name
+ford galaxie 500  15.0       1
+ford galaxie 500  14.0       1
+ford galaxie 500  14.0       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{more-on-selecting-rows-and-columns}{%
+\subsubsection{More on Selecting Rows and
+Columns}\label{more-on-selecting-rows-and-columns}}
+
+Suppose now that we want to create a data frame consisting of the
+\texttt{weight} and \texttt{origin} of the subset of cars with
+\texttt{year} greater than 80 --- i.e.~those built after 1980. To do
+this, we first create a Boolean array that indexes the rows. The
+\texttt{loc{[}{]}} method allows for Boolean entries as well as strings:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{idx\PYZus{}80} \PY{o}{=} \PY{n}{Auto\PYZus{}re}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{80}
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{idx\PYZus{}80}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{origin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                   weight  origin
+name
+plymouth reliant                   2490.0       1
+buick skylark                      2635.0       1
+dodge aries wagon (sw)             2620.0       1
+chevrolet citation                 2725.0       1
+plymouth reliant                   2385.0       1
+toyota starlet                     1755.0       3
+plymouth champ                     1875.0       1
+honda civic 1300                   1760.0       3
+subaru                             2065.0       3
+datsun 210 mpg                     1975.0       3
+toyota tercel                      2050.0       3
+mazda glc 4                        1985.0       3
+plymouth horizon 4                 2215.0       1
+ford escort 4w                     2045.0       1
+ford escort 2h                     2380.0       1
+volkswagen jetta                   2190.0       2
+honda prelude                      2210.0       3
+toyota corolla                     2350.0       3
+datsun 200sx                       2615.0       3
+mazda 626                          2635.0       3
+peugeot 505s turbo diesel          3230.0       2
+volvo diesel                       3160.0       2
+toyota cressida                    2900.0       3
+datsun 810 maxima                  2930.0       3
+buick century                      3415.0       1
+oldsmobile cutlass ls              3725.0       1
+ford granada gl                    3060.0       1
+chrysler lebaron salon             3465.0       1
+chevrolet cavalier                 2605.0       1
+chevrolet cavalier wagon           2640.0       1
+chevrolet cavalier 2-door          2395.0       1
+pontiac j2000 se hatchback         2575.0       1
+dodge aries se                     2525.0       1
+pontiac phoenix                    2735.0       1
+ford fairmont futura               2865.0       1
+volkswagen rabbit l                1980.0       2
+mazda glc custom l                 2025.0       3
+mazda glc custom                   1970.0       3
+plymouth horizon miser             2125.0       1
+mercury lynx l                     2125.0       1
+nissan stanza xe                   2160.0       3
+honda accord                       2205.0       3
+toyota corolla                     2245.0       3
+honda civic                        1965.0       3
+honda civic (auto)                 1965.0       3
+datsun 310 gx                      1995.0       3
+buick century limited              2945.0       1
+oldsmobile cutlass ciera (diesel)  3015.0       1
+chrysler lebaron medallion         2585.0       1
+ford granada l                     2835.0       1
+toyota celica gt                   2665.0       3
+dodge charger 2.2                  2370.0       1
+chevrolet camaro                   2950.0       1
+ford mustang gl                    2790.0       1
+vw pickup                          2130.0       2
+dodge rampage                      2295.0       1
+ford ranger                        2625.0       1
+chevy s-10                         2720.0       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    To do this more concisely, we can use an anonymous function called a
+\texttt{lambda}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{94}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{k}{lambda} \PY{n}{df}\PY{p}{:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{80}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{origin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{94}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                   weight  origin
+name
+plymouth reliant                   2490.0       1
+buick skylark                      2635.0       1
+dodge aries wagon (sw)             2620.0       1
+chevrolet citation                 2725.0       1
+plymouth reliant                   2385.0       1
+toyota starlet                     1755.0       3
+plymouth champ                     1875.0       1
+honda civic 1300                   1760.0       3
+subaru                             2065.0       3
+datsun 210 mpg                     1975.0       3
+toyota tercel                      2050.0       3
+mazda glc 4                        1985.0       3
+plymouth horizon 4                 2215.0       1
+ford escort 4w                     2045.0       1
+ford escort 2h                     2380.0       1
+volkswagen jetta                   2190.0       2
+honda prelude                      2210.0       3
+toyota corolla                     2350.0       3
+datsun 200sx                       2615.0       3
+mazda 626                          2635.0       3
+peugeot 505s turbo diesel          3230.0       2
+volvo diesel                       3160.0       2
+toyota cressida                    2900.0       3
+datsun 810 maxima                  2930.0       3
+buick century                      3415.0       1
+oldsmobile cutlass ls              3725.0       1
+ford granada gl                    3060.0       1
+chrysler lebaron salon             3465.0       1
+chevrolet cavalier                 2605.0       1
+chevrolet cavalier wagon           2640.0       1
+chevrolet cavalier 2-door          2395.0       1
+pontiac j2000 se hatchback         2575.0       1
+dodge aries se                     2525.0       1
+pontiac phoenix                    2735.0       1
+ford fairmont futura               2865.0       1
+volkswagen rabbit l                1980.0       2
+mazda glc custom l                 2025.0       3
+mazda glc custom                   1970.0       3
+plymouth horizon miser             2125.0       1
+mercury lynx l                     2125.0       1
+nissan stanza xe                   2160.0       3
+honda accord                       2205.0       3
+toyota corolla                     2245.0       3
+honda civic                        1965.0       3
+honda civic (auto)                 1965.0       3
+datsun 310 gx                      1995.0       3
+buick century limited              2945.0       1
+oldsmobile cutlass ciera (diesel)  3015.0       1
+chrysler lebaron medallion         2585.0       1
+ford granada l                     2835.0       1
+toyota celica gt                   2665.0       3
+dodge charger 2.2                  2370.0       1
+chevrolet camaro                   2950.0       1
+ford mustang gl                    2790.0       1
+vw pickup                          2130.0       2
+dodge rampage                      2295.0       1
+ford ranger                        2625.0       1
+chevy s-10                         2720.0       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{lambda} call creates a function that takes a single
+argument, here \texttt{df}, and returns
+\texttt{df{[}\textquotesingle{}year\textquotesingle{}{]}\textgreater{}80}.
+Since it is created inside the \texttt{loc{[}{]}} method for the
+dataframe \texttt{Auto\_re}, that dataframe will be the argument
+supplied. As another example of using a \texttt{lambda}, suppose that we
+want all cars built after 1980 that achieve greater than 30 miles per
+gallon:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{95}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{k}{lambda} \PY{n}{df}\PY{p}{:} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{80}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,}
+            \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{origin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+           \PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{95}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                   weight  origin
+name
+toyota starlet                     1755.0       3
+plymouth champ                     1875.0       1
+honda civic 1300                   1760.0       3
+subaru                             2065.0       3
+datsun 210 mpg                     1975.0       3
+toyota tercel                      2050.0       3
+mazda glc 4                        1985.0       3
+plymouth horizon 4                 2215.0       1
+ford escort 4w                     2045.0       1
+volkswagen jetta                   2190.0       2
+honda prelude                      2210.0       3
+toyota corolla                     2350.0       3
+datsun 200sx                       2615.0       3
+mazda 626                          2635.0       3
+volvo diesel                       3160.0       2
+chevrolet cavalier 2-door          2395.0       1
+pontiac j2000 se hatchback         2575.0       1
+volkswagen rabbit l                1980.0       2
+mazda glc custom l                 2025.0       3
+mazda glc custom                   1970.0       3
+plymouth horizon miser             2125.0       1
+mercury lynx l                     2125.0       1
+nissan stanza xe                   2160.0       3
+honda accord                       2205.0       3
+toyota corolla                     2245.0       3
+honda civic                        1965.0       3
+honda civic (auto)                 1965.0       3
+datsun 310 gx                      1995.0       3
+oldsmobile cutlass ciera (diesel)  3015.0       1
+toyota celica gt                   2665.0       3
+dodge charger 2.2                  2370.0       1
+vw pickup                          2130.0       2
+dodge rampage                      2295.0       1
+chevy s-10                         2720.0       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The symbol \texttt{\&} computes an element-wise \emph{and} operation. As
+another example, suppose that we want to retrieve all \texttt{Ford} and
+\texttt{Datsun} cars with \texttt{displacement} less than 300. We check
+whether each \texttt{name} entry contains either the string
+\texttt{ford} or \texttt{datsun} using the \texttt{str.contains()}
+method of the \texttt{index} attribute of the dataframe:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}re}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{k}{lambda} \PY{n}{df}\PY{p}{:} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{displacement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{300}\PY{p}{)}
+                       \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ford}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                       \PY{o}{|} \PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{datsun}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+            \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{origin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+           \PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       weight  origin
+name
+ford maverick          2587.0       1
+datsun pl510           2130.0       3
+datsun pl510           2130.0       3
+ford torino 500        3302.0       1
+ford mustang           3139.0       1
+datsun 1200            1613.0       3
+ford pinto runabout    2226.0       1
+ford pinto (sw)        2395.0       1
+datsun 510 (sw)        2288.0       3
+ford maverick          3021.0       1
+datsun 610             2379.0       3
+ford pinto             2310.0       1
+datsun b210            1950.0       3
+ford pinto             2451.0       1
+datsun 710             2003.0       3
+ford maverick          3158.0       1
+ford pinto             2639.0       1
+datsun 710             2545.0       3
+ford pinto             2984.0       1
+ford maverick          3012.0       1
+ford granada ghia      3574.0       1
+datsun b-210           1990.0       3
+ford pinto             2565.0       1
+datsun f-10 hatchback  1945.0       3
+ford granada           3525.0       1
+ford mustang ii 2+2    2755.0       1
+datsun 810             2815.0       3
+ford fiesta            1800.0       1
+datsun b210 gx         2070.0       3
+ford fairmont (auto)   2965.0       1
+ford fairmont (man)    2720.0       1
+datsun 510             2300.0       3
+datsun 200-sx          2405.0       3
+ford fairmont 4        2890.0       1
+datsun 210             2020.0       3
+datsun 310             2019.0       3
+ford fairmont          2870.0       1
+datsun 510 hatchback   2434.0       3
+datsun 210             2110.0       3
+datsun 280-zx          2910.0       3
+datsun 210 mpg         1975.0       3
+ford escort 4w         2045.0       1
+ford escort 2h         2380.0       1
+datsun 200sx           2615.0       3
+datsun 810 maxima      2930.0       3
+ford granada gl        3060.0       1
+ford fairmont futura   2865.0       1
+datsun 310 gx          1995.0       3
+ford granada l         2835.0       1
+ford mustang gl        2790.0       1
+ford ranger            2625.0       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Here, the symbol \texttt{\textbar{}} computes an element-wise \emph{or}
+operation.
+
+In summary, a powerful set of operations is available to index the rows
+and columns of data frames. For integer based queries, use the
+\texttt{iloc{[}{]}} method. For string and Boolean selections, use the
+\texttt{loc{[}{]}} method. For functional queries that filter rows, use
+the \texttt{loc{[}{]}} method with a function (typically a
+\texttt{lambda}) in the rows argument.
+
+\hypertarget{for-loops}{%
+\subsection{For Loops}\label{for-loops}}
+
+A \texttt{for} loop is a standard tool in many languages that repeatedly
+evaluates some chunk of code while varying different values inside the
+code. For example, suppose we loop over elements of a list and compute
+their sum.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{97}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{total} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{k}{for} \PY{n}{value} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{]}\PY{p}{:}
+    \PY{n}{total} \PY{o}{+}\PY{o}{=} \PY{n}{value}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Total is: }\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{total}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total is: 24
+    \end{Verbatim}
+
+    The indented code beneath the line with the \texttt{for} statement is
+run for each value in the sequence specified in the \texttt{for}
+statement. The loop ends either when the cell ends or when code is
+indented at the same level as the original \texttt{for} statement. We
+see that the final line above which prints the total is executed only
+once after the for loop has terminated. Loops can be nested by
+additional indentation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{98}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{total} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{k}{for} \PY{n}{value} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{]}\PY{p}{:}
+    \PY{k}{for} \PY{n}{weight} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+        \PY{n}{total} \PY{o}{+}\PY{o}{=} \PY{n}{value} \PY{o}{*} \PY{n}{weight}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Total is: }\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{total}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total is: 144
+    \end{Verbatim}
+
+    Above, we summed over each combination of \texttt{value} and
+\texttt{weight}. We also took advantage of the \emph{increment} notation
+in \texttt{Python}: the expression \texttt{a\ +=\ b} is equivalent to
+\texttt{a\ =\ a\ +\ b}. Besides being a convenient notation, this can
+save time in computationally heavy tasks in which the intermediate value
+of \texttt{a+b} need not be explicitly created.
+
+Perhaps a more common task would be to sum over
+\texttt{(value,\ weight)} pairs. For instance, to compute the average
+value of a random variable that takes on possible values 2, 3 or 19 with
+probability 0.2, 0.3, 0.5 respectively we would compute the weighted
+sum. Tasks such as this can often be accomplished using the
+\texttt{zip()} function that loops over a sequence of tuples.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{99}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{total} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{k}{for} \PY{n}{value}\PY{p}{,} \PY{n}{weight} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{]}\PY{p}{,}
+                         \PY{p}{[}\PY{l+m+mf}{0.2}\PY{p}{,}\PY{l+m+mf}{0.3}\PY{p}{,}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{total} \PY{o}{+}\PY{o}{=} \PY{n}{weight} \PY{o}{*} \PY{n}{value}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Weighted average is: }\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{total}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Weighted average is: 10.8
+    \end{Verbatim}
+
+    \hypertarget{string-formatting}{%
+\subsubsection{String Formatting}\label{string-formatting}}
+
+In the code chunk above we also printed a string displaying the total.
+However, the object \texttt{total} is an integer and not a string.
+Inserting the value of something into a string is a common task, made
+simple using some of the powerful string formatting tools in
+\texttt{Python}. Many data cleaning tasks involve manipulating and
+programmatically producing strings.
+
+For example we may want to loop over the columns of a data frame and
+print the percent missing in each column. Let's create a data frame
+\texttt{D} with columns in which 20\% of the entries are missing
+i.e.~set to \texttt{np.nan}. We'll create the values in \texttt{D} from
+a normal distribution with mean 0 and variance 1 using
+\texttt{rng.standard\_normal()} and then overwrite some random entries
+using \texttt{rng.choice()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{A} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{standard\PYZus{}normal}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{127}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{M} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{]}\PY{p}{,} \PY{n}{p}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{0.8}\PY{p}{,}\PY{l+m+mf}{0.2}\PY{p}{]}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{A}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n}{A} \PY{o}{+}\PY{o}{=} \PY{n}{M}
+\PY{n}{D} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{food}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{snack}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{popcorn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       food       bar    pickle     snack   popcorn
+0  0.345584  0.821618  0.330437 -1.303157       NaN
+1       NaN -0.536953  0.581118  0.364572  0.294132
+2       NaN  0.546713       NaN -0.162910 -0.482119
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{D}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n}{template} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Column }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ has }\PY{l+s+si}{\PYZob{}1:.2\PYZpc{}\PYZcb{}}\PY{l+s+s1}{ missing values}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{template}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{col}\PY{p}{,}
+          \PY{n}{np}\PY{o}{.}\PY{n}{isnan}\PY{p}{(}\PY{n}{D}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Column "food" has 16.54\% missing values
+Column "bar" has 25.98\% missing values
+Column "pickle" has 29.13\% missing values
+Column "snack" has 21.26\% missing values
+Column "popcorn" has 22.83\% missing values
+    \end{Verbatim}
+
+    We see that the \texttt{template.format()} method expects two arguments
+\texttt{\{0\}} and \texttt{\{1:.2\%\}}, and the latter includes some
+formatting information. In particular, it specifies that the second
+argument should be expressed as a percent with two decimal digits.
+
+The reference
+\href{https://docs.python.org/3/library/string.html}{docs.python.org/3/library/string.html}
+includes many helpful and more complex examples.
+
+    \hypertarget{additional-graphical-and-numerical-summaries}{%
+\subsection{Additional Graphical and Numerical
+Summaries}\label{additional-graphical-and-numerical-summaries}}
+
+We can use the \texttt{ax.plot()} or \texttt{ax.scatter()} functions to
+display the quantitative variables. However, simply typing the variable
+names will produce an error message, because \texttt{Python} does not
+know to look in the \texttt{Auto} data set for those variables.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{horsepower}\PY{p}{,} \PY{n}{mpg}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{NameError}                                 Traceback (most recent call last)
+\textcolor{ansi-cyan}{Cell}\textcolor{ansi-cyan}{ }\textcolor{ansi-green}{In[102]}\textcolor{ansi-green}{, line 2}
+\textcolor{ansi-green}{      1} fig, ax = subplots(figsize=(\textcolor{ansi-green}{8}, \textcolor{ansi-green}{8}))
+\textcolor{ansi-green}{----> }\textcolor{ansi-green}{2} ax.plot(\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{horsepower\strut}, mpg, \textcolor{ansi-yellow}{'}\textcolor{ansi-yellow}{o}\textcolor{ansi-yellow}{'});
+
+\textcolor{ansi-red}{NameError}: name 'horsepower' is not defined
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_238_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We can address this by accessing the columns directly:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_240_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Alternatively, we can use the \texttt{plot()} method with the call
+\texttt{Auto.plot()}. Using this method, the variables can be accessed
+by name. The plot methods of a data frame return a familiar object: an
+axes. We can use it to update the plot as we did previously:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ax} \PY{o}{=} \PY{n}{Auto}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Horsepower vs. MPG}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_242_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    If we want to save the figure that contains a given axes, we can find
+the relevant figure by accessing the \texttt{figure} attribute:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{105}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{figure}
+\PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower\PYZus{}mpg.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We can further instruct the data frame to plot to a particular axes
+object. In this case the corresponding \texttt{plot()} method will
+return the modified axes we passed in as an argument. Note that when we
+request a one-dimensional grid of plots, the object \texttt{axes} is
+similarly one-dimensional. We place our scatter plot in the middle plot
+of a row of three plots within a figure.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{106}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_246_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Note also that the columns of a data frame can be accessed as
+attributes: try typing in \texttt{Auto.horsepower}.
+
+    We now consider the \texttt{cylinders} variable. Typing in
+\texttt{Auto.cylinders.dtype} reveals that it is being treated as a
+quantitative variable. However, since there is only a small number of
+possible values for this variable, we may wish to treat it as
+qualitative. Below, we replace the \texttt{cylinders} column with a
+categorical version of \texttt{Auto.cylinders}. The function
+\texttt{pd.Series()} owes its name to the fact that \texttt{pandas} is
+often used in time series applications.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{o}{.}\PY{n}{cylinders} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{Auto}\PY{o}{.}\PY{n}{cylinders}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{cylinders}\PY{o}{.}\PY{n}{dtype}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+CategoricalDtype(categories=[3, 4, 5, 6, 8], ordered=False,
+categories\_dtype=int64)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Now that \texttt{cylinders} is qualitative, we can display it using the
+\texttt{boxplot()} method.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cylinders}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_251_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The \texttt{hist()} method can be used to plot a \emph{histogram}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_253_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The color of the bars and the number of bins can be changed:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{110}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{Auto}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_255_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    See \texttt{Auto.hist?} for more plotting options.
+
+We can use the \texttt{pd.plotting.scatter\_matrix()} function to create
+a \emph{scatterplot matrix} to visualize all of the pairwise
+relationships between the columns in a data frame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{111}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{plotting}\PY{o}{.}\PY{n}{scatter\PYZus{}matrix}\PY{p}{(}\PY{n}{Auto}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_257_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We can also produce scatterplots for a subset of the variables.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{112}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{plotting}\PY{o}{.}\PY{n}{scatter\PYZus{}matrix}\PY{p}{(}\PY{n}{Auto}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{displacement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{artifacts/latex/Ch02-statlearn-lab_files/artifacts/latex/Ch02-statlearn-lab_259_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The \texttt{describe()} method produces a numerical summary of each
+column in a data frame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{113}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{113}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mpg       weight
+count  392.000000   392.000000
+mean    23.445918  2977.584184
+std      7.805007   849.402560
+min      9.000000  1613.000000
+25\%     17.000000  2225.250000
+50\%     22.750000  2803.500000
+75\%     29.000000  3614.750000
+max     46.600000  5140.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can also produce a summary of just a single column.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{114}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cylinders}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{114}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+count    392.000000
+mean      23.445918
+std        7.805007
+min        9.000000
+25\%       17.000000
+50\%       22.750000
+75\%       29.000000
+max       46.600000
+Name: mpg, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    To exit \texttt{Jupyter}, select \texttt{File\ /\ Shut\ Down}.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

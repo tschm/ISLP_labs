@@ -1,0 +1,1180 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Ch05-resample-lab}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{cross-validation-and-the-bootstrap}{%
+\section{Cross-Validation and the
+Bootstrap}\label{cross-validation-and-the-bootstrap}}
+
+\href{https://mybinder.org/v2/gh/intro-stat-learning/ISLP_labs/v2.2?labpath=Ch05-resample-lab.ipynb}{\includesvg{https://mybinder.org/badge_logo.svg}}
+
+    In this lab, we explore the resampling techniques covered in this
+chapter. Some of the commands in this lab may take a while to run on
+your computer.
+
+We again begin by placing most of our imports at this top level.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{load\PYZus{}data}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{p}{(}\PY{n}{ModelSpec} \PY{k}{as} \PY{n}{MS}\PY{p}{,}
+                         \PY{n}{summarize}\PY{p}{,}
+                         \PY{n}{poly}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\end{Verbatim}
+\end{tcolorbox}
+
+    There are several new imports needed for this lab.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{functools}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{partial}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PYZbs{}
+     \PY{p}{(}\PY{n}{cross\PYZus{}validate}\PY{p}{,}
+      \PY{n}{KFold}\PY{p}{,}
+      \PY{n}{ShuffleSplit}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{base}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{clone}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ISLP}\PY{n+nn}{.}\PY{n+nn}{models}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{sklearn\PYZus{}sm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{the-validation-set-approach}{%
+\subsection{The Validation Set
+Approach}\label{the-validation-set-approach}}
+
+We explore the use of the validation set approach in order to estimate
+the test error rates that result from fitting various linear models on
+the \texttt{Auto} data set.
+
+We use the function \texttt{train\_test\_split()} to split the data into
+training and validation sets. As there are 392 observations, we split
+into two equal sets of size 196 using the argument
+\texttt{test\_size=196}. It is generally a good idea to set a random
+seed when performing operations like this that contain an element of
+randomness, so that the results obtained can be reproduced precisely at
+a later time. We set the random seed of the splitter with the argument
+\texttt{random\_state=0}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Auto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Auto\PYZus{}train}\PY{p}{,} \PY{n}{Auto\PYZus{}valid} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{Auto}\PY{p}{,}
+                                         \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{196}\PY{p}{,}
+                                         \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now we can fit a linear regression using only the observations
+corresponding to the training set \texttt{Auto\_train}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hp\PYZus{}mm} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{hp\PYZus{}mm}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Auto\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{Auto\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{model} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We now use the \texttt{predict()} method of \texttt{results} evaluated
+on the model matrix for this model created using the validation data
+set. We also calculate the validation MSE of our model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}valid} \PY{o}{=} \PY{n}{hp\PYZus{}mm}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{Auto\PYZus{}valid}\PY{p}{)}
+\PY{n}{y\PYZus{}valid} \PY{o}{=} \PY{n}{Auto\PYZus{}valid}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{valid\PYZus{}pred} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}valid}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{y\PYZus{}valid} \PY{o}{\PYZhy{}} \PY{n}{valid\PYZus{}pred}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+23.61661706966988
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Hence our estimate for the validation MSE of the linear regression fit
+is \(23.62\).
+
+We can also estimate the validation error for higher-degree polynomial
+regressions. We first provide a function \texttt{evalMSE()} that takes a
+model string as well as training and test sets and returns the MSE on
+the test set.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{evalMSE}\PY{p}{(}\PY{n}{terms}\PY{p}{,}
+            \PY{n}{response}\PY{p}{,}
+            \PY{n}{train}\PY{p}{,}
+            \PY{n}{test}\PY{p}{)}\PY{p}{:}
+
+   \PY{n}{mm} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{n}{terms}\PY{p}{)}
+   \PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{mm}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train}\PY{p}{)}
+   \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{train}\PY{p}{[}\PY{n}{response}\PY{p}{]}
+
+   \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{mm}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test}\PY{p}{)}
+   \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{test}\PY{p}{[}\PY{n}{response}\PY{p}{]}
+
+   \PY{n}{results} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+   \PY{n}{test\PYZus{}pred} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+   \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{y\PYZus{}test} \PY{o}{\PYZhy{}} \PY{n}{test\PYZus{}pred}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's use this function to estimate the validation MSE using linear,
+quadratic and cubic fits. We use the \texttt{enumerate()} function here,
+which gives both the values and indices of objects as one iterates over
+a for loop.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{MSE} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{k}{for} \PY{n}{idx}\PY{p}{,} \PY{n}{degree} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{MSE}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{=} \PY{n}{evalMSE}\PY{p}{(}\PY{p}{[}\PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{degree}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                       \PY{n}{Auto\PYZus{}train}\PY{p}{,}
+                       \PY{n}{Auto\PYZus{}valid}\PY{p}{)}
+\PY{n}{MSE}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([23.61661707, 18.76303135, 18.79694163])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    These error rates are \(23.62, 18.76\), and \(18.80\), respectively. If
+we choose a different training/validation split instead, then we can
+expect somewhat different errors on the validation set.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Auto\PYZus{}train}\PY{p}{,} \PY{n}{Auto\PYZus{}valid} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{Auto}\PY{p}{,}
+                                          \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{196}\PY{p}{,}
+                                          \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{MSE} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{k}{for} \PY{n}{idx}\PY{p}{,} \PY{n}{degree} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{MSE}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{=} \PY{n}{evalMSE}\PY{p}{(}\PY{p}{[}\PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{degree}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                       \PY{n}{Auto\PYZus{}train}\PY{p}{,}
+                       \PY{n}{Auto\PYZus{}valid}\PY{p}{)}
+\PY{n}{MSE}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([20.75540796, 16.94510676, 16.97437833])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Using this split of the observations into a training set and a
+validation set, we find that the validation set error rates for the
+models with linear, quadratic, and cubic terms are \(20.76\), \(16.95\),
+and \(16.97\), respectively.
+
+These results are consistent with our previous findings: a model that
+predicts \texttt{mpg} using a quadratic function of \texttt{horsepower}
+performs better than a model that involves only a linear function of
+\texttt{horsepower}, and there is no evidence of an improvement in using
+a cubic function of \texttt{horsepower}.
+
+    \hypertarget{cross-validation}{%
+\subsection{Cross-Validation}\label{cross-validation}}
+
+In theory, the cross-validation estimate can be computed for any
+generalized linear model. \{\} In practice, however, the simplest way to
+cross-validate in Python is to use \texttt{sklearn}, which has a
+different interface or API than \texttt{statsmodels}, the code we have
+been using to fit GLMs.
+
+This is a problem which often confronts data scientists: ``I have a
+function to do task \(A\), and need to feed it into something that
+performs task \(B\), so that I can compute \(B(A(D))\), where \(D\) is
+my data.'' When \(A\) and \(B\) don't naturally speak to each other,
+this requires the use of a \emph{wrapper}. In the \texttt{ISLP} package,
+we provide a wrapper, \texttt{sklearn\_sm()}, that enables us to easily
+use the cross-validation tools of \texttt{sklearn} with models fit by
+\texttt{statsmodels}.
+
+The class \texttt{sklearn\_sm()} has as its first argument a model from
+\texttt{statsmodels}. It can take two additional optional arguments:
+\texttt{model\_str} which can be used to specify a formula, and
+\texttt{model\_args} which should be a dictionary of additional
+arguments used when fitting the model. For example, to fit a logistic
+regression model we have to specify a \texttt{family} argument. This is
+passed as
+\texttt{model\_args=\{\textquotesingle{}family\textquotesingle{}:sm.families.Binomial()\}}.
+
+Here is our wrapper in action:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hp\PYZus{}model} \PY{o}{=} \PY{n}{sklearn\PYZus{}sm}\PY{p}{(}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{,}
+                      \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{Auto}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{cv\PYZus{}results} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{hp\PYZus{}model}\PY{p}{,}
+                            \PY{n}{X}\PY{p}{,}
+                            \PY{n}{Y}\PY{p}{,}
+                            \PY{n}{cv}\PY{o}{=}\PY{n}{Auto}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{cv\PYZus{}err} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{cv\PYZus{}results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{cv\PYZus{}err}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+24.23151351792924
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The arguments to \texttt{cross\_validate()} are as follows: an object
+with the appropriate \texttt{fit()}, \texttt{predict()}, and
+\texttt{score()} methods, an array of features \texttt{X} and a response
+\texttt{Y}. We also included an additional argument \texttt{cv} to
+\texttt{cross\_validate()}; specifying an integer \(k\) results in
+\(k\)-fold cross-validation. We have provided a value corresponding to
+the total number of observations, which results in leave-one-out
+cross-validation (LOOCV). The \texttt{cross\_validate()} function
+produces a dictionary with several components; we simply want the
+cross-validated test score here (MSE), which is estimated to be 24.23.
+
+    We can repeat this procedure for increasingly complex polynomial fits.
+To automate the process, we again use a for loop which iteratively fits
+polynomial regressions of degree 1 to 5, computes the associated
+cross-validation error, and stores it in the \(i\)th element of the
+vector \texttt{cv\_error}. The variable \texttt{d} in the for loop
+corresponds to the degree of the polynomial. We begin by initializing
+the vector. This command may take a couple of seconds to run.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cv\PYZus{}error} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{H} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{M} \PY{o}{=} \PY{n}{sklearn\PYZus{}sm}\PY{p}{(}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{d} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{power}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{H}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{d}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    \PY{n}{M\PYZus{}CV} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{M}\PY{p}{,}
+                          \PY{n}{X}\PY{p}{,}
+                          \PY{n}{Y}\PY{p}{,}
+                          \PY{n}{cv}\PY{o}{=}\PY{n}{Auto}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+    \PY{n}{cv\PYZus{}error}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{M\PYZus{}CV}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{cv\PYZus{}error}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([24.23151352, 19.24821312, 19.33498406, 19.42443033, 19.03323827])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As in Figure 5.4, we see a sharp drop in the estimated test MSE between
+the linear and quadratic fits, but then no clear improvement from using
+higher-degree polynomials.
+
+Above we introduced the \texttt{outer()} method of the
+\texttt{np.power()} function. The \texttt{outer()} method is applied to
+an operation that has two arguments, such as \texttt{add()},
+\texttt{min()}, or \texttt{power()}. It has two arrays as arguments, and
+then forms a larger array where the operation is applied to each pair of
+elements of the two arrays.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{]}\PY{p}{)}
+\PY{n}{B} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{add}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{B}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 5,  7],
+       [ 7,  9],
+       [11, 13]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    In the CV example above, we used \(k=n\), but of course we can also use
+\(k<n\). The code is very similar to the above (and is significantly
+faster). Here we use \texttt{KFold()} to partition the data into
+\(k=10\) random groups. We use \texttt{random\_state} to set a random
+seed and initialize a vector \texttt{cv\_error} in which we will store
+the CV errors corresponding to the polynomial fits of degrees one to
+five.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cv\PYZus{}error} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{cv} \PY{o}{=} \PY{n}{KFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+           \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+           \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{c+c1}{\PYZsh{} use same splits for each degree}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{d} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{power}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{H}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{d}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    \PY{n}{M\PYZus{}CV} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{M}\PY{p}{,}
+                          \PY{n}{X}\PY{p}{,}
+                          \PY{n}{Y}\PY{p}{,}
+                          \PY{n}{cv}\PY{o}{=}\PY{n}{cv}\PY{p}{)}
+    \PY{n}{cv\PYZus{}error}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{M\PYZus{}CV}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{cv\PYZus{}error}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([24.20766449, 19.18533142, 19.27626666, 19.47848403, 19.13720581])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Notice that the computation time is much shorter than that of LOOCV. (In
+principle, the computation time for LOOCV for a least squares linear
+model should be faster than for \(k\)-fold CV, due to the availability
+of the formula\textasciitilde(5.2) for LOOCV; however, the generic
+\texttt{cross\_validate()} function does not make use of this formula.)
+We still see little evidence that using cubic or higher-degree
+polynomial terms leads to a lower test error than simply using a
+quadratic fit.
+
+    The \texttt{cross\_validate()} function is flexible and can take
+different splitting mechanisms as an argument. For instance, one can use
+the \texttt{ShuffleSplit()} function to implement the validation set
+approach just as easily as \(k\)-fold cross-validation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{validation} \PY{o}{=} \PY{n}{ShuffleSplit}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                          \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{196}\PY{p}{,}
+                          \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{hp\PYZus{}model}\PY{p}{,}
+                         \PY{n}{Auto}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+                         \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                         \PY{n}{cv}\PY{o}{=}\PY{n}{validation}\PY{p}{)}\PY{p}{;}
+\PY{n}{results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([23.61661707])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    One can estimate the variability in the test error by running the
+following:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{validation} \PY{o}{=} \PY{n}{ShuffleSplit}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+                          \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{196}\PY{p}{,}
+                          \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{results} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{hp\PYZus{}model}\PY{p}{,}
+                         \PY{n}{Auto}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+                         \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                         \PY{n}{cv}\PY{o}{=}\PY{n}{validation}\PY{p}{)}
+\PY{n}{results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(23.802232661034168, 1.421845094109185)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Note that this standard deviation is not a valid estimate of the
+sampling variability of the mean test score or the individual scores,
+since the randomly-selected training samples overlap and hence introduce
+correlations. But it does give an idea of the Monte Carlo variation
+incurred by picking different random folds.
+
+\hypertarget{the-bootstrap}{%
+\subsection{The Bootstrap}\label{the-bootstrap}}
+
+We illustrate the use of the bootstrap in the simple example \{of
+Section 5.2,\} as well as on an example involving estimating the
+accuracy of the linear regression model on the \texttt{Auto} data set.
+\#\#\# Estimating the Accuracy of a Statistic of Interest One of the
+great advantages of the bootstrap approach is that it can be applied in
+almost all situations. No complicated mathematical calculations are
+required. While there are several implementations of the bootstrap in
+Python, its use for estimating standard error is simple enough that we
+write our own function below for the case when our data is stored in a
+dataframe.
+
+To illustrate the bootstrap, we start with a simple example. The
+\texttt{Portfolio} data set in the \texttt{ISLP} package is described in
+Section 5.2. The goal is to estimate the sampling variance of the
+parameter \(\alpha\) given in formula\textasciitilde(5.7). We will
+create a function \texttt{alpha\_func()}, which takes as input a
+dataframe \texttt{D} assumed to have columns \texttt{X} and \texttt{Y},
+as well as a vector \texttt{idx} indicating which observations should be
+used to estimate \(\alpha\). The function then outputs the estimate for
+\(\alpha\) based on the selected observations.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Portfolio} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Portfolio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{alpha\PYZus{}func}\PY{p}{(}\PY{n}{D}\PY{p}{,} \PY{n}{idx}\PY{p}{)}\PY{p}{:}
+   \PY{n}{cov\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cov}\PY{p}{(}\PY{n}{D}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{idx}\PY{p}{]}\PY{p}{,} \PY{n}{rowvar}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+   \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{n}{cov\PYZus{}}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{cov\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{/}
+           \PY{p}{(}\PY{n}{cov\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{+}\PY{n}{cov\PYZus{}}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{cov\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    This function returns an estimate for \(\alpha\) based on applying the
+minimum variance formula (5.7) to the observations indexed by the
+argument \texttt{idx}. For instance, the following command estimates
+\(\alpha\) using all 100 observations.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{alpha\PYZus{}func}\PY{p}{(}\PY{n}{Portfolio}\PY{p}{,} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.57583207459283
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Next we randomly select 100 observations from \texttt{range(100)}, with
+replacement. This is equivalent to constructing a new bootstrap data set
+and recomputing \(\hat{\alpha}\) based on the new data set.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{alpha\PYZus{}func}\PY{p}{(}\PY{n}{Portfolio}\PY{p}{,}
+           \PY{n}{rng}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{,}
+                      \PY{l+m+mi}{100}\PY{p}{,}
+                      \PY{n}{replace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.6074452469619004
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This process can be generalized to create a simple function
+\texttt{boot\_SE()} for computing the bootstrap standard error for
+arbitrary functions that take only a data frame as an argument.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{boot\PYZus{}SE}\PY{p}{(}\PY{n}{func}\PY{p}{,}
+            \PY{n}{D}\PY{p}{,}
+            \PY{n}{n}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}
+            \PY{n}{B}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+            \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+    \PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{n}{seed}\PY{p}{)}
+    \PY{n}{first\PYZus{}}\PY{p}{,} \PY{n}{second\PYZus{}} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}
+    \PY{n}{n} \PY{o}{=} \PY{n}{n} \PY{o+ow}{or} \PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{B}\PY{p}{)}\PY{p}{:}
+        \PY{n}{idx} \PY{o}{=} \PY{n}{rng}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{n}{D}\PY{o}{.}\PY{n}{index}\PY{p}{,}
+                         \PY{n}{n}\PY{p}{,}
+                         \PY{n}{replace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{value} \PY{o}{=} \PY{n}{func}\PY{p}{(}\PY{n}{D}\PY{p}{,} \PY{n}{idx}\PY{p}{)}
+        \PY{n}{first\PYZus{}} \PY{o}{+}\PY{o}{=} \PY{n}{value}
+        \PY{n}{second\PYZus{}} \PY{o}{+}\PY{o}{=} \PY{n}{value}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{second\PYZus{}} \PY{o}{/} \PY{n}{B} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{first\PYZus{}} \PY{o}{/} \PY{n}{B}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Notice the use of \texttt{\_} as a loop variable in
+\texttt{for\ \_\ in\ range(B)}. This is often used if the value of the
+counter is unimportant and simply makes sure the loop is executed
+\texttt{B} times.
+
+Let's use our function to evaluate the accuracy of our estimate of
+\(\alpha\) using \(B=1{,}000\) bootstrap replications.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{alpha\PYZus{}SE} \PY{o}{=} \PY{n}{boot\PYZus{}SE}\PY{p}{(}\PY{n}{alpha\PYZus{}func}\PY{p}{,}
+                   \PY{n}{Portfolio}\PY{p}{,}
+                   \PY{n}{B}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+                   \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{alpha\PYZus{}SE}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.09118176521277699
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The final output shows that the bootstrap estimate for
+\({\rm SE}(\hat{\alpha})\) is \(0.0912\).
+
+\hypertarget{estimating-the-accuracy-of-a-linear-regression-model}{%
+\subsubsection{Estimating the Accuracy of a Linear Regression
+Model}\label{estimating-the-accuracy-of-a-linear-regression-model}}
+
+The bootstrap approach can be used to assess the variability of the
+coefficient estimates and predictions from a statistical learning
+method. Here we use the bootstrap approach in order to assess the
+variability of the estimates for \(\beta_0\) and \(\beta_1\), the
+intercept and slope terms for the linear regression model that uses
+\texttt{horsepower} to predict \texttt{mpg} in the \texttt{Auto} data
+set. We will compare the estimates obtained using the bootstrap to those
+obtained using the formulas for \({\rm SE}(\hat{\beta}_0)\) and
+\({\rm SE}(\hat{\beta}_1)\) described in Section 3.1.2.
+
+To use our \texttt{boot\_SE()} function, we must write a function (its
+first argument) that takes a data frame \texttt{D} and indices
+\texttt{idx} as its only arguments. But here we want to bootstrap a
+specific regression model, specified by a model formula and data. We
+show how to do this in a few simple steps.
+
+We start by writing a generic function \texttt{boot\_OLS()} for
+bootstrapping a regression model that takes a formula to define the
+corresponding regression. We use the \texttt{clone()} function to make a
+copy of the formula that can be refit to the new dataframe. This means
+that any derived features such as those defined by \texttt{poly()}
+(which we will see shortly), will be re-fit on the resampled data frame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{boot\PYZus{}OLS}\PY{p}{(}\PY{n}{model\PYZus{}matrix}\PY{p}{,} \PY{n}{response}\PY{p}{,} \PY{n}{D}\PY{p}{,} \PY{n}{idx}\PY{p}{)}\PY{p}{:}
+    \PY{n}{D\PYZus{}} \PY{o}{=} \PY{n}{D}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+    \PY{n}{Y\PYZus{}} \PY{o}{=} \PY{n}{D\PYZus{}}\PY{p}{[}\PY{n}{response}\PY{p}{]}
+    \PY{n}{X\PYZus{}} \PY{o}{=} \PY{n}{clone}\PY{p}{(}\PY{n}{model\PYZus{}matrix}\PY{p}{)}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{D\PYZus{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{Y\PYZus{}}\PY{p}{,} \PY{n}{X\PYZus{}}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{params}
+\end{Verbatim}
+\end{tcolorbox}
+
+    This is not quite what is needed as the first argument to
+\texttt{boot\_SE()}. The first two arguments which specify the model
+will not change in the bootstrap process, and we would like to
+\emph{freeze} them. The function \texttt{partial()} from the
+\texttt{functools} module does precisely this: it takes a function as an
+argument, and freezes some of its arguments, starting from the left. We
+use it to freeze the first two model-formula arguments of
+\texttt{boot\_OLS()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hp\PYZus{}func} \PY{o}{=} \PY{n}{partial}\PY{p}{(}\PY{n}{boot\PYZus{}OLS}\PY{p}{,} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Typing \texttt{hp\_func?} will show that it has two arguments \texttt{D}
+and \texttt{idx} --- it is a version of \texttt{boot\_OLS()} with the
+first two arguments frozen --- and hence is ideal as the first argument
+for \texttt{boot\_SE()}.
+
+The \texttt{hp\_func()} function can now be used in order to create
+bootstrap estimates for the intercept and slope terms by randomly
+sampling from among the observations with replacement. We first
+demonstrate its utility on 10 bootstrap samples.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{hp\PYZus{}func}\PY{p}{(}\PY{n}{Auto}\PY{p}{,}
+          \PY{n}{rng}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{n}{Auto}\PY{o}{.}\PY{n}{index}\PY{p}{,}
+                     \PY{l+m+mi}{392}\PY{p}{,}
+                     \PY{n}{replace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[39.12226577, -0.1555926 ],
+       [37.18648613, -0.13915813],
+       [37.46989244, -0.14112749],
+       [38.56723252, -0.14830116],
+       [38.95495707, -0.15315141],
+       [39.12563927, -0.15261044],
+       [38.45763251, -0.14767251],
+       [38.43372587, -0.15019447],
+       [37.87581142, -0.1409544 ],
+       [37.95949036, -0.1451333 ]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Next, we use the \texttt{boot\_SE()} \{\} function to compute the
+standard errors of 1,000 bootstrap estimates for the intercept and slope
+terms.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hp\PYZus{}se} \PY{o}{=} \PY{n}{boot\PYZus{}SE}\PY{p}{(}\PY{n}{hp\PYZus{}func}\PY{p}{,}
+                \PY{n}{Auto}\PY{p}{,}
+                \PY{n}{B}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+                \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{hp\PYZus{}se}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept     0.731176
+horsepower    0.006092
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This indicates that the bootstrap estimate for
+\({\rm SE}(\hat{\beta}_0)\) is 0.85, and that the bootstrap estimate for
+\({\rm SE}(\hat{\beta}_1)\) is 0.0074. As discussed in Section 3.1.2,
+standard formulas can be used to compute the standard errors for the
+regression coefficients in a linear model. These can be obtained using
+the \texttt{summarize()} function from \texttt{ISLP.sm}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hp\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{Auto}\PY{p}{,} \PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{model\PYZus{}se} \PY{o}{=} \PY{n}{summarize}\PY{p}{(}\PY{n}{hp\PYZus{}model}\PY{o}{.}\PY{n}{results\PYZus{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{std err}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{model\PYZus{}se}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept     0.717
+horsepower    0.006
+Name: std err, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The standard error estimates for \(\hat{\beta}_0\) and \(\hat{\beta}_1\)
+obtained using the formulas from Section 3.1.2 are 0.717 for the
+intercept and 0.006 for the slope. Interestingly, these are somewhat
+different from the estimates obtained using the bootstrap. Does this
+indicate a problem with the bootstrap? In fact, it suggests the
+opposite. Recall that the standard formulas given in \{Equation 3.8 on
+page 75\} rely on certain assumptions. For example, they depend on the
+unknown parameter \(\sigma^2\), the noise variance. We then estimate
+\(\sigma^2\) using the RSS. Now although the formulas for the standard
+errors do not rely on the linear model being correct, the estimate for
+\(\sigma^2\) does. We see \{in Figure 3.8 on page 99\} that there is a
+non-linear relationship in the data, and so the residuals from a linear
+fit will be inflated, and so will \(\hat{\sigma}^2\). Secondly, the
+standard formulas assume (somewhat unrealistically) that the \(x_i\) are
+fixed, and all the variability comes from the variation in the errors
+\(\epsilon_i\). The bootstrap approach does not rely on any of these
+assumptions, and so it is likely giving a more accurate estimate of the
+standard errors of \(\hat{\beta}_0\) and \(\hat{\beta}_1\) than the
+results from \texttt{sm.OLS}.
+
+Below we compute the bootstrap standard error estimates and the standard
+linear regression estimates that result from fitting the quadratic model
+to the data. Since this model provides a good fit to the data (Figure
+3.8), there is now a better correspondence between the bootstrap
+estimates and the standard estimates of \({\rm SE}(\hat{\beta}_0)\),
+\({\rm SE}(\hat{\beta}_1)\) and \({\rm SE}(\hat{\beta}_2)\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{quad\PYZus{}model} \PY{o}{=} \PY{n}{MS}\PY{p}{(}\PY{p}{[}\PY{n}{poly}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horsepower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{raw}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{quad\PYZus{}func} \PY{o}{=} \PY{n}{partial}\PY{p}{(}\PY{n}{boot\PYZus{}OLS}\PY{p}{,}
+                    \PY{n}{quad\PYZus{}model}\PY{p}{,}
+                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{boot\PYZus{}SE}\PY{p}{(}\PY{n}{quad\PYZus{}func}\PY{p}{,} \PY{n}{Auto}\PY{p}{,} \PY{n}{B}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept                                  1.538641
+poly(horsepower, degree=2, raw=True)[0]    0.024696
+poly(horsepower, degree=2, raw=True)[1]    0.000090
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We compare the results to the standard errors computed using
+\texttt{sm.OLS()}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{M} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{Auto}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+           \PY{n}{quad\PYZus{}model}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{Auto}\PY{p}{)}\PY{p}{)}
+\PY{n}{summarize}\PY{p}{(}\PY{n}{M}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{std err}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+intercept                                  1.800
+poly(horsepower, degree=2, raw=True)[0]    0.031
+poly(horsepower, degree=2, raw=True)[1]    0.000
+Name: std err, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
