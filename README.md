@@ -1,4 +1,4 @@
-# ISLP_labs
+# 📚 ISLP_labs
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/intro-stat-learning/ISLP_Labs)
 
@@ -6,7 +6,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-## Authors
+## 👥 Authors
 
 - Trevor Hastie
 
@@ -18,14 +18,14 @@
 
 - Daniela Witten
 
-### ISLP
+### 📖 ISLP
 
 Please ensure you have followed the installation instructions for
 [ISLP](https://github.com/intro-stat-learning/ISLP). This will address
 installation of [jupyterlab](https://github.com/jupyterlab/jupyterlab)
 if necessary, which is not included as a requirement of the labs.
 
-### Up-to-date version of labs for ISLP. 
+### 🔄 Up-to-date version of labs for ISLP 
 
 This repo will track labs for ISLP as their source code changes.  The
 intent is that building a virtual environment with
@@ -43,7 +43,7 @@ The labs can now be run via:
 jupyter lab Ch02-statlearn-lab.ipynb
 ```
 
-## Using make
+## 🛠️ Using make
 
 If `make` is available on your machine, the steps above can be replaced
 
@@ -51,12 +51,12 @@ If `make` is available on your machine, the steps above can be replaced
 make install
 make jupyter
 ```
-## R Markdown files
+## 📝 R Markdown files
 
 We compile for each notebook a Rmd file using a dedicated GitHub workflow.
 Those files are published here [here](https://github.com/intro-stat-learning/ISLP_labs/tree/rmd-files). todo: include link
 
-# Zip / tarball
+# 📦 Zip / tarball
 
 You can download all the labs as a `.zip` or `.tar.gz` [here](https://github.com/intro-stat-learning/ISLP_labs/releases/tag/v2.2)
 
