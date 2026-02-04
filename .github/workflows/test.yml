@@ -52,8 +52,4 @@ jobs:
         uv pip install --upgrade pip
         uv pip install -r requirements.txt
         uv pip install pytest nbmake
-
-    - name: Test
-      shell: bash
-      run: |
         uv run pytest --nbmake --nbmake-timeout=3600 -vv ${{ matrix.notebook }}
