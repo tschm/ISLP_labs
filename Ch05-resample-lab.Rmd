@@ -1,5 +1,18 @@
-
-
+---
+jupyter:
+  jupytext:
+    cell_metadata_filter: -all
+    formats: ipynb,Rmd
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.4
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
 
 # Cross-Validation and the Bootstrap
 
@@ -91,7 +104,7 @@ fit is $23.62$.
 
 We can also estimate the validation error for
 higher-degree polynomial regressions. We first provide a function `evalMSE()` that takes a model string as well
-as a training and test set and returns the MSE on the test set.
+as training and test sets and returns the MSE on the test set.
 
 ```{python}
 def evalMSE(terms,
@@ -198,7 +211,7 @@ object with the appropriate `fit()`, `predict()`,
 and `score()` methods,  an
 array of features `X` and a response `Y`. 
 We also included an additional argument `cv` to `cross_validate()`; specifying an integer
-$K$ results in $K$-fold cross-validation. We have provided a value 
+$k$ results in $k$-fold cross-validation. We have provided a value 
 corresponding to the total number of observations, which results in
 leave-one-out cross-validation (LOOCV). The `cross_validate()`  function produces a dictionary with several components;
 we simply want the cross-validated test score here (MSE), which is estimated to be 24.23.
@@ -227,7 +240,7 @@ for i, d in enumerate(range(1,6)):
 cv_error
 
 ```
-As in Figure~\ref{Ch5:cvplot}, we see a sharp drop in the estimated test MSE between the linear and
+As in Figure 5.4, we see a sharp drop in the estimated test MSE between the linear and
 quadratic fits, but then no clear improvement from using higher-degree polynomials.
 
 Above we introduced the `outer()`  method of the `np.power()`
@@ -246,8 +259,8 @@ np.add.outer(A, B)
 
 ```
 
-In the CV example above, we used $K=n$, but of course we can also use $K<n$. The code is very similar
-to the above (and is significantly faster). Here we use `KFold()` to partition the data into $K=10$ random groups. We use `random_state` to set a random seed and initialize a vector `cv_error` in which we will store the CV errors corresponding to the
+In the CV example above, we used $k=n$, but of course we can also use $k<n$. The code is very similar
+to the above (and is significantly faster). Here we use `KFold()` to partition the data into $k=10$ random groups. We use `random_state` to set a random seed and initialize a vector `cv_error` in which we will store the CV errors corresponding to the
 polynomial fits of degrees one to five.
 
 ```{python}
@@ -267,8 +280,8 @@ cv_error
 ```
 Notice that the computation time is much shorter than that of LOOCV.
 (In principle, the computation time for LOOCV for a least squares
-linear model should be faster than for $K$-fold CV, due to the
-availability of the formula~(\ref{Ch5:eq:LOOCVform})  for LOOCV;
+linear model should be faster than for $k$-fold CV, due to the
+availability of the formula~(5.2)  for LOOCV;
 however, the generic `cross_validate()`  function does not make
 use of this formula.)  We still see little evidence that using cubic
 or higher-degree polynomial terms leads to a lower test error than simply
@@ -276,8 +289,9 @@ using a quadratic fit.
 
 
 The `cross_validate()` function is flexible and can take
-different splitting mechanisms as an argument. For instance, one can use the `ShuffleSplit()` funtion to implement
-the validation set approach just as easily as K-fold cross-validation.
+different splitting mechanisms as an argument. For instance, one can use the `ShuffleSplit()`
+function to implement
+the validation set approach just as easily as $k$-fold cross-validation.
 
 ```{python}
 validation = ShuffleSplit(n_splits=1,
@@ -314,7 +328,7 @@ incurred by picking different random folds.
 
 ## The Bootstrap
 We illustrate the use of the bootstrap in the simple example
- {of Section~\ref{Ch5:sec:bootstrap},}  as well as on an example involving
+ {of Section 5.2,}  as well as on an example involving
 estimating the accuracy of the linear regression model on the  `Auto`
 data set.
 ### Estimating the Accuracy of a Statistic of Interest
@@ -329,8 +343,8 @@ in a dataframe.
 To illustrate the bootstrap, we
 start with a simple example.
 The  `Portfolio`  data set in the `ISLP` package is described
-in Section~\ref{Ch5:sec:bootstrap}. The goal is to estimate the
-sampling variance of the parameter $\alpha$ given in formula~(\ref{Ch5:min.var}).  We will
+in Section 5.2. The goal is to estimate the
+sampling variance of the parameter $\alpha$ given in formula~(5.7).  We will
 create a function
 `alpha_func()`, which takes as input a dataframe `D` assumed
 to have columns `X` and `Y`, as well as a
@@ -349,7 +363,7 @@ def alpha_func(D, idx):
 ```
 This function returns an estimate for $\alpha$
 based on applying the minimum
-    variance formula (\ref{Ch5:min.var}) to the observations indexed by
+    variance formula (5.7) to the observations indexed by
 the argument `idx`.  For instance, the following command
 estimates $\alpha$ using all 100 observations.
 
@@ -419,7 +433,7 @@ intercept and slope terms for the linear regression model that uses
 `horsepower` to predict `mpg` in the  `Auto`  data set. We
 will compare the estimates obtained using the bootstrap to those
 obtained using the formulas for ${\rm SE}(\hat{\beta}_0)$ and
-${\rm SE}(\hat{\beta}_1)$ described in Section~\ref{Ch3:secoefsec}.
+${\rm SE}(\hat{\beta}_1)$ described in Section 3.1.2.
 
 To use our `boot_SE()` function, we must write a function (its
 first argument)
@@ -488,7 +502,7 @@ This indicates that the bootstrap estimate for ${\rm SE}(\hat{\beta}_0)$ is
 0.85, and that the bootstrap
 estimate for ${\rm SE}(\hat{\beta}_1)$ is
 0.0074.  As discussed in
-Section~\ref{Ch3:secoefsec}, standard formulas can be used to compute
+Section 3.1.2, standard formulas can be used to compute
 the standard errors for the regression coefficients in a linear
 model. These can be obtained using the `summarize()`  function
 from `ISLP.sm`.
@@ -502,7 +516,7 @@ model_se
 
 
 The standard error estimates for $\hat{\beta}_0$ and $\hat{\beta}_1$
-obtained using the formulas  from Section~\ref{Ch3:secoefsec}  are
+obtained using the formulas  from Section 3.1.2  are
 0.717 for the
 intercept and
 0.006 for the
@@ -510,13 +524,13 @@ slope. Interestingly, these are somewhat different from the estimates
 obtained using the bootstrap.  Does this indicate a problem with the
 bootstrap? In fact, it suggests the opposite.  Recall that the
 standard formulas given in
- {Equation~\ref{Ch3:se.eqn} on page~\pageref{Ch3:se.eqn}}
+ {Equation 3.8 on page 75}
 rely on certain assumptions. For example,
 they depend on the unknown parameter $\sigma^2$, the noise
 variance. We then estimate $\sigma^2$ using the RSS. Now although the
-formula for the standard errors do not rely on the linear model being
+formulas for the standard errors do not rely on the linear model being
 correct, the estimate for $\sigma^2$ does.  We see
- {in Figure~\ref{Ch3:polyplot} on page~\pageref{Ch3:polyplot}}  that there is
+ {in Figure 3.8 on page 99}  that there is
 a non-linear relationship in the data, and so the residuals from a
 linear fit will be inflated, and so will $\hat{\sigma}^2$.  Secondly,
 the standard formulas assume (somewhat unrealistically) that the $x_i$
@@ -529,7 +543,7 @@ the results from `sm.OLS`.
 Below we compute the bootstrap standard error estimates and the
 standard linear regression estimates that result from fitting the
 quadratic model to the data. Since this model provides a good fit to
-the data (Figure~\ref{Ch3:polyplot}), there is now a better
+the data (Figure 3.8), there is now a better
 correspondence between the bootstrap estimates and the standard
 estimates of ${\rm SE}(\hat{\beta}_0)$, ${\rm SE}(\hat{\beta}_1)$ and
 ${\rm SE}(\hat{\beta}_2)$.

@@ -1,5 +1,18 @@
-
-
+---
+jupyter:
+  jupytext:
+    cell_metadata_filter: -all
+    formats: ipynb,Rmd
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.4
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
 
 # Tree-Based Methods
 
@@ -87,11 +100,11 @@ clf.fit(X, High)
 ```
 
 
-In our discussion of qualitative features in Section~\ref{ch3:sec3},
+In our discussion of qualitative features in Section 3.3,
 we noted that for a linear regression model such a feature could be
 represented by including a matrix of dummy variables (one-hot-encoding) in the model
 matrix, using the formula notation of `statsmodels`.
-As mentioned in Section~\ref{Ch8:decison.tree.sec}, there is a more
+As mentioned in Section 8.1, there is a more
 natural way to handle qualitative features when building a decision
 tree, that does not require such dummy variables; each split amounts to partitioning the levels into two groups.
 However, 
@@ -122,7 +135,7 @@ resid_dev
 
 ```
 
-This is closely related to the *entropy*, defined in (\ref{Ch8:eq:cross-entropy}).
+This is closely related to the *entropy*, defined in (8.7).
 A small deviance indicates a
 tree that provides a good fit to the (training) data.
  
@@ -159,7 +172,7 @@ on these data, we must estimate the test error rather than simply
 computing the training error. We split the observations into a
 training set and a test set, build the tree using the training set,
 and evaluate its performance on the test data. This pattern is
-similar to that in Chapter~\ref{Ch6:varselect}, with the linear models
+similar to that in Chapter 6, with the linear models
 replaced here by decision trees --- the code for validation
 is almost identical. This approach leads to correct predictions
 for 68.5% of the locations in the test data set.
@@ -226,7 +239,7 @@ grid.fit(X_train, High_train)
 grid.best_score_
 
 ```
-Let’s take a look at the pruned true.
+Let’s take a look at the pruned tree.
 
 ```{python}
 ax = subplots(figsize=(12, 12))[1]
@@ -432,7 +445,7 @@ feature_imp.sort_values(by='importance', ascending=False)
 ```
  This
 is a relative measure of the total decrease in node impurity that results from
-splits over that variable, averaged over all trees (this was plotted in Figure~\ref{Ch8:fig:varimp} for a model fit to the `Heart` data). 
+splits over that variable, averaged over all trees (this was plotted in Figure 8.9 for a model fit to the `Heart` data). 
 
 The results indicate that across all of the trees considered in the
 random forest, the wealth level of the community (`lstat`) and the
@@ -496,7 +509,7 @@ np.mean((y_test - y_hat_boost)**2)
  The test MSE obtained is 14.48,
 similar to the test MSE for bagging. If we want to, we can
 perform boosting with a different value of the shrinkage parameter
-$\lambda$ in  (\ref{Ch8:alphaboost}). The default value is 0.001, but
+$\lambda$ in  (8.10). The default value is 0.001, but
 this is easily modified.  Here we take $\lambda=0.2$.
 
 ```{python}
@@ -512,7 +525,7 @@ np.mean((y_test - y_hat_boost)**2)
 ```
 
 
-In this case, using $\lambda=0.2$ leads to a almost the same test MSE
+In this case, using $\lambda=0.2$ leads to almost the same test MSE
 as when using $\lambda=0.001$.
 
  
