@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
 
+export UV_VENV_CLEAR := 1
+
 venv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
 	@uv venv --python 3.12
@@ -9,7 +11,6 @@ venv:
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
 	@uv pip install --upgrade pip
 	@uv pip install -r requirements.txt
-
 
 .PHONY: help
 help:  ## Display this help screen
@@ -24,5 +25,10 @@ jupyter: install  ## Install and start jupyter Lab
 
 .PHONY: marimo
 marimo: install ## Install and start marimo
-    @uv run pip install marimo
-    @uv run marimo edit --no-token --headless .
+	@uv run pip install marimo
+	@uv run marimo edit --no-token --headless .
+
+.PHONY: test
+test: install
+	@uv pip install pytest nbmake
+
