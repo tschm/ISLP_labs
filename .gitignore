@@ -3,6 +3,7 @@ rendered
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__marimo__/
 *.py[cod]
 *$py.class
 
@@ -52,4 +53,3 @@ share/python-wheels/
 # IDEs
 .vscode/
 .idea/
-
